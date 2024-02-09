@@ -1,6 +1,7 @@
 [{
   "title": "ZeroX",
   "url": "https://eth.blockscout.com/",
+  "group": "Mainnets",
   "isActive": true,
   "icon": "https://raw.githubusercontent.com/ZeroX-Games/blockscout-frontend/main/configs/assets/network-icons/zerox-icon-light.png"
 }]
