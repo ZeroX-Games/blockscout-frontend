@@ -1,23 +1,23 @@
 import { Grid } from '@chakra-ui/react';
-import BigNumber from 'bignumber.js';
+// import BigNumber from 'bignumber.js';
 import React from 'react';
 
 import { route } from 'nextjs-routes';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
-import { WEI } from 'lib/consts';
+// import { WEI } from 'lib/consts';
 import { currencyUnits } from 'lib/units';
 import { HOMEPAGE_STATS } from 'stubs/stats';
-import GasInfoTooltipContent from 'ui/shared/GasInfoTooltipContent/GasInfoTooltipContent';
+// import GasInfoTooltipContent from 'ui/shared/GasInfoTooltipContent/GasInfoTooltipContent';
 
 import StatsItem from './StatsItem';
 
-const hasGasTracker = config.UI.homepage.showGasTracker;
-const hasAvgBlockTime = config.UI.homepage.showAvgBlockTime;
+// const hasGasTracker = config.UI.homepage.showGasTracker;
+// const hasAvgBlockTime = config.UI.homepage.showAvgBlockTime;
 
 const Stats = () => {
-  const { data, isPlaceholderData, isError, dataUpdatedAt } = useApiQuery('homepage_stats', {
+  const { data, isPlaceholderData, isError } = useApiQuery('homepage_stats', {
     fetchParams: {
       headers: {
         'updated-gas-oracle': 'true',
@@ -44,15 +44,15 @@ const Stats = () => {
 
   const lastItemTouchStyle = { gridColumn: { base: 'span 2', lg: 'unset' } };
 
-  let itemsCount = 5;
-  !hasGasTracker && itemsCount--;
-  !hasAvgBlockTime && itemsCount--;
+  let itemsCount = 6;
+  // !hasGasTracker && itemsCount--;
+  // !hasAvgBlockTime && itemsCount--;
 
   if (data) {
     !data.gas_prices && itemsCount--;
     data.rootstock_locked_btc && itemsCount++;
     const isOdd = Boolean(itemsCount % 2);
-    const gasLabel = hasGasTracker && data.gas_prices ? <GasInfoTooltipContent data={ data } dataUpdatedAt={ dataUpdatedAt }/> : null;
+    // const gasLabel = hasGasTracker && data.gas_prices ? <GasInfoTooltipContent data={ data } dataUpdatedAt={ dataUpdatedAt }/> : null;
 
     const gasPriceText = (() => {
       if (data.gas_prices?.average?.fiat_price) {
@@ -78,54 +78,59 @@ const Stats = () => {
           />
         ) : (
           <StatsItem
-            icon="block"
+            icon="zerox-blocks"
             title="Total blocks"
             value={ Number(data.total_blocks).toLocaleString() }
             url={ route({ pathname: '/blocks' }) }
             isLoading={ isPlaceholderData }
           />
         ) }
-        { hasAvgBlockTime && (
-          <StatsItem
-            icon="clock-light"
-            title="Average block time"
-            value={ `${ (data.average_block_time / 1000).toFixed(1) }s` }
-            isLoading={ isPlaceholderData }
-          />
-        ) }
+        { /*{ hasAvgBlockTime && (*/ }
+        { /*  <StatsItem*/ }
+        { /*    icon="clock-light"*/ }
+        { /*    title="Average block time"*/ }
+        { /*    value={ `${ (data.average_block_time / 1000).toFixed(1) }s` }*/ }
+        { /*    isLoading={ isPlaceholderData }*/ }
+        { /*  />*/ }
+        { /*) }*/ }
+
+        { /* TODO: connect backend to get update, replace data */ }
         <StatsItem
-          icon="transactions"
-          title="Total transactions"
+          icon="zerox-updates"
+          title="Total updates"
           value={ Number(data.total_transactions).toLocaleString() }
           url={ route({ pathname: '/txs' }) }
           isLoading={ isPlaceholderData }
         />
         <StatsItem
-          icon="wallet"
-          title="Wallet addresses"
+          icon="zerox-events"
+          title="Total events"
+          value={ Number(data.total_transactions).toLocaleString() }
+          url={ route({ pathname: '/txs' }) }
+          isLoading={ isPlaceholderData }
+        />
+        <StatsItem
+          icon="zerox-domains"
+          title="Wallet domains"
           value={ Number(data.total_addresses).toLocaleString() }
           _last={ isOdd ? lastItemTouchStyle : undefined }
           isLoading={ isPlaceholderData }
         />
-        { hasGasTracker && data.gas_prices && (
-          <StatsItem
-            icon="gas"
-            title="Gas tracker"
-            value={ gasPriceText }
-            _last={ isOdd ? lastItemTouchStyle : undefined }
-            tooltipLabel={ gasLabel }
-            isLoading={ isPlaceholderData }
-          />
-        ) }
-        { data.rootstock_locked_btc && (
-          <StatsItem
-            icon="coins/bitcoin"
-            title="BTC Locked in 2WP"
-            value={ `${ BigNumber(data.rootstock_locked_btc).div(WEI).dp(0).toFormat() } RBTC` }
-            _last={ isOdd ? lastItemTouchStyle : undefined }
-            isLoading={ isPlaceholderData }
-          />
-        ) }
+        <StatsItem
+          icon="zerox-chains"
+          title="Connected chains"
+          value={ gasPriceText }
+          _last={ isOdd ? lastItemTouchStyle : undefined }
+          // tooltipLabel={ gasLabel }
+          isLoading={ isPlaceholderData }
+        />
+        <StatsItem
+          icon="zerox-nodes"
+          title="ZeroX nodes"
+          value="123"
+          _last={ isOdd ? lastItemTouchStyle : undefined }
+          isLoading={ isPlaceholderData }
+        />
       </>
     );
   }

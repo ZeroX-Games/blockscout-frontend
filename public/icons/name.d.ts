@@ -136,5 +136,11 @@
 	| "wallets/coinbase"
 	| "wallets/metamask"
 	| "wallets/token-pocket"
-	| "watchlist";
+	| "watchlist"
+	| "zerox-blocks"
+	| "zerox-chains"
+	| "zerox-domains"
+	| "zerox-events"
+	| "zerox-nodes"
+	| "zerox-updates";
   

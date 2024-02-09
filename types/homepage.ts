@@ -1,1 +1,1 @@
-export type ChainIndicatorId = 'daily_txs' | 'coin_price' | 'market_cap' | 'tvl';
+export type ChainIndicatorId = 'daily_txs' | 'coin_price' | 'market_cap' | 'tvl' | 'daily_events';
