@@ -33,6 +33,7 @@ declare module "nextjs-routes" {
     | StaticRoute<"/contract-verification">
     | StaticRoute<"/csv-export">
     | StaticRoute<"/deposits">
+    | DynamicRoute<"/event/[height_or_hash]", { "height_or_hash": string }>
     | StaticRoute<"/events">
     | StaticRoute<"/graphiql">
     | StaticRoute<"/">
@@ -50,6 +51,7 @@ declare module "nextjs-routes" {
     | DynamicRoute<"/tx/[hash]", { "hash": string }>
     | StaticRoute<"/txs">
     | DynamicRoute<"/txs/kettle/[hash]", { "hash": string }>
+    | DynamicRoute<"/update/[hash]", { "hash": string }>
     | StaticRoute<"/verified-contracts">
     | StaticRoute<"/visualize/sol2uml">
     | StaticRoute<"/withdrawals">;

@@ -15,7 +15,7 @@ import type { Block } from 'types/api/block';
 // import getNetworkValidatorTitle from 'lib/networks/getNetworkValidatorTitle';
 import BlockTimestamp from 'ui/blocks/BlockTimestamp';
 // import AddressEntity from 'ui/shared/entities/address/AddressEntity';
-import EventEntity from 'ui/shared/entities/block/EventEntity';
+import EventEntity from 'ui/shared/entities/event/EventEntity';
 
 type Props = {
   event: Block;

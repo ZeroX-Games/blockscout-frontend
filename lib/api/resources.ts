@@ -1,3 +1,4 @@
+import type { Update } from '../../types/api/update';
 import { getFeaturePayload } from 'configs/app/features/types';
 import type {
   UserInfo,
@@ -498,6 +499,9 @@ export const RESOURCES = {
   homepage_txs: {
     path: '/api/v2/main-page/transactions',
   },
+  homepage_updates: {
+    path: '/api/v2/main-page/transactions',
+  },
   homepage_zkevm_l2_batches: {
     path: '/api/v2/main-page/zkevm/batches/confirmed',
   },
@@ -687,6 +691,7 @@ Q extends 'homepage_chart_txs' ? ChartTransactionResponse :
 Q extends 'homepage_chart_market' ? ChartMarketResponse :
 Q extends 'homepage_blocks' ? Array<Block> :
 Q extends 'homepage_txs' ? Array<Transaction> :
+Q extends 'homepage_updates' ? Array<Update> :
 Q extends 'homepage_txs_watchlist' ? Array<Transaction> :
 Q extends 'homepage_deposits' ? Array<L2DepositsItem> :
 Q extends 'homepage_zkevm_l2_batches' ? { items: Array<ZkEvmL2TxnBatchesItem> } :

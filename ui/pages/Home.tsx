@@ -6,7 +6,7 @@ import ChainIndicators from 'ui/home/indicators/ChainIndicators';
 import LatestEvents from 'ui/home/LatestEvents';
 import LatestZkEvmL2Batches from 'ui/home/LatestZkEvmL2Batches';
 import Stats from 'ui/home/Stats';
-import Transactions from 'ui/home/Transactions';
+import Updates from 'ui/home/Updates';
 import AdBanner from 'ui/shared/ad/AdBanner';
 import ProfileMenuDesktop from 'ui/snippets/profileMenu/ProfileMenuDesktop';
 import SearchBar from 'ui/snippets/searchBar/SearchBar';
@@ -46,7 +46,7 @@ const Home = () => {
       <Flex mt={ 8 } direction={{ base: 'column', lg: 'row' }} columnGap={ 12 } rowGap={ 8 }>
         { config.features.zkEvmRollup.isEnabled ? <LatestZkEvmL2Batches/> : <LatestEvents/> }
         <Box flexGrow={ 1 }>
-          <Transactions/>
+          <Updates/>
         </Box>
       </Flex>
     </Box>
