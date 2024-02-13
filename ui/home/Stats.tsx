@@ -7,7 +7,7 @@ import { route } from 'nextjs-routes';
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 // import { WEI } from 'lib/consts';
-import { currencyUnits } from 'lib/units';
+// import { currencyUnits } from 'lib/units';
 import { HOMEPAGE_STATS } from 'stubs/stats';
 // import GasInfoTooltipContent from 'ui/shared/GasInfoTooltipContent/GasInfoTooltipContent';
 
@@ -54,16 +54,20 @@ const Stats = () => {
     const isOdd = Boolean(itemsCount % 2);
     // const gasLabel = hasGasTracker && data.gas_prices ? <GasInfoTooltipContent data={ data } dataUpdatedAt={ dataUpdatedAt }/> : null;
 
-    const gasPriceText = (() => {
-      if (data.gas_prices?.average?.fiat_price) {
-        return `$${ data.gas_prices.average.fiat_price }`;
-      }
+    // const gasPriceText = (() => {
+    //   if (data.gas_prices?.average?.fiat_price) {
+    //     return `$${ data.gas_prices.average.fiat_price }`;
+    //   }
+    //
+    //   if (data.gas_prices?.average?.price) {
+    //     return `${ data.gas_prices.average.price.toLocaleString() } ${ currencyUnits.gwei }`;
+    //   }
+    //
+    //   return 'N/A';
+    // })();
 
-      if (data.gas_prices?.average?.price) {
-        return `${ data.gas_prices.average.price.toLocaleString() } ${ currencyUnits.gwei }`;
-      }
-
-      return 'N/A';
+    const connectedChains = (() => {
+      return `123`;
     })();
 
     content = (
@@ -119,7 +123,7 @@ const Stats = () => {
         <StatsItem
           icon="zerox-chains"
           title="Connected chains"
-          value={ gasPriceText }
+          value={ connectedChains }
           _last={ isOdd ? lastItemTouchStyle : undefined }
           // tooltipLabel={ gasLabel }
           isLoading={ isPlaceholderData }
@@ -127,7 +131,7 @@ const Stats = () => {
         <StatsItem
           icon="zerox-nodes"
           title="ZeroX nodes"
-          value="123"
+          value="1234"
           _last={ isOdd ? lastItemTouchStyle : undefined }
           isLoading={ isPlaceholderData }
         />
