@@ -15,7 +15,7 @@ const config: Feature<{ provider: AdTextProviders }> = (() => {
   if (provider !== 'none') {
     return Object.freeze({
       title,
-      isEnabled: true,
+      isEnabled: false,
       provider,
     });
   }

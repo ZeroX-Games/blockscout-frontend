@@ -3,8 +3,7 @@ import React from 'react';
 
 // import * as EntityBase from 'ui/shared/entities/base/components';
 import EventEntity from 'ui/shared/entities/event/EventEntity';
-
-import IconSvg from '../shared/IconSvg';
+import IconSvg from 'ui/shared/IconSvg';
 
 type Props = {
   isLoading?: boolean;

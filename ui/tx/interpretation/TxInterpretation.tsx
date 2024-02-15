@@ -108,7 +108,7 @@ const TxInterpretationElementByType = ({ variable }: { variable?: NonStringTxInt
   }
 };
 
-const TxInterpretation = ({ summary, isLoading, className }: Props) => {
+const TxUpdateInterpretation = ({ summary, isLoading, className }: Props) => {
   if (!summary) {
     return null;
   }
@@ -140,4 +140,4 @@ const TxInterpretation = ({ summary, isLoading, className }: Props) => {
   );
 };
 
-export default chakra(TxInterpretation);
+export default chakra(TxUpdateInterpretation);

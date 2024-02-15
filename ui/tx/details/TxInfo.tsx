@@ -30,7 +30,6 @@ import CopyToClipboard from 'ui/shared/CopyToClipboard';
 import CurrencyValue from 'ui/shared/CurrencyValue';
 import DetailsInfoItem from 'ui/shared/DetailsInfoItem';
 import DetailsInfoItemDivider from 'ui/shared/DetailsInfoItemDivider';
-import DetailsSponsoredItem from 'ui/shared/DetailsSponsoredItem';
 import DetailsTimestamp from 'ui/shared/DetailsTimestamp';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
@@ -238,7 +237,6 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
       { data.allowed_peekers && data.allowed_peekers.length > 0 && (
         <TxAllowedPeekers items={ data.allowed_peekers }/>
       ) }
-      <DetailsSponsoredItem isLoading={ isLoading }/>
 
       <DetailsInfoItemDivider/>
 

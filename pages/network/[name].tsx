@@ -5,12 +5,12 @@ import React from 'react';
 import type { Props } from 'nextjs/getServerSideProps';
 import PageNextJs from 'nextjs/PageNextJs';
 
-const Update = dynamic(() => import('ui/pages/Update'), { ssr: false });
+const Network = dynamic(() => import('ui/pages/Network'), { ssr: false });
 
 const Page: NextPage<Props> = (props: Props) => {
   return (
-    <PageNextJs pathname="/update/[hash]" query={ props }>
-      <Update/>
+    <PageNextJs pathname="/network/[name]" query={ props }>
+      <Network/>
     </PageNextJs>
   );
 };

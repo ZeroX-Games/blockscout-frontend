@@ -1,4 +1,3 @@
-import type { Update } from '../../types/api/update';
 import { getFeaturePayload } from 'configs/app/features/types';
 import type {
   UserInfo,
@@ -78,6 +77,8 @@ import type {
 import type { TxInterpretationResponse } from 'types/api/txInterpretation';
 import type { TTxsFilters } from 'types/api/txsFilters';
 import type { TxStateChanges } from 'types/api/txStateChanges';
+import type { Update } from 'types/api/update';
+import type { UpdateInterpretationResponse } from 'types/api/updateInterpretation';
 import type { UserOpsResponse, UserOp, UserOpsFilters, UserOpsAccount } from 'types/api/userOps';
 import type { VerifiedContractsSorting } from 'types/api/verifiedContracts';
 import type { VisualizedContract } from 'types/api/visualization';
@@ -297,7 +298,15 @@ export const RESOURCES = {
   withdrawals_counters: {
     path: '/api/v2/withdrawals/counters',
   },
-
+  // UPDATES
+  update: {
+    path: '/api/v2/transactions/:hash',
+    pathParams: [ 'hash' as const ],
+  },
+  update_interpretation: {
+    path: '/api/v2/updates/:hash/summary',
+    pathParams: [ 'hash' as const ],
+  },
   // ADDRESSES
   addresses: {
     path: '/api/v2/addresses/',
@@ -715,6 +724,8 @@ Q extends 'tx_token_transfers' ? TokenTransferResponse :
 Q extends 'tx_raw_trace' ? RawTracesResponse :
 Q extends 'tx_state_changes' ? TxStateChanges :
 Q extends 'tx_interpretation' ? TxInterpretationResponse :
+Q extends 'update' ? Update :
+Q extends 'update_interpretation' ? UpdateInterpretationResponse :
 Q extends 'addresses' ? AddressesResponse :
 Q extends 'address' ? Address :
 Q extends 'address_counters' ? AddressCounters :

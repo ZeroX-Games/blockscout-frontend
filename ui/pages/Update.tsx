@@ -14,32 +14,34 @@ import PageTitle from 'ui/shared/Page/PageTitle';
 import RoutedTabs from 'ui/shared/Tabs/RoutedTabs';
 import TabsSkeleton from 'ui/shared/Tabs/TabsSkeleton';
 import useTabIndexFromQuery from 'ui/shared/Tabs/useTabIndexFromQuery';
-import TxDetails from 'ui/tx/TxDetails';
-import TxDetailsDegraded from 'ui/tx/TxDetailsDegraded';
-import TxDetailsWrapped from 'ui/tx/TxDetailsWrapped';
-import TxInternals from 'ui/tx/TxInternals';
-import TxLogs from 'ui/tx/TxLogs';
-import TxRawTrace from 'ui/tx/TxRawTrace';
-import TxState from 'ui/tx/TxState';
-import TxSubHeading from 'ui/tx/TxSubHeading';
-import TxTokenTransfer from 'ui/tx/TxTokenTransfer';
-import TxUserOps from 'ui/tx/TxUserOps';
-import useTxQuery from 'ui/tx/useTxQuery';
+import UpdateDetailsDegraded from 'ui/update/UpdateDetailsDegraded';
+// import TxDetailsWrapped from 'ui/tx/TxDetailsWrapped';
+// import TxInternals from 'ui/tx/TxInternals';
+// import TxLogs from 'ui/tx/TxLogs';
+// import TxRawTrace from 'ui/tx/TxRawTrace';
+// import TxState from 'ui/tx/TxState';
+import UpdateSubHeading from 'ui/update/UpdateSubHeading';
+// import TxTokenTransfer from 'ui/tx/TxTokenTransfer';
+// import TxUserOps from 'ui/tx/TxUserOps';
+import useUpdateQuery from 'ui/update/useUpdateQuery';
+
+import UpdateDetails from '../update/UpdateDetails';
 
 const UpdatePageContent = () => {
   const router = useRouter();
   const appProps = useAppContext();
 
   const hash = getQueryParamString(router.query.hash);
-  const txQuery = useTxQuery();
-  const { data, isPlaceholderData, isError, error, errorUpdateCount } = txQuery;
+  const updateQuery = useUpdateQuery();
+  const { data, isPlaceholderData, isError, error, errorUpdateCount } = updateQuery;
 
   const showDegradedView = publicClient && (isError || isPlaceholderData) && errorUpdateCount > 0;
 
   const tabs: Array<RoutedTab> = (() => {
     const detailsComponent = showDegradedView ?
-      <TxDetailsDegraded hash={ hash } txQuery={ txQuery }/> :
-      <TxDetails txQuery={ txQuery }/>;
+      // TODO: UpdateDetailsDegraded
+      <UpdateDetailsDegraded hash={ hash } updateQuery={ updateQuery }/> :
+      <UpdateDetails updateQuery={ updateQuery }/>;
 
     return [
       {
@@ -47,17 +49,17 @@ const UpdatePageContent = () => {
         title: config.features.suave.isEnabled && data?.wrapped ? 'Confidential compute tx details' : 'Details',
         component: detailsComponent,
       },
-      config.features.suave.isEnabled && data?.wrapped ?
-        { id: 'wrapped', title: 'Regular tx details', component: <TxDetailsWrapped data={ data.wrapped }/> } :
-        undefined,
-      { id: 'token_transfers', title: 'Token transfers', component: <TxTokenTransfer txQuery={ txQuery }/> },
-      config.features.userOps.isEnabled ?
-        { id: 'user_ops', title: 'User operations', component: <TxUserOps txQuery={ txQuery }/> } :
-        undefined,
-      { id: 'internal', title: 'Internal txns', component: <TxInternals txQuery={ txQuery }/> },
-      { id: 'logs', title: 'Logs', component: <TxLogs txQuery={ txQuery }/> },
-      { id: 'state', title: 'State', component: <TxState txQuery={ txQuery }/> },
-      { id: 'raw_trace', title: 'Raw trace', component: <TxRawTrace txQuery={ txQuery }/> },
+      // config.features.suave.isEnabled && data?.wrapped ?
+      //   { id: 'wrapped', title: 'Regular tx details', component: <TxDetailsWrapped data={ data.wrapped }/> } :
+      //   undefined,
+      // { id: 'token_transfers', title: 'Token transfers', component: <TxTokenTransfer txQuery={ updateQuery }/> },
+      // config.features.userOps.isEnabled ?
+      //   { id: 'user_ops', title: 'User operations', component: <TxUserOps txQuery={ updateQuery }/> } :
+      //   undefined,
+      // { id: 'internal', title: 'Internal txns', component: <TxInternals txQuery={ updateQuery }/> },
+      // { id: 'logs', title: 'Logs', component: <TxLogs txQuery={ updateQuery }/> },
+      // { id: 'state', title: 'State', component: <TxState txQuery={ updateQuery }/> },
+      // { id: 'raw_trace', title: 'Raw trace', component: <TxRawTrace txQuery={ updateQuery }/> },
     ].filter(Boolean);
   })();
 
@@ -83,7 +85,7 @@ const UpdatePageContent = () => {
     };
   }, [ appProps.referrer ]);
 
-  const titleSecondRow = <TxSubHeading hash={ hash } hasTag={ Boolean(data?.tx_tag) }/>;
+  const titleSecondRow = <UpdateSubHeading hash={ hash } hasTag={ Boolean(data?.tx_tag) }/>;
 
   const content = (() => {
     if (isPlaceholderData && !showDegradedView) {
@@ -108,7 +110,7 @@ const UpdatePageContent = () => {
     <>
       <TextAd mb={ 6 }/>
       <PageTitle
-        title="Transaction details"
+        title="Update details"
         backLink={ backLink }
         contentAfter={ tags }
         secondRow={ titleSecondRow }

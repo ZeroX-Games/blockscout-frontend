@@ -143,6 +143,7 @@
 	| "zerox-chains"
 	| "zerox-domains"
 	| "zerox-events"
+	| "zerox-icon"
 	| "zerox-nodes"
 	| "zerox-updates";
   
