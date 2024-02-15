@@ -18,7 +18,6 @@ import DomainFromTo from 'ui/shared/domain/DomainFromTo';
 import UpdateEntity from 'ui/shared/entities/update/UpdateEntity';
 import TxStatus from 'ui/shared/statusTag/TxStatus';
 import TxFeeStability from 'ui/shared/tx/TxFeeStability';
-import TxWatchListTags from 'ui/shared/tx/TxWatchListTags';
 import TxAdditionalInfo from 'ui/txs/TxAdditionalInfo';
 import UpdatePath from 'ui/update/UpdatePath';
 
@@ -54,7 +53,7 @@ const LatestUpdatesItem = ({ update, isLoading }: Props) => {
             { /*<TxType types={ tx.tx_types } isLoading={ isLoading }/>*/ }
             <TxStatus status={ update.status } errorText={ update.status === 'error' ? update.result : undefined } isLoading={ isLoading }/>
             <UpdatePath isLoading={ isLoading }/>
-            <TxWatchListTags tx={ update } isLoading={ isLoading }/>
+            { /*<TxWatchListTags tx={ update } isLoading={ isLoading }/>*/ }
           </HStack>
           <Flex
             alignItems="center"
@@ -63,7 +62,7 @@ const LatestUpdatesItem = ({ update, isLoading }: Props) => {
           >
             <UpdateEntity
               isLoading={ isLoading }
-              hash={ update.hash }
+              hash={ update.eventHash }
               fontWeight="700"
             />
             { update.timestamp && (

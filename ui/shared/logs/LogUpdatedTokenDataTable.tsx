@@ -1,4 +1,4 @@
-import { Box, Grid, Skeleton } from '@chakra-ui/react';
+import { Box, Grid, Skeleton, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 
 import TruncatedValue from 'ui/shared/TruncatedValue';
@@ -31,24 +31,22 @@ const Row = ({ row, isLoading }: any & { isLoading?: boolean }) => {
   // });
   return (
     <>
-      { row.map(({ item, index }: any) => {
+      { row.map((item: any, index: any) => {
         let color; let value;
         if (isNaN(item)) {
-          color = 'white';
           value = item;
         } else if (item > 0) {
-          color = 'green';
+          color = 'green.400';
           value = `+${ item }`;
         } else if (item < 0) {
-          color = 'red';
+          color = 'red.400';
           value = item;
         } else {
-          color = 'white';
           value = '-';
         }
         return (
           <Skeleton isLoaded={ !isLoading } key={ index } p={ 2 }>
-            <TruncatedValue value={ value } isLoading={ isLoading } fontWeight={ 500 } color={ color }/>
+            <TruncatedValue value={ value } isLoading={ isLoading } fontWeight={ 600 } color={ color }/>
           </Skeleton>
         );
       }) }
@@ -60,14 +58,14 @@ const LogUpdatedTokenDataTable = ({ data, isLoading }: Props) => {
   // const bgColor = useColorModeValue('blackAlpha.50', 'whiteAlpha.50');
   const gridTemplateColumnsBase = `120px repeat(${ data.attributes.length }, 75px)`;
   // const gridTemplateColumnsLg = `80px repeat(${ data.attributes.length }, minmax(0, 1fr)`;
-  const selector = `&>:nth-child(${ data.attributes.length + 1 }n - ${ data.attributes.length })`;
+  const selector = `&>:nth-of-type(${ data.attributes.length + 1 }n - ${ data.attributes.length })`;
   return (
     <Box overflowX="scroll">
       <Grid
         gridTemplateColumns={ gridTemplateColumnsBase }
         fontSize="sm"
         lineHeight={ 5 }
-        bgColor="#2D333F"
+        backgroundColor={ useColorModeValue('#F5F5F5', '#2D333F') }
         p={ 4 }
         pl={ 0 }
         mt={ 2 }
@@ -79,7 +77,8 @@ const LogUpdatedTokenDataTable = ({ data, isLoading }: Props) => {
         overflowX="auto"
         sx={{
           [selector]: {
-            backgroundColor: '#2D333F',
+            // backgroundColor: '#2D333F',
+            backgroundColor: useColorModeValue('#F5F5F5', '#2D333F'),
             position: 'sticky',
             left: '0',
             width: '100%',
@@ -90,12 +89,10 @@ const LogUpdatedTokenDataTable = ({ data, isLoading }: Props) => {
         }}
       >
         <HeaderItem isLoading={ isLoading }>Name</HeaderItem>
-        { data.attributes.map(({ att }: any) => {
+        { data.attributes.map((att: any) => {
           return <HeaderItem key={ att } isLoading={ isLoading }>{ att }</HeaderItem>;
         }) }
-        { /**/ }
-        { data.values.map(({ row, index }: any) => {
-
+        { data.values.map((row: any, index: any) => {
           return <Row key={ index } row={ row } isLoading={ isLoading }/>;
         }) }
       </Grid>

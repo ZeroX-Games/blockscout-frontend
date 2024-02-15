@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import { scroller, Element } from 'react-scroll';
 
-import type { Transaction } from 'types/api/transaction';
+import type { Update } from 'types/api/update';
 
 // import { route } from 'nextjs-routes';
 
@@ -30,7 +30,7 @@ import TextSeparator from 'ui/shared/TextSeparator';
 import TxSocketAlert from 'ui/tx/TxSocketAlert';
 
 interface Props {
-  data: Transaction | undefined;
+  data: Update | undefined;
   isLoading: boolean;
   socketStatus?: 'close' | 'error';
 }
@@ -51,12 +51,11 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
   }
 
   const network = { name: 'Base', hash: '0x881D40237659C251811CEC9c364ef91dC08D300C' };
-  const updates = { attributes: [ 'Rp', 'Mp', 'Speed', 'Exposure', 'Speed', 'Decoration', 'Rp1', 'Mp1', 'Speed1', 'Exposure1', 'Speed1', 'Decoration1' ],
+  const updates = { attributes: [ 'Rp', 'Mp', 'Speed', 'Exposure', 'Hp', 'Decoration', 'Rp1', 'Mp1', 'Speed1', 'Exposure1', 'Hp1', 'Decoration1' ],
     values: [ [ 'Azuki #7352', 10, 0, 1, 20, 1, 0, 10, 0, 1, 20, 1, 0 ],
       [ 'Azuki #2314', 0, 0, 5, 0, 0, 10, 0, 0, 5, 0, 0, 10 ],
       [ 'Azuki #6381', -30, 0, 0, -8, 0, 0, -30, 0, 0, -8, 0, 0 ] ],
   };
-
   return (
     <Grid columnGap={ 8 } rowGap={{ base: 3, lg: 3 }} templateColumns={{ base: 'minmax(0, 1fr)', lg: 'max-content minmax(728px, auto)' }}>
       { socketStatus && (
@@ -72,9 +71,9 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
       >
         { data.status === null && <Spinner mr={ 2 } size="sm" flexShrink={ 0 }/> }
         <Skeleton isLoaded={ !isLoading } overflow="hidden">
-          <HashStringShortenDynamic hash={ data.hash }/>
+          <HashStringShortenDynamic hash={ data.eventHash }/>
         </Skeleton>
-        <CopyToClipboard text={ data.hash } isLoading={ isLoading }/>
+        <CopyToClipboard text={ data.eventHash } isLoading={ isLoading }/>
       </DetailsInfoItem>
       <DetailsInfoItem
         title="Update status"
@@ -123,7 +122,6 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
           network={ network }
           isLoading={ isLoading }
         />
-        { data.from.name && <Text>{ data.from.name }</Text> }
       </DetailsInfoItem>
       <DetailsInfoItemDivider/>
       <DetailsInfoItem
@@ -134,9 +132,9 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
       >
         { data.status === null && <Spinner mr={ 2 } size="sm" flexShrink={ 0 }/> }
         <Skeleton isLoaded={ !isLoading } overflow="hidden">
-          <HashStringShortenDynamic hash={ data.hash }/>
+          <HashStringShortenDynamic hash={ data.txHash }/>
         </Skeleton>
-        <CopyToClipboard text={ data.hash } isLoading={ isLoading }/>
+        <CopyToClipboard text={ data.txHash } isLoading={ isLoading }/>
       </DetailsInfoItem>
       <DetailsInfoItem title="Transaction status" hint="Update transaction status" isLoading={ isLoading } columnGap={ 3 }>
         <TxStatus status={ data.status } errorText={ data.status === 'error' ? data.result : undefined } isLoading={ isLoading }/>

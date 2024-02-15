@@ -7,7 +7,6 @@ import React from 'react';
 import type { SocketMessage } from 'lib/socket/types';
 import type { Update } from 'types/api/update';
 
-import config from 'configs/app';
 import type { ResourceError } from 'lib/api/resources';
 import useApiQuery, { getResourceKey } from 'lib/api/useApiQuery';
 import { retry } from 'lib/api/useQueryClientConfig';
@@ -16,7 +15,8 @@ import delay from 'lib/delay';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import useSocketChannel from 'lib/socket/useSocketChannel';
 import useSocketMessage from 'lib/socket/useSocketMessage';
-import { TX, TX_ZKEVM_L2 } from 'stubs/tx';
+
+import { UPDATE } from '../../stubs/update';
 
 export type UpdateQuery = UseQueryResult<Update, ResourceError<{ status: number }>> & {
   socketStatus: 'close' | 'error' | undefined;
@@ -46,7 +46,7 @@ export default function useUpdateQuery(params?: Params): UpdateQuery {
     queryOptions: {
       enabled: Boolean(hash) && params?.isEnabled !== false,
       refetchOnMount: false,
-      placeholderData: config.features.zkEvmRollup.isEnabled ? TX_ZKEVM_L2 : TX,
+      placeholderData: UPDATE,
       retry: (failureCount, error) => {
         if (isRefetchEnabled) {
           return false;
@@ -64,7 +64,7 @@ export default function useUpdateQuery(params?: Params): UpdateQuery {
   const handleStatusUpdateMessage: SocketMessage.TxStatusUpdate['handler'] = React.useCallback(async() => {
     await delay(5 * SECOND);
     queryClient.invalidateQueries({
-      queryKey: getResourceKey('tx', { pathParams: { hash } }),
+      queryKey: getResourceKey('update', { pathParams: { hash } }),
     });
   }, [ queryClient, hash ]);
 
@@ -77,7 +77,7 @@ export default function useUpdateQuery(params?: Params): UpdateQuery {
   }, []);
 
   const channel = useSocketChannel({
-    topic: `transactions:${ hash }`,
+    topic: `updates:${ hash }`,
     onSocketClose: handleSocketClose,
     onSocketError: handleSocketError,
     isDisabled: isPending || isPlaceholderData || isError || data.status !== null,

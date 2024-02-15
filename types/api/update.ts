@@ -1,5 +1,5 @@
 import type { AddressParam } from './addressParams';
-import type { BlockTransactionsResponse } from './block';
+import type { BlockUpdatesResponse } from './block';
 import type { DecodedInput } from './decodedInput';
 import type { Fee } from './fee';
 import type { L2WithdrawalStatus } from './l2Withdrawals';
@@ -7,11 +7,11 @@ import type { TokenInfo } from './token';
 import type { TokenTransfer } from './tokenTransfer';
 import type { TxAction } from './txAction';
 
-export type TransactionRevertReason = {
+export type UpdateRevertReason = {
   raw: string;
 } | DecodedInput;
 
-type WrappedTransactionFields = 'decoded_input' | 'fee' | 'gas_limit' | 'gas_price' | 'hash' | 'max_fee_per_gas' |
+type WrappedUpdateFields = 'decoded_input' | 'fee' | 'gas_limit' | 'gas_price' | 'eventHash' | 'txHash' | 'max_fee_per_gas' |
 'max_priority_fee_per_gas' | 'method' | 'nonce' | 'raw_input' | 'to' | 'type' | 'value';
 
 export interface OpWithdrawal {
@@ -23,7 +23,8 @@ export interface OpWithdrawal {
 export type Update = {
   to: AddressParam | null;
   created_contract: AddressParam | null;
-  hash: string;
+  txHash: string;
+  eventHash: string;
   result: string;
   confirmations: number;
   status: 'ok' | 'error' | null | undefined;
@@ -44,14 +45,14 @@ export type Update = {
   tx_burnt_fee: string | null;
   nonce: number;
   position: number | null;
-  revert_reason: TransactionRevertReason | null;
+  revert_reason: UpdateRevertReason | null;
   raw_input: string;
   decoded_input: DecodedInput | null;
   token_transfers: Array<TokenTransfer> | null;
   token_transfers_overflow: boolean;
   exchange_rate: string | null;
   method: string | null;
-  tx_types: Array<TransactionType>;
+  tx_types: Array<UpdateType>;
   tx_tag: string | null;
   actions: Array<TxAction>;
   l1_fee?: string;
@@ -64,7 +65,7 @@ export type Update = {
   // SUAVE fields
   execution_node?: AddressParam | null;
   allowed_peekers?: Array<string>;
-  wrapped?: Pick<Update, WrappedTransactionFields>;
+  wrapped?: Pick<Update, WrappedUpdateFields>;
   // Stability fields
   stability_fee?: {
     dapp_address: AddressParam;
@@ -83,9 +84,9 @@ export type Update = {
 
 export const ZKEVM_L2_TX_STATUSES = [ 'Confirmed by Sequencer', 'L1 Confirmed' ];
 
-export type TransactionsResponse = TransactionsResponseValidated | TransactionsResponsePending;
+export type UpdatesResponse = UpdatesResponseValidated | UpdatesResponsePending;
 
-export interface TransactionsResponseValidated {
+export interface UpdatesResponseValidated {
   items: Array<Update>;
   next_page_params: {
     block_number: number;
@@ -95,7 +96,7 @@ export interface TransactionsResponseValidated {
   } | null;
 }
 
-export interface TransactionsResponsePending {
+export interface UpdatesResponsePending {
   items: Array<Update>;
   next_page_params: {
     inserted_at: string;
@@ -104,7 +105,7 @@ export interface TransactionsResponsePending {
   } | null;
 }
 
-export interface TransactionsResponseWatchlist {
+export interface UpdatesResponseWatchlist {
   items: Array<Update>;
   next_page_params: {
     block_number: number;
@@ -113,7 +114,7 @@ export interface TransactionsResponseWatchlist {
   } | null;
 }
 
-export type TransactionType = 'rootstock_remasc' |
+export type UpdateType = 'rootstock_remasc' |
 'rootstock_bridge' |
 'token_transfer' |
 'contract_creation' |
@@ -121,13 +122,13 @@ export type TransactionType = 'rootstock_remasc' |
 'token_creation' |
 'coin_transfer'
 
-export type TxsResponse = TransactionsResponseValidated | TransactionsResponsePending | BlockTransactionsResponse;
+export type TxsResponse = UpdatesResponseValidated | UpdatesResponsePending | BlockUpdatesResponse;
 
-export interface TransactionsSorting {
+export interface UpdatesSorting {
   sort: 'value' | 'fee';
   order: 'asc' | 'desc';
 }
 
-export type TransactionsSortingField = TransactionsSorting['sort'];
+export type UpdatesSortingField = UpdatesSorting['sort'];
 
-export type TransactionsSortingValue = `${ TransactionsSortingField }-${ TransactionsSorting['order'] }`;
+export type UpdatesSortingValue = `${ UpdatesSortingField }-${ UpdatesSorting['order'] }`;

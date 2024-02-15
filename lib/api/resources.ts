@@ -300,7 +300,7 @@ export const RESOURCES = {
   },
   // UPDATES
   update: {
-    path: '/api/v2/transactions/:hash',
+    path: '/api/v2/updates/:hash',
     pathParams: [ 'hash' as const ],
   },
   update_interpretation: {
@@ -509,7 +509,7 @@ export const RESOURCES = {
     path: '/api/v2/main-page/transactions',
   },
   homepage_updates: {
-    path: '/api/v2/main-page/transactions',
+    path: '/api/v2/main-page/updates',
   },
   homepage_zkevm_l2_batches: {
     path: '/api/v2/main-page/zkevm/batches/confirmed',

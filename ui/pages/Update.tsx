@@ -14,7 +14,7 @@ import PageTitle from 'ui/shared/Page/PageTitle';
 import RoutedTabs from 'ui/shared/Tabs/RoutedTabs';
 import TabsSkeleton from 'ui/shared/Tabs/TabsSkeleton';
 import useTabIndexFromQuery from 'ui/shared/Tabs/useTabIndexFromQuery';
-import UpdateDetailsDegraded from 'ui/update/UpdateDetailsDegraded';
+// import UpdateDetailsDegraded from 'ui/update/UpdateDetailsDegraded';
 // import TxDetailsWrapped from 'ui/tx/TxDetailsWrapped';
 // import TxInternals from 'ui/tx/TxInternals';
 // import TxLogs from 'ui/tx/TxLogs';
@@ -38,10 +38,11 @@ const UpdatePageContent = () => {
   const showDegradedView = publicClient && (isError || isPlaceholderData) && errorUpdateCount > 0;
 
   const tabs: Array<RoutedTab> = (() => {
-    const detailsComponent = showDegradedView ?
-      // TODO: UpdateDetailsDegraded
-      <UpdateDetailsDegraded hash={ hash } updateQuery={ updateQuery }/> :
-      <UpdateDetails updateQuery={ updateQuery }/>;
+    // const detailsComponent = showDegradedView ?
+    //   // TODO: UpdateDetailsDegraded
+    //   <UpdateDetailsDegraded hash={ hash } updateQuery={ updateQuery }/> :
+    //   <UpdateDetails updateQuery={ updateQuery }/>;
+    const detailsComponent = <UpdateDetails updateQuery={ updateQuery }/>;
 
     return [
       {
@@ -102,7 +103,7 @@ const UpdatePageContent = () => {
 
   if (isError && !showDegradedView) {
     if (error?.status === 422 || error?.status === 404) {
-      throwOnResourceLoadError({ resource: 'tx', error, isError: true });
+      throwOnResourceLoadError({ resource: 'update', error, isError: true });
     }
   }
 
