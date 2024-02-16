@@ -29,8 +29,8 @@ const LatestUpdates = () => {
     // return <Text mt={ 4 }>No data. Please reload page.</Text>;
   }
 
-  if (data) {
-    data1 = data;
+  if (data || isError) {
+    data1 = Array(updatesCount).fill(UPDATE);
     const txsUrl = route({ pathname: '/txs' });
     return (
       <>
