@@ -1,6 +1,7 @@
 import type { AddressParam } from './addressParams';
 import type { BlockUpdatesResponse } from './block';
 import type { DecodedInput } from './decodedInput';
+import type { DomainParam } from './domainParams';
 import type { Fee } from './fee';
 import type { L2WithdrawalStatus } from './l2Withdrawals';
 import type { TokenInfo } from './token';
@@ -21,7 +22,7 @@ export interface OpWithdrawal {
 }
 
 export type Update = {
-  to: AddressParam | null;
+  to: DomainParam;
   created_contract: AddressParam | null;
   txHash: string;
   eventHash: string;
@@ -31,7 +32,7 @@ export type Update = {
   block: number | null;
   timestamp: string | null;
   confirmation_duration: Array<number> | null;
-  from: AddressParam;
+  from: DomainParam;
   value: string;
   fee: Fee;
   gas_price: string | null;

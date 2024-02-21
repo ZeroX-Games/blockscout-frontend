@@ -27,7 +27,6 @@ type Props = {
 }
 
 const LatestUpdatesItem = ({ update, isLoading }: Props) => {
-  const dataTo = update.to ? update.to : update.created_contract;
   const timeAgo = useTimeAgoIncrement(update.timestamp || '0', true);
   const columnNum = config.UI.views.tx.hiddenFields?.value && config.UI.views.tx.hiddenFields?.tx_fee ? 2 : 3;
 
@@ -82,7 +81,7 @@ const LatestUpdatesItem = ({ update, isLoading }: Props) => {
       </Flex>
       <DomainFromTo
         from={ update.from }
-        to={ dataTo }
+        to={ update.to }
         isLoading={ isLoading }
         mode="compact"
       />

@@ -14,7 +14,7 @@ type Mode = 'compact' | 'long';
 
 interface Props {
   from: DomainParam;
-  to: DomainParam | null;
+  to: DomainParam;
   current?: string;
   mode?: Mode | Partial<Record<ThemeTypings['breakpoints'], Mode>>;
   className?: string;

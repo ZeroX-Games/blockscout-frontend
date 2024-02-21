@@ -7,7 +7,7 @@ import useApiQuery from 'lib/api/useApiQuery';
 import { AddressHighlightProvider } from 'lib/contexts/addressHighlight';
 import useIsMobile from 'lib/hooks/useIsMobile';
 import useNewTxsSocket from 'lib/hooks/useNewTxsSocket';
-import { UPDATE } from 'stubs/update';
+import { UPDATES } from 'stubs/update';
 import LinkInternal from 'ui/shared/LinkInternal';
 import SocketNewItemsNotice from 'ui/shared/SocketNewItemsNotice';
 
@@ -19,28 +19,28 @@ const LatestUpdates = () => {
   const updatesCount = isMobile ? 2 : 6;
   const { data, isPlaceholderData, isError } = useApiQuery('homepage_updates', {
     queryOptions: {
-      placeholderData: Array(updatesCount).fill(UPDATE),
+      placeholderData: UPDATES,
     },
   });
   const { num, socketAlert } = useNewTxsSocket();
   let data1;
   if (isError) {
-    data1 = Array(updatesCount).fill(UPDATE);
+    data1 = UPDATES;
     // return <Text mt={ 4 }>No data. Please reload page.</Text>;
   }
 
   if (data || isError) {
-    data1 = Array(updatesCount).fill(UPDATE);
+    data1 = UPDATES;
     const txsUrl = route({ pathname: '/txs' });
     return (
       <>
-        <SocketNewItemsNotice borderBottomRadius={ 0 } url={ txsUrl } num={ num } alert={ socketAlert } isLoading={ isPlaceholderData } type="update"/>
+        <SocketNewItemsNotice borderBottomRadius={ 0 } url={ txsUrl } num={ num } alert={ socketAlert } isLoading={ false } type="update"/>
         <Box mb={ 3 } display={{ base: 'block', lg: 'none' }}>
           { data1.slice(0, updatesCount).map(((update, index) => (
             <LatestUpdatesItemMobile
               key={ update.eventHash + (isPlaceholderData ? index : '') }
               update={ update }
-              isLoading={ isPlaceholderData }
+              isLoading={ false }
             />
           ))) }
         </Box>
@@ -50,7 +50,7 @@ const LatestUpdates = () => {
               <LatestUpdatesItem
                 key={ update.eventHash + (isPlaceholderData ? index : '') }
                 update={ update }
-                isLoading={ isPlaceholderData }
+                isLoading={ false }
               />
             ))) }
           </Box>

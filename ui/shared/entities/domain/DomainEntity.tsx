@@ -89,8 +89,8 @@ const Icon = (props: IconProps) => {
       <Flex marginRight={ styles.marginRight }>
         <DomainIdenticon
           size={ props.iconSize === 'lg' ? 40 : 30 }
-          src="https://i.pinimg.com/564x/72/b6/08/72b608e2d9760300ca8773481a7a509a.jpg"
-          name="GTA V"
+          src={ props.domain.img_url || 'https://i.pinimg.com/564x/72/b6/08/72b608e2d9760300ca8773481a7a509a.jpg' }
+          name={ props.domain.name || 'GTA V' }
         />
       </Flex>
     </Tooltip>
@@ -118,12 +118,11 @@ const Content = chakra((props: ContentProps) => {
   //     </Tooltip>
   //   );
   // }
-  const text = 'GTA V';
   return (
     <EntityBase.Content
       { ...props }
       // text={ props.domain.hash }
-      text={ text }
+      text={ props.domain.name || 'GTA V' }
     />
   );
 });
@@ -142,7 +141,7 @@ const Copy = (props: CopyProps) => {
 const Container = EntityBase.Container;
 
 export interface EntityProps extends EntityBase.EntityBaseProps {
-  domain: Pick<DomainParam, 'hash' | 'name' | 'is_contract' | 'is_verified' | 'implementation_name' | 'ens_domain_name'>;
+  domain: Pick<DomainParam, 'hash' | 'name' | 'is_contract' | 'is_verified' | 'implementation_name' | 'ens_domain_name' | 'img_url'>;
   isSafeAddress?: boolean;
 }
 

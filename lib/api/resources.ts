@@ -509,7 +509,7 @@ export const RESOURCES = {
     path: '/api/v2/main-page/transactions',
   },
   homepage_updates: {
-    path: '/api/v2/main-page/updates',
+    path: '/api/v3/main-page/updates',
   },
   homepage_zkevm_l2_batches: {
     path: '/api/v2/main-page/zkevm/batches/confirmed',

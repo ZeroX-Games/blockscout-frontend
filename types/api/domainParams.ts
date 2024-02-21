@@ -22,6 +22,7 @@ export type DomainParamBasic = {
   is_contract: boolean;
   is_verified: boolean | null;
   ens_domain_name: string | null;
+  img_url: string | null;
 }
 
 export type DomainParam = UserTags & DomainParamBasic;
