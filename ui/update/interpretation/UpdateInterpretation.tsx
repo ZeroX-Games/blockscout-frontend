@@ -127,13 +127,13 @@ const UpdateInterpretation = ({ summary, isLoading, className }: Props) => {
   if (!summary) {
     amount = '1453';
     collection = {
-      name: 'Azuki',
+      name: 'Axie Infinity',
       // eslint-disable-next-line max-len
-      imgUrl: 'https://i.seadn.io/gae/H8jOCJuQokNqGBpkBN5wk1oZwO7LM8bNnrHCaekV2nKjnCqw6UB5oaH8XyNeBDj6bA_n1mjejzhFQUP3O1NfjFLHr3FOaeHcTOOT?auto=format&dpr=1&w=48 48w',
+      imgUrl: 'https://i.seadn.io/gae/_BYA3bhx1ebgDr3QsuQuh2OMSznmS_TkwJhikCtCVMh4RUcpn2gnJmmOHHA28gy0mKP50flV31iXsDBUr_zjBaXNJA?auto=format&dpr=1&w=64 64w',
     };
     domain = {
-      name: 'GTA V',
-      imgUrl: 'https://i.pinimg.com/564x/72/b6/08/72b608e2d9760300ca8773481a7a509a.jpg',
+      name: 'Axie Infinity',
+      imgUrl: 'https://axieinfinity.com/images/branding/axie-infinity-logo.png',
     };
   } else {
     amount = summary.amount;

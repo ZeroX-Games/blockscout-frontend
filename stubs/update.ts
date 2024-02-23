@@ -5,13 +5,13 @@ import { ADDRESS_PARAMS } from './addressParams';
 export const TX_HASH = '0x3ed9d81e7c1001bdda1caa1dc62c0acbbe3d2c671cdc20dc1e65efdaa4186967';
 
 export const UPDATE: Update = {
-  timestamp: '2022-11-11T11:11:11.000000Z',
+  timestamp: '2024-02-22T11:11:11.000000Z',
   fee: {
     type: 'actual',
     value: '2100000000000000',
   },
   gas_limit: '21000',
-  block: 9004925,
+  block: 12227409,
   status: 'ok',
   method: 'placeholder',
   confirmations: 71,

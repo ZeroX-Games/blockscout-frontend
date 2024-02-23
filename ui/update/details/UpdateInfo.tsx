@@ -51,10 +51,10 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
   }
 
   const network = { name: 'Base', hash: '0x881D40237659C251811CEC9c364ef91dC08D300C' };
-  const updates = { attributes: [ 'Rp', 'Mp', 'Speed', 'Exposure', 'Hp', 'Decoration', 'Rp1', 'Mp1', 'Speed1', 'Exposure1', 'Hp1', 'Decoration1' ],
-    values: [ [ 'Azuki #7352', 10, 0, 1, 20, 1, 0, 10, 0, 1, 20, 1, 0 ],
-      [ 'Azuki #2314', 0, 0, 5, 0, 0, 10, 0, 0, 5, 0, 0, 10 ],
-      [ 'Azuki #6381', -30, 0, 0, -8, 0, 0, -30, 0, 0, -8, 0, 0 ] ],
+  const updates = { attributes: [ 'HP', 'MP', 'Spd', 'Atk', 'Dmg', 'Def', 'Mag', 'Exp', 'Rage', 'Aim' ],
+    values: [ [ 'Axie #192383', 10, 0, 1, 20, 1, 0, 0, 0, 1, 120 ],
+      [ 'Axie #148469', 0, 0, 5, 0, 0, 10, 0, 5, -3, 0 ],
+      [ 'Axie #205069', -30, 0, 0, -8, 0, 0, -12, 0, 0, -2 ] ],
   };
   return (
     <Grid columnGap={ 8 } rowGap={{ base: 3, lg: 3 }} templateColumns={{ base: 'minmax(0, 1fr)', lg: 'max-content minmax(728px, auto)' }}>
@@ -107,7 +107,7 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
         hint="Fees paid for the transaction"
         isLoading={ isLoading }
       >
-        <DetailsFee fee={ 0.000091 } isLoading={ isLoading }/>
+        <DetailsFee fee={ 0.0021 } isLoading={ isLoading }/>
       </DetailsInfoItem>
 
       <DetailsInfoItemDivider/>

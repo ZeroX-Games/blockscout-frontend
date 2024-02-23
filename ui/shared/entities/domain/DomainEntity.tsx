@@ -30,6 +30,7 @@ const Link = chakra((props: LinkProps) => {
 
 type IconProps = Pick<EntityProps, 'domain' | 'isLoading' | 'iconSize' | 'noIcon' | 'isSafeAddress'> & {
   asProp?: As;
+  start?: boolean;
 };
 
 const Icon = (props: IconProps) => {
@@ -84,13 +85,22 @@ const Icon = (props: IconProps) => {
   //   );
   // }
 
+  let imgUrl;
+  if (props.start) {
+    // domain
+    imgUrl = 'https://axieinfinity.com/images/branding/axie-infinity-logo.png';
+  } else {
+    //collection
+    imgUrl = 'https://i.seadn.io/gae/_BYA3bhx1ebgDr3QsuQuh2OMSznmS_TkwJhikCtCVMh4RUcpn2gnJmmOHHA28gy0mKP50flV31iXsDBUr_zjBaXNJA?auto=format&dpr=1&w=64 64w';
+  }
+
   return (
     <Tooltip label={ props.domain.implementation_name }>
       <Flex marginRight={ styles.marginRight }>
         <DomainIdenticon
           size={ props.iconSize === 'lg' ? 40 : 30 }
-          src="https://i.pinimg.com/564x/72/b6/08/72b608e2d9760300ca8773481a7a509a.jpg"
-          name="GTA V"
+          src={ imgUrl }
+          name="Axie Infinity"
         />
       </Flex>
     </Tooltip>
@@ -118,7 +128,7 @@ const Content = chakra((props: ContentProps) => {
   //     </Tooltip>
   //   );
   // }
-  const text = 'GTA V';
+  const text = 'Axie Infinity';
   return (
     <EntityBase.Content
       { ...props }
@@ -144,6 +154,7 @@ const Container = EntityBase.Container;
 export interface EntityProps extends EntityBase.EntityBaseProps {
   domain: Pick<DomainParam, 'hash' | 'name' | 'is_contract' | 'is_verified' | 'implementation_name' | 'ens_domain_name'>;
   isSafeAddress?: boolean;
+  start?: boolean;
 }
 
 const DomainEntry = (props: EntityProps) => {

@@ -51,6 +51,7 @@ const DomainFromTo = ({ from, to, current, mode: modeProp, className, isLoading,
             truncation={ truncation }
             maxW={ truncation === 'constant' ? undefined : 'calc(100% - 28px)' }
             w="min-content"
+            start={ true }
           />
         </Flex>
         { to && (
@@ -65,6 +66,7 @@ const DomainFromTo = ({ from, to, current, mode: modeProp, className, isLoading,
             maxW={ truncation === 'constant' ? undefined : 'calc(100% - 28px)' }
             w="min-content"
             ml="28px"
+            start={ false }
           />
         ) }
       </Flex>
@@ -86,6 +88,7 @@ const DomainFromTo = ({ from, to, current, mode: modeProp, className, isLoading,
         truncation={ truncation }
         maxW={ truncation === 'constant' ? undefined : `calc(50% - ${ iconSizeWithMargins / 2 }px)` }
         mr={ isOutgoing ? 4 : 2 }
+        start={ true }
       />
       <DomainFromToIcon
         isLoading={ isLoading }
@@ -102,6 +105,7 @@ const DomainFromTo = ({ from, to, current, mode: modeProp, className, isLoading,
           truncation={ truncation }
           maxW={ truncation === 'constant' ? undefined : `calc(50% - ${ iconSizeWithMargins / 2 }px)` }
           ml={ 3 }
+          start={ false }
         />
       ) }
     </Flex>
