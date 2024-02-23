@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
-import type { Update } from 'types/api/update';
+import type { UpdateSummaryResult } from 'types/api/update';
 
 import config from 'configs/app';
 import getValueWithUnit from 'lib/getValueWithUnit';
@@ -22,7 +22,7 @@ import TxAdditionalInfo from 'ui/txs/TxAdditionalInfo';
 import UpdatePath from 'ui/update/UpdatePath';
 
 type Props = {
-  update: Update;
+  update: UpdateSummaryResult;
   isLoading?: boolean;
 }
 

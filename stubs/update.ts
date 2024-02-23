@@ -1,4 +1,4 @@
-import type { Update } from 'types/api/update';
+import type { Update, UpdateSummary } from 'types/api/update';
 
 import { DOMAIN_PARAMS1, DOMAIN_PARAMS2 } from './domainParams';
 
@@ -75,3 +75,86 @@ const UPDATE_5: Update = {
 };
 
 export const UPDATES = [ UPDATE, UPDATE_2, UPDATE_3, UPDATE_4, UPDATE_5 ];
+
+export const UPDATE_SUMMARY: UpdateSummary = {
+  count: 30,
+  next: 'https://2c24-207-194-2-34.ngrok-free.app/api/v1/blocks/?limit=5&offset=5',
+  previous: null,
+  results: [
+    {
+      eventHash: '0xccf546fa45608329ba11a952311c18a16001bf370684d8e72ddcbb18b7c42087',
+      transactionHash: '0xccf546fa45608329ba11a952311c18a16001bf370684d8e72ddcbb18b7c42087',
+      numberOfUpdates: 184000,
+      status: true,
+      domain_details: {
+        domainId: '1',
+        name: '',
+        description: null,
+        created_at: '2024-02-16T21:12:57.180073Z',
+        updated_at: '2024-02-16T21:12:57.180106Z',
+        attributes: null,
+      },
+      timestamp: '2024-02-16T22:35:52.704887Z',
+    },
+    {
+      eventHash: '0x75f0038260e915d62c0072e7731405364bf6fe011b89f44436c7a75c0bc4307c',
+      transactionHash: '0x75f0038260e915d62c0072e7731405364bf6fe011b89f44436c7a75c0bc4307c',
+      numberOfUpdates: 1000,
+      status: true,
+      domain_details: {
+        domainId: '1',
+        name: '',
+        description: null,
+        created_at: '2024-02-16T21:12:57.180073Z',
+        updated_at: '2024-02-16T21:12:57.180106Z',
+        attributes: null,
+      },
+      timestamp: '2024-02-16T22:25:17.347522Z',
+    },
+    {
+      eventHash: '0x58251949818c5f2a214bc426794fb872149ea6160ea437034669339b2ec94ed1',
+      transactionHash: '0x58251949818c5f2a214bc426794fb872149ea6160ea437034669339b2ec94ed1',
+      numberOfUpdates: 1000,
+      status: true,
+      domain_details: {
+        domainId: '1',
+        name: '',
+        description: null,
+        created_at: '2024-02-16T21:12:57.180073Z',
+        updated_at: '2024-02-16T21:12:57.180106Z',
+        attributes: null,
+      },
+      timestamp: '2024-02-16T22:24:02.668832Z',
+    },
+    {
+      eventHash: '0xd4b8abae903d58b154e85e480d768def1cedc368d64b65abb33da8dd2e0e33b4',
+      transactionHash: '0xd4b8abae903d58b154e85e480d768def1cedc368d64b65abb33da8dd2e0e33b4',
+      numberOfUpdates: 1000,
+      status: true,
+      domain_details: {
+        domainId: '1',
+        name: '',
+        description: null,
+        created_at: '2024-02-16T21:12:57.180073Z',
+        updated_at: '2024-02-16T21:12:57.180106Z',
+        attributes: null,
+      },
+      timestamp: '2024-02-16T22:14:39.870545Z',
+    },
+    {
+      eventHash: '0x95f4cfa0d762e6518054d8bb65a212db467ce1e81b0d445ce6421ece840efc88',
+      transactionHash: '0x95f4cfa0d762e6518054d8bb65a212db467ce1e81b0d445ce6421ece840efc88',
+      numberOfUpdates: 1000,
+      status: true,
+      domain_details: {
+        domainId: '1',
+        name: '',
+        description: null,
+        created_at: '2024-02-16T21:12:57.180073Z',
+        updated_at: '2024-02-16T21:12:57.180106Z',
+        attributes: null,
+      },
+      timestamp: '2024-02-16T22:11:01.734160Z',
+    },
+  ],
+};

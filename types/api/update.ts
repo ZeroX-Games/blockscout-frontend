@@ -1,3 +1,4 @@
+import type { DomainDetail } from '../../stubs/domain';
 import type { AddressParam } from './addressParams';
 import type { BlockUpdatesResponse } from './block';
 import type { DecodedInput } from './decodedInput';
@@ -19,6 +20,22 @@ export interface OpWithdrawal {
   l1_transaction_hash: string;
   nonce: number;
   status: L2WithdrawalStatus;
+}
+
+export type UpdateSummaryResult = {
+  eventHash: string;
+  transactionHash: string;
+  numberOfUpdates: number;
+  status: boolean;
+  domain_details: DomainDetail;
+  timestamp: string;
+}
+
+export type UpdateSummary = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Array<UpdateSummaryResult>;
 }
 
 export type Update = {

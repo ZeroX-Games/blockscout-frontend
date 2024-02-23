@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
-import type { Update } from '../../types/api/update';
+import type { UpdateSummaryResult } from 'types/api/update';
 
 import config from 'configs/app';
 import getValueWithUnit from 'lib/getValueWithUnit';
@@ -22,12 +22,11 @@ import TxType from 'ui/txs/TxType';
 import UpdateEntity from '../shared/entities/update/UpdateEntity';
 
 type Props = {
-  update: Update;
+  update: UpdateSummaryResult;
   isLoading?: boolean;
 }
 
 const LatestUpdatesItemMobile = ({ update, isLoading }: Props) => {
-  const dataTo = update.to ? update.to : update.created_contract;
   const timeAgo = useTimeAgoIncrement(update.timestamp || '0', true);
 
   return (
@@ -42,7 +41,7 @@ const LatestUpdatesItemMobile = ({ update, isLoading }: Props) => {
       <Flex justifyContent="space-between">
         <HStack flexWrap="wrap">
           <TxType types={ update.tx_types } isLoading={ isLoading }/>
-          <TxStatus status={ update.status } errorText={ update.status === 'error' ? update.result : undefined } isLoading={ isLoading }/>
+          <TxStatus status="ok" errorText="unexpected error" isLoading={ isLoading }/>
           { /*<TxWatchListTags tx={ update } isLoading={ isLoading }/>*/ }
         </HStack>
         <TxAdditionalInfo tx={ update } isMobile isLoading={ isLoading }/>
@@ -68,7 +67,7 @@ const LatestUpdatesItemMobile = ({ update, isLoading }: Props) => {
       </Flex>
       <AddressFromTo
         from={ update.from }
-        to={ dataTo }
+        to={ update.to }
         isLoading={ isLoading }
         fontSize="sm"
         fontWeight="500"

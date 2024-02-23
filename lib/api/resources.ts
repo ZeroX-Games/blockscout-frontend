@@ -77,7 +77,7 @@ import type {
 import type { TxInterpretationResponse } from 'types/api/txInterpretation';
 import type { TTxsFilters } from 'types/api/txsFilters';
 import type { TxStateChanges } from 'types/api/txStateChanges';
-import type { Update } from 'types/api/update';
+import type { Update, UpdateSummary } from 'types/api/update';
 import type { UpdateInterpretationResponse } from 'types/api/updateInterpretation';
 import type { UserOpsResponse, UserOp, UserOpsFilters, UserOpsAccount } from 'types/api/userOps';
 import type { VerifiedContractsSorting } from 'types/api/verifiedContracts';
@@ -508,6 +508,9 @@ export const RESOURCES = {
   homepage_txs: {
     path: '/api/v2/main-page/transactions',
   },
+  homepage_updates_summary: {
+    path: '/api/v3/main-page/updates-summary',
+  },
   homepage_updates: {
     path: '/api/v3/main-page/updates',
   },
@@ -700,6 +703,7 @@ Q extends 'homepage_chart_txs' ? ChartTransactionResponse :
 Q extends 'homepage_chart_market' ? ChartMarketResponse :
 Q extends 'homepage_blocks' ? Array<Block> :
 Q extends 'homepage_txs' ? Array<Transaction> :
+Q extends 'homepage_updates_summary' ? UpdateSummary :
 Q extends 'homepage_updates' ? Array<Update> :
 Q extends 'homepage_txs_watchlist' ? Array<Transaction> :
 Q extends 'homepage_deposits' ? Array<L2DepositsItem> :
