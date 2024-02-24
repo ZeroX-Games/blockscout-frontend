@@ -3,7 +3,6 @@ import React from 'react';
 
 import type { RoutedTab } from 'ui/shared/Tabs/types';
 
-import config from 'configs/app';
 import { useAppContext } from 'lib/contexts/app';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
 import getQueryParamString from 'lib/router/getQueryParamString';
@@ -47,7 +46,7 @@ const UpdatePageContent = () => {
     return [
       {
         id: 'index',
-        title: config.features.suave.isEnabled && data?.wrapped ? 'Confidential compute tx details' : 'Details',
+        title: 'Details',
         component: detailsComponent,
       },
       // config.features.suave.isEnabled && data?.wrapped ?

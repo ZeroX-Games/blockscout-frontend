@@ -7,7 +7,7 @@ import useApiQuery from 'lib/api/useApiQuery';
 import { AddressHighlightProvider } from 'lib/contexts/addressHighlight';
 import useIsMobile from 'lib/hooks/useIsMobile';
 import useNewTxsSocket from 'lib/hooks/useNewTxsSocket';
-import { UPDATE_SUMMARY } from 'stubs/update';
+import { BLOCK_SUMMARY } from 'stubs/update';
 import LinkInternal from 'ui/shared/LinkInternal';
 import SocketNewItemsNotice from 'ui/shared/SocketNewItemsNotice';
 
@@ -19,18 +19,18 @@ const LatestUpdates = () => {
   const updatesCount = isMobile ? 2 : 6;
   const { data, isPlaceholderData, isError } = useApiQuery('homepage_updates_summary', {
     queryOptions: {
-      placeholderData: UPDATE_SUMMARY,
+      placeholderData: BLOCK_SUMMARY,
     },
   });
   const { num, socketAlert } = useNewTxsSocket();
   let data1;
   if (isError) {
-    data1 = UPDATE_SUMMARY;
+    data1 = BLOCK_SUMMARY;
     // return <Text mt={ 4 }>No data. Please reload page.</Text>;
   }
 
   if (data || isError) {
-    data1 = UPDATE_SUMMARY;
+    data1 = BLOCK_SUMMARY;
     const results = data1.results;
     const txsUrl = route({ pathname: '/txs' });
     return (

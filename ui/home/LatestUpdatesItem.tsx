@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
-import type { UpdateSummaryResult } from 'types/api/update';
+import type { BlockSummaryResult } from 'types/api/update';
 
 import config from 'configs/app';
 import getValueWithUnit from 'lib/getValueWithUnit';
@@ -17,12 +17,11 @@ import { currencyUnits } from 'lib/units';
 import DomainFromTo from 'ui/shared/domain/DomainFromTo';
 import UpdateEntity from 'ui/shared/entities/update/UpdateEntity';
 import TxStatus from 'ui/shared/statusTag/TxStatus';
-import TxFeeStability from 'ui/shared/tx/TxFeeStability';
 import TxAdditionalInfo from 'ui/txs/TxAdditionalInfo';
 import UpdatePath from 'ui/update/UpdatePath';
 
 type Props = {
-  update: UpdateSummaryResult;
+  update: BlockSummaryResult;
   isLoading?: boolean;
 }
 
@@ -50,8 +49,8 @@ const LatestUpdatesItem = ({ update, isLoading }: Props) => {
         <Box ml={ 3 } w="calc(100% - 40px)">
           <HStack flexWrap="wrap" my="3px">
             { /*<TxType types={ tx.tx_types } isLoading={ isLoading }/>*/ }
-            <TxStatus status={ update.status } errorText={ update.status === 'error' ? update.result : undefined } isLoading={ isLoading }/>
-            <UpdatePath isLoading={ isLoading }/>
+            <TxStatus status="ok" errorText="error" isLoading={ isLoading }/>
+            <UpdatePath blockId={ update.block_number } isLoading={ isLoading }/>
             { /*<TxWatchListTags tx={ update } isLoading={ isLoading }/>*/ }
           </HStack>
           <Flex
@@ -62,6 +61,7 @@ const LatestUpdatesItem = ({ update, isLoading }: Props) => {
             <UpdateEntity
               isLoading={ isLoading }
               hash={ update.eventHash }
+              blockId={ update.block_number }
               fontWeight="700"
             />
             { update.timestamp && (
@@ -80,8 +80,8 @@ const LatestUpdatesItem = ({ update, isLoading }: Props) => {
         </Box>
       </Flex>
       <DomainFromTo
-        from={ update.from }
-        to={ update.to }
+        from={ update.domain_details }
+        to={ update.domain_details }
         isLoading={ isLoading }
         mode="compact"
       />
@@ -89,17 +89,13 @@ const LatestUpdatesItem = ({ update, isLoading }: Props) => {
         { !config.UI.views.tx.hiddenFields?.value && (
           <Skeleton isLoaded={ !isLoading } my="3px">
             <Text as="span" whiteSpace="pre">{ currencyUnits.ether } </Text>
-            <Text as="span" variant="secondary">{ getValueWithUnit(update.value).dp(5).toFormat() }</Text>
+            <Text as="span" variant="secondary">{ getValueWithUnit(update.fee).dp(5).toFormat() }</Text>
           </Skeleton>
         ) }
         { !config.UI.views.tx.hiddenFields?.tx_fee && (
           <Skeleton isLoaded={ !isLoading } display="flex" whiteSpace="pre" my="3px">
             <Text as="span">Fee </Text>
-            { update.stability_fee ? (
-              <TxFeeStability data={ update.stability_fee } accuracy={ 5 } color="text_secondary" hideUsd/>
-            ) : (
-              <Text as="span" variant="secondary">{ update.fee.value ? getValueWithUnit(update.fee.value).dp(5).toFormat() : '-' }</Text>
-            ) }
+            <Text as="span" variant="secondary">{ update.fee ? getValueWithUnit(update.fee).dp(5).toFormat() : '-' }</Text>
           </Skeleton>
         ) }
       </Flex>

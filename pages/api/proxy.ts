@@ -13,7 +13,7 @@ const handler = async(nextReq: NextApiRequest, nextRes: NextApiResponse) => {
   }
 
   let url;
-  if (nextReq.url.includes('/api/v3/')) {
+  if (nextReq.url.includes('/api/v1/')) {
     url = new URL(
       nextReq.url.replace(/^\/node-api\/proxy/, ''),
       nextReq.headers['x-endpoint']?.toString() || appConfig.api.newEndpoint,

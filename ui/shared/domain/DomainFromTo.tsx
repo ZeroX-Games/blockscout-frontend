@@ -8,14 +8,12 @@ import type { EntityProps } from 'ui/shared/entities/domain/DomainEntity';
 import DomainEntity from 'ui/shared/entities/domain/DomainEntity';
 
 import DomainFromToIcon from './DomainFromToIcon';
-import { getTxCourseType } from './utils';
 
 type Mode = 'compact' | 'long';
 
 interface Props {
   from: DomainParam;
   to: DomainParam;
-  current?: string;
   mode?: Mode | Partial<Record<ThemeTypings['breakpoints'], Mode>>;
   className?: string;
   isLoading?: boolean;
@@ -24,7 +22,7 @@ interface Props {
   noIcon?: boolean;
 }
 
-const DomainFromTo = ({ from, to, current, mode: modeProp, className, isLoading, tokenHash = '', truncation, noIcon }: Props) => {
+const DomainFromTo = ({ from, to, mode: modeProp, className, isLoading, tokenHash = '', truncation, noIcon }: Props) => {
   const mode = useBreakpointValue(
     {
       base: (typeof modeProp === 'object' ? modeProp.base : modeProp),
@@ -38,70 +36,65 @@ const DomainFromTo = ({ from, to, current, mode: modeProp, className, isLoading,
         <Flex alignItems="center" columnGap={ 2 }>
           <DomainFromToIcon
             isLoading={ isLoading }
-            type={ getTxCourseType(from.hash, to?.hash, current) }
+            type="unspecified"
             transform="rotate(90deg)"
           />
           <DomainEntity
             domain={ from }
             isLoading={ isLoading }
-            noLink={ current === from.hash }
-            noCopy={ current === from.hash }
             noIcon={ noIcon }
             tokenHash={ tokenHash }
             truncation={ truncation }
             maxW={ truncation === 'constant' ? undefined : 'calc(100% - 28px)' }
             w="min-content"
+            type="domain"
           />
         </Flex>
         { to && (
           <DomainEntity
             domain={ to }
             isLoading={ isLoading }
-            noLink={ current === to.hash }
-            noCopy={ current === to.hash }
             noIcon={ noIcon }
             tokenHash={ tokenHash }
             truncation={ truncation }
             maxW={ truncation === 'constant' ? undefined : 'calc(100% - 28px)' }
             w="min-content"
             ml="28px"
+            type="collection"
           />
         ) }
       </Flex>
     );
   }
 
-  const isOutgoing = current === from.hash;
-  const iconSizeWithMargins = (5 + (isOutgoing ? 4 : 2) + 3) * 4;
+  const iconSizeWithMargins = (5 + 4 + 3) * 4;
 
   return (
     <Flex className={ className } alignItems="center">
       <DomainEntity
         domain={ from }
         isLoading={ isLoading }
-        noLink={ isOutgoing }
-        noCopy={ isOutgoing }
         noIcon={ noIcon }
         tokenHash={ tokenHash }
         truncation={ truncation }
         maxW={ truncation === 'constant' ? undefined : `calc(50% - ${ iconSizeWithMargins / 2 }px)` }
-        mr={ isOutgoing ? 4 : 2 }
+        mr={ 4 }
+        type="domain"
       />
       <DomainFromToIcon
         isLoading={ isLoading }
-        type={ getTxCourseType(from.hash, to?.hash, current) }
+        type="unspecified"
       />
       { to && (
         <DomainEntity
           domain={ to }
           isLoading={ isLoading }
-          noLink={ current === to.hash }
-          noCopy={ current === to.hash }
           noIcon={ noIcon }
           tokenHash={ tokenHash }
           truncation={ truncation }
           maxW={ truncation === 'constant' ? undefined : `calc(50% - ${ iconSizeWithMargins / 2 }px)` }
           ml={ 3 }
+          type="collection"
         />
       ) }
     </Flex>

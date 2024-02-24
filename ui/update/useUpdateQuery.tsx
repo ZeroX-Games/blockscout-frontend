@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 import type { SocketMessage } from 'lib/socket/types';
-import type { Update } from 'types/api/update';
+import type { BlockDetail } from 'types/api/update';
 
 import type { ResourceError } from 'lib/api/resources';
 import useApiQuery, { getResourceKey } from 'lib/api/useApiQuery';
@@ -16,9 +16,9 @@ import getQueryParamString from 'lib/router/getQueryParamString';
 import useSocketChannel from 'lib/socket/useSocketChannel';
 import useSocketMessage from 'lib/socket/useSocketMessage';
 
-import { UPDATE } from '../../stubs/update';
+import { BLOCK_DETAIL } from '../../stubs/update';
 
-export type UpdateQuery = UseQueryResult<Update, ResourceError<{ status: number }>> & {
+export type UpdateQuery = UseQueryResult<BlockDetail, ResourceError<{ status: number }>> & {
   socketStatus: 'close' | 'error' | undefined;
   setRefetchOnError: {
     on: () => void;
@@ -28,7 +28,7 @@ export type UpdateQuery = UseQueryResult<Update, ResourceError<{ status: number 
 }
 
 interface Params {
-  hash?: string;
+  blockId?: string;
   isEnabled?: boolean;
 }
 
@@ -39,14 +39,14 @@ export default function useUpdateQuery(params?: Params): UpdateQuery {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const hash = params?.hash ?? getQueryParamString(router.query.hash);
+  const blockId = params?.blockId ?? getQueryParamString(router.query.blockId);
 
   const queryResult = useApiQuery<'update', { status: number }>('update', {
-    pathParams: { hash },
+    pathParams: { blockId },
     queryOptions: {
-      enabled: Boolean(hash) && params?.isEnabled !== false,
+      enabled: Boolean(blockId) && params?.isEnabled !== false,
       refetchOnMount: false,
-      placeholderData: UPDATE,
+      placeholderData: BLOCK_DETAIL,
       retry: (failureCount, error) => {
         if (isRefetchEnabled) {
           return false;
@@ -64,9 +64,9 @@ export default function useUpdateQuery(params?: Params): UpdateQuery {
   const handleStatusUpdateMessage: SocketMessage.TxStatusUpdate['handler'] = React.useCallback(async() => {
     await delay(5 * SECOND);
     queryClient.invalidateQueries({
-      queryKey: getResourceKey('update', { pathParams: { hash } }),
+      queryKey: getResourceKey('update', { pathParams: { blockId } }),
     });
-  }, [ queryClient, hash ]);
+  }, [ queryClient, blockId ]);
 
   const handleSocketClose = React.useCallback(() => {
     setSocketStatus('close');
@@ -77,7 +77,7 @@ export default function useUpdateQuery(params?: Params): UpdateQuery {
   }, []);
 
   const channel = useSocketChannel({
-    topic: `updates:${ hash }`,
+    topic: `updates:${ blockId }`,
     onSocketClose: handleSocketClose,
     onSocketError: handleSocketError,
     isDisabled: isPending || isPlaceholderData || isError || data.status !== null,

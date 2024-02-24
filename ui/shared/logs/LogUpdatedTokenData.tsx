@@ -1,8 +1,10 @@
 import React from 'react';
 
+import type { MatrixEntry } from '../../../types/api/update';
+
 import LogUpdatedTokenDataTable from './LogUpdatedTokenDataTable';
 interface Props {
-  data: any;
+  data: Array<MatrixEntry>;
   isLoading?: boolean;
 }
 

@@ -6,17 +6,18 @@ import EventEntity from 'ui/shared/entities/event/EventEntity';
 import IconSvg from 'ui/shared/IconSvg';
 
 type Props = {
+  blockId: number;
   isLoading?: boolean;
 }
 
-const UpdatePath = ({ isLoading }: Props) => {
+const UpdatePath = ({ blockId, isLoading }: Props) => {
   // const darkModeFilter = { filter: 'brightness(0) invert(1)' };
   // const style = useColorModeValue({}, darkModeFilter);
   return (
     <HStack gap={ 2 }>
       <EventEntity
         isLoading={ isLoading }
-        number={ 12227409 }
+        number={ blockId }
         tailLength={ 2 }
         lineHeight={ 7 }
         fontWeight={ 500 }

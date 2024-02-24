@@ -11,6 +11,7 @@ export type Props = {
   number: string;
   q: string;
   name: string;
+  blockId: string;
 }
 
 export const base: GetServerSideProps<Props> = async({ req, query }) => {
@@ -24,6 +25,7 @@ export const base: GetServerSideProps<Props> = async({ req, query }) => {
       number: query.number?.toString() || '',
       q: query.q?.toString() || '',
       name: query.name?.toString() || '',
+      blockId: query.blockId?.toString() || '',
     },
   };
 };

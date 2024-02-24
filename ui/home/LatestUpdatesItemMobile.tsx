@@ -7,22 +7,20 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
-import type { UpdateSummaryResult } from 'types/api/update';
+import type { BlockSummaryResult } from 'types/api/update';
 
 import config from 'configs/app';
 import getValueWithUnit from 'lib/getValueWithUnit';
 import useTimeAgoIncrement from 'lib/hooks/useTimeAgoIncrement';
 import { currencyUnits } from 'lib/units';
-import AddressFromTo from 'ui/shared/address/AddressFromTo';
 import TxStatus from 'ui/shared/statusTag/TxStatus';
-import TxFeeStability from 'ui/shared/tx/TxFeeStability';
 import TxAdditionalInfo from 'ui/txs/TxAdditionalInfo';
-import TxType from 'ui/txs/TxType';
 
+import DomainFromTo from '../shared/domain/DomainFromTo';
 import UpdateEntity from '../shared/entities/update/UpdateEntity';
 
 type Props = {
-  update: UpdateSummaryResult;
+  update: BlockSummaryResult;
   isLoading?: boolean;
 }
 
@@ -40,7 +38,6 @@ const LatestUpdatesItemMobile = ({ update, isLoading }: Props) => {
     >
       <Flex justifyContent="space-between">
         <HStack flexWrap="wrap">
-          <TxType types={ update.tx_types } isLoading={ isLoading }/>
           <TxStatus status="ok" errorText="unexpected error" isLoading={ isLoading }/>
           { /*<TxWatchListTags tx={ update } isLoading={ isLoading }/>*/ }
         </HStack>
@@ -65,9 +62,9 @@ const LatestUpdatesItemMobile = ({ update, isLoading }: Props) => {
           </Skeleton>
         ) }
       </Flex>
-      <AddressFromTo
-        from={ update.from }
-        to={ update.to }
+      <DomainFromTo
+        from={ update.domain_details }
+        to={ update.domain_details }
         isLoading={ isLoading }
         fontSize="sm"
         fontWeight="500"
@@ -76,17 +73,13 @@ const LatestUpdatesItemMobile = ({ update, isLoading }: Props) => {
       { !config.UI.views.tx.hiddenFields?.value && (
         <Skeleton isLoaded={ !isLoading } mb={ 2 } fontSize="sm" w="fit-content">
           <Text as="span">Value { currencyUnits.ether } </Text>
-          <Text as="span" variant="secondary">{ getValueWithUnit(update.value).dp(5).toFormat() }</Text>
+          <Text as="span" variant="secondary">{ getValueWithUnit(update.fee).dp(5).toFormat() }</Text>
         </Skeleton>
       ) }
       { !config.UI.views.tx.hiddenFields?.tx_fee && (
         <Skeleton isLoaded={ !isLoading } fontSize="sm" w="fit-content" display="flex" whiteSpace="pre">
           <Text as="span">Fee { !config.UI.views.tx.hiddenFields?.fee_currency ? `${ currencyUnits.ether } ` : '' }</Text>
-          { update.stability_fee ? (
-            <TxFeeStability data={ update.stability_fee } accuracy={ 5 } color="text_secondary" hideUsd/>
-          ) : (
-            <Text as="span" variant="secondary">{ update.fee.value ? getValueWithUnit(update.fee.value).dp(5).toFormat() : '-' }</Text>
-          ) }
+          <Text as="span" variant="secondary">{ update.fee ? getValueWithUnit(update.fee).dp(5).toFormat() : '-' }</Text>
         </Skeleton>
       ) }
     </Box>
