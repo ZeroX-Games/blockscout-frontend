@@ -172,8 +172,10 @@ const UpdateInterpretation = ({ summary, isLoading, className }: Props) => {
         <ImageRrapper src={ collection.imgUrl } alt={ collection.name }/>
         <chakra.span>{ collection.name }</chakra.span>
         <chakra.span color="text_secondary">in</chakra.span>
-        <ImageRrapper src={ domain.imgUrl } alt={ domain.name }/>
-        <chakra.span>{ domain.name }</chakra.span>
+        <ImageRrapper
+          src="https://github.com/ZeroX-Games/blockscout-frontend/blob/main/configs/assets/network-icons/zerox-icon-light.png?raw=true"
+          alt={ domain.name }/>
+        <chakra.span>ZeroX Arena</chakra.span>
       </HStack>
     </Skeleton>
   );

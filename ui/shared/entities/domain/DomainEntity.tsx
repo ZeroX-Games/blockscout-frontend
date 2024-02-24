@@ -88,7 +88,7 @@ const Icon = (props: IconProps) => {
   let imgUrl;
   if (props.start) {
     // domain
-    imgUrl = 'https://axieinfinity.com/images/branding/axie-infinity-logo.png';
+    imgUrl = 'https://github.com/ZeroX-Games/blockscout-frontend/blob/main/configs/assets/network-icons/zerox-icon-light.png?raw=true';
   } else {
     //collection
     imgUrl = 'https://i.seadn.io/gae/_BYA3bhx1ebgDr3QsuQuh2OMSznmS_TkwJhikCtCVMh4RUcpn2gnJmmOHHA28gy0mKP50flV31iXsDBUr_zjBaXNJA?auto=format&dpr=1&w=64 64w';
@@ -107,7 +107,7 @@ const Icon = (props: IconProps) => {
   );
 };
 
-type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'domain'>;
+type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'domain' | 'start'>;
 
 const Content = chakra((props: ContentProps) => {
   // if (props.domain.name || props.domain.ens_domain_name) {
@@ -128,7 +128,7 @@ const Content = chakra((props: ContentProps) => {
   //     </Tooltip>
   //   );
   // }
-  const text = 'Axie Infinity';
+  const text = props.start ? 'ZeroX Arena' : 'Axie Infinity';
   return (
     <EntityBase.Content
       { ...props }
