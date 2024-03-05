@@ -32,7 +32,7 @@ const UpdateSubHeading = ({ hash, hasTag }: Props) => {
       <Flex mr={{ base: 0, lg: 6 }} flexWrap="wrap" alignItems="center">
         <UpdateInterpretation
           summary={ updateInterpretationQuery.data?.data.summaries[0] }
-          isLoading={ false } // TODO: loading state
+          isLoading={ updateInterpretationQuery.isPlaceholderData } // TODO: loading state
           fontSize="lg"
         />
         { /*{ !txInterpretationQuery.isPlaceholderData && txInterpretationQuery.data?.data.summaries &&

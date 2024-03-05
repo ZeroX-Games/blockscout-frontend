@@ -1,4 +1,4 @@
-import { Box, HStack } from '@chakra-ui/react';
+import { Box, HStack, Skeleton } from '@chakra-ui/react';
 import React from 'react';
 
 // import * as EntityBase from 'ui/shared/entities/base/components';
@@ -34,7 +34,9 @@ const UpdatePath = ({ isLoading }: Props) => {
           isLoading={ isLoading }
           boxSize={ 5 }
         />
-        <Box>BASE</Box>
+        <Skeleton isLoaded={ !isLoading }>
+          <Box>BASE</Box>
+        </Skeleton>
       </HStack>
     </HStack>
   );
