@@ -38,7 +38,8 @@ const LatestUpdates = () => {
         <Box mb={ 3 } display={{ base: 'block', lg: 'none' }}>
           { data1.slice(0, updatesCount).map(((update, index) => (
             <LatestUpdatesItemMobile
-              key={ update.eventHash + (isPlaceholderData ? index : '') }
+              key={ update.eventHash + index }
+              // key={ update.eventHash + (isPlaceholderData ? index : '') }
               update={ update }
               isLoading={ isPlaceholderData }
             />
@@ -48,7 +49,8 @@ const LatestUpdates = () => {
           <Box mb={ 4 } display={{ base: 'none', lg: 'block' }}>
             { data1.slice(0, updatesCount).map(((update, index) => (
               <LatestUpdatesItem
-                key={ update.eventHash + (isPlaceholderData ? index : '') }
+                key={ update.eventHash + index }
+                // key={ update.eventHash + (isPlaceholderData ? index : '') }
                 update={ update }
                 isLoading={ isPlaceholderData }
               />
