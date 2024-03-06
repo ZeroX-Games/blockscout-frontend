@@ -9,7 +9,7 @@ const Update = dynamic(() => import('ui/pages/Update'), { ssr: false });
 
 const Page: NextPage<Props> = (props: Props) => {
   return (
-    <PageNextJs pathname="/update/[hash]" query={ props }>
+    <PageNextJs pathname="/update/[blockId]" query={ props }>
       <Update/>
     </PageNextJs>
   );

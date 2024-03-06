@@ -77,7 +77,7 @@ import type {
 import type { TxInterpretationResponse } from 'types/api/txInterpretation';
 import type { TTxsFilters } from 'types/api/txsFilters';
 import type { TxStateChanges } from 'types/api/txStateChanges';
-import type { Update } from 'types/api/update';
+import type { Update, BlockSummary, BlockDetail } from 'types/api/update';
 import type { UpdateInterpretationResponse } from 'types/api/updateInterpretation';
 import type { UserOpsResponse, UserOp, UserOpsFilters, UserOpsAccount } from 'types/api/userOps';
 import type { VerifiedContractsSorting } from 'types/api/verifiedContracts';
@@ -300,8 +300,8 @@ export const RESOURCES = {
   },
   // UPDATES
   update: {
-    path: '/api/v2/updates/:hash',
-    pathParams: [ 'hash' as const ],
+    path: '/api/v1/block-detail/:blockId',
+    pathParams: [ 'blockId' as const ],
   },
   update_interpretation: {
     path: '/api/v2/updates/:hash/summary',
@@ -508,8 +508,11 @@ export const RESOURCES = {
   homepage_txs: {
     path: '/api/v2/main-page/transactions',
   },
+  homepage_updates_summary: {
+    path: '/api/v1/blocks',
+  },
   homepage_updates: {
-    path: '/api/v2/main-page/updates',
+    path: '/api/v3/main-page/updates',
   },
   homepage_zkevm_l2_batches: {
     path: '/api/v2/main-page/zkevm/batches/confirmed',
@@ -700,6 +703,7 @@ Q extends 'homepage_chart_txs' ? ChartTransactionResponse :
 Q extends 'homepage_chart_market' ? ChartMarketResponse :
 Q extends 'homepage_blocks' ? Array<Block> :
 Q extends 'homepage_txs' ? Array<Transaction> :
+Q extends 'homepage_updates_summary' ? BlockSummary :
 Q extends 'homepage_updates' ? Array<Update> :
 Q extends 'homepage_txs_watchlist' ? Array<Transaction> :
 Q extends 'homepage_deposits' ? Array<L2DepositsItem> :
@@ -724,7 +728,7 @@ Q extends 'tx_token_transfers' ? TokenTransferResponse :
 Q extends 'tx_raw_trace' ? RawTracesResponse :
 Q extends 'tx_state_changes' ? TxStateChanges :
 Q extends 'tx_interpretation' ? TxInterpretationResponse :
-Q extends 'update' ? Update :
+Q extends 'update' ? BlockDetail :
 Q extends 'update_interpretation' ? UpdateInterpretationResponse :
 Q extends 'addresses' ? AddressesResponse :
 Q extends 'address' ? Address :

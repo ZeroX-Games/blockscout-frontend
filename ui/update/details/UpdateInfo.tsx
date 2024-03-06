@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import { scroller, Element } from 'react-scroll';
 
-import type { Update } from 'types/api/update';
+import type { BlockDetail } from 'types/api/update';
 
 // import { route } from 'nextjs-routes';
 
@@ -30,7 +30,7 @@ import TextSeparator from 'ui/shared/TextSeparator';
 import TxSocketAlert from 'ui/tx/TxSocketAlert';
 
 interface Props {
-  data: Update | undefined;
+  data: BlockDetail | undefined;
   isLoading: boolean;
   socketStatus?: 'close' | 'error';
 }
@@ -51,11 +51,11 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
   }
 
   const network = { name: 'Base', hash: '0x881D40237659C251811CEC9c364ef91dC08D300C' };
-  const updates = { attributes: [ 'HP', 'MP', 'Spd', 'Atk', 'Dmg', 'Def', 'Mag', 'Exp', 'Rage', 'Aim' ],
-    values: [ [ 'Axie #192383', 10, 0, 1, 20, 1, 0, 0, 0, 1, 120 ],
-      [ 'Axie #148469', 0, 0, 5, 0, 0, 10, 0, 5, -3, 0 ],
-      [ 'Axie #205069', -30, 0, 0, -8, 0, 0, -12, 0, 0, -2 ] ],
-  };
+  // const updates = { attributes: [ 'Rp', 'Mp', 'Speed', 'Exposure', 'Hp', 'Decoration', 'Rp1', 'Mp1', 'Speed1', 'Exposure1', 'Hp1', 'Decoration1' ],
+  //   values: [ [ 'Azuki #7352', 10, 0, 1, 20, 1, 0, 10, 0, 1, 20, 1, 0 ],
+  //     [ 'Azuki #2314', 0, 0, 5, 0, 0, 10, 0, 0, 5, 0, 0, 10 ],
+  //     [ 'Azuki #6381', -30, 0, 0, -8, 0, 0, -30, 0, 0, -8, 0, 0 ] ],
+  // };
   return (
     <Grid columnGap={ 8 } rowGap={{ base: 3, lg: 3 }} templateColumns={{ base: 'minmax(0, 1fr)', lg: 'max-content minmax(728px, auto)' }}>
       { socketStatus && (
@@ -80,7 +80,7 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
         hint="Current update state: Success, Failed (Error), or Pending (In Process)"
         isLoading={ isLoading }
       >
-        <UpdateStatus status={ data.status } errorText={ data.status === 'error' ? data.result : undefined } isLoading={ isLoading }/>
+        <UpdateStatus status="ok" errorText="error" isLoading={ isLoading }/>
         { /*{ data.method && (*/ }
         { /*  <Tag colorScheme="gray" isLoading={ isLoading } isTruncated ml={ 3 }>*/ }
         { /*    <Tag colorScheme={ data.method === 'Multicall' ? 'teal' : 'gray' } isLoading={ isLoading } isTruncated ml={ 3 }>*/ }
@@ -93,11 +93,11 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
         hint="Event number containing the update"
         isLoading={ isLoading }
       >
-        { data.block === null ?
+        { data.block_number === null ?
           <Text>Pending</Text> : (
             <EventEntity
               isLoading={ isLoading }
-              number={ data.block }
+              number={ data.block_number }
               noIcon
             />
           ) }
@@ -132,14 +132,14 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
       >
         { data.status === null && <Spinner mr={ 2 } size="sm" flexShrink={ 0 }/> }
         <Skeleton isLoaded={ !isLoading } overflow="hidden">
-          <HashStringShortenDynamic hash={ data.txHash }/>
+          <HashStringShortenDynamic hash={ data.eventHash }/>
         </Skeleton>
-        <CopyToClipboard text={ data.txHash } isLoading={ isLoading }/>
+        <CopyToClipboard text={ data.eventHash } isLoading={ isLoading }/>
       </DetailsInfoItem>
       <DetailsInfoItem title="Transaction status" hint="Update transaction status" isLoading={ isLoading } columnGap={ 3 }>
-        <TxStatus status={ data.status } errorText={ data.status === 'error' ? data.result : undefined } isLoading={ isLoading }/>
+        <TxStatus status="ok" errorText="error" isLoading={ isLoading }/>
         <Tag colorScheme="gray" isLoading={ isLoading } isTruncated ml={ 3 }>
-          { data.method }
+          placeholder
         </Tag>
       </DetailsInfoItem>
       <DetailsInfoItem
@@ -147,11 +147,11 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
         hint="Block number containing the transaction"
         isLoading={ isLoading }
       >
-        { data.block === null ?
+        { data.block_number === null ?
           <Text>Pending</Text> : (
             <BlockEntity
               isLoading={ isLoading }
-              number={ data.block }
+              number={ data.block_number }
               noIcon
             />
           ) }
@@ -187,7 +187,7 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
             title="Updated tokens"
             hint="Updated tokens"
           >
-            <LogUpdatedTokenData data={ updates }/>
+            <LogUpdatedTokenData data={ data.matrix_entries }/>
           </DetailsInfoItem>
         </>
       ) }

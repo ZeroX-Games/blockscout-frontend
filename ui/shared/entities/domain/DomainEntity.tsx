@@ -16,7 +16,7 @@ import DomainIdenticon from './DomainIdenticon';
 type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'domain'>;
 
 const Link = chakra((props: LinkProps) => {
-  const defaultHref = route({ pathname: '/address/[hash]', query: { ...props.query, hash: props.domain.hash } });
+  const defaultHref = route({ pathname: '/address/[hash]', query: { ...props.query, hash: props.domain.name } });
 
   return (
     <EntityBase.Link
@@ -30,7 +30,7 @@ const Link = chakra((props: LinkProps) => {
 
 type IconProps = Pick<EntityProps, 'domain' | 'isLoading' | 'iconSize' | 'noIcon' | 'isSafeAddress'> & {
   asProp?: As;
-  start?: boolean;
+  type: 'collection' | 'domain';
 };
 
 const Icon = (props: IconProps) => {
@@ -86,28 +86,28 @@ const Icon = (props: IconProps) => {
   // }
 
   let imgUrl;
-  if (props.start) {
-    // domain
-    imgUrl = 'https://github.com/ZeroX-Games/blockscout-frontend/blob/main/configs/assets/network-icons/zerox-icon-light.png?raw=true';
+  if (props.domain.img_url) {
+    imgUrl = props.domain.img_url;
+  } else if (props.type === 'domain') {
+    imgUrl = 'https://axieinfinity.com/images/branding/axie-infinity-logo.png';
   } else {
-    //collection
     imgUrl = 'https://i.seadn.io/gae/_BYA3bhx1ebgDr3QsuQuh2OMSznmS_TkwJhikCtCVMh4RUcpn2gnJmmOHHA28gy0mKP50flV31iXsDBUr_zjBaXNJA?auto=format&dpr=1&w=64 64w';
   }
 
   return (
-    <Tooltip label={ props.domain.implementation_name }>
+    <Tooltip label={ props.domain.name }>
       <Flex marginRight={ styles.marginRight }>
         <DomainIdenticon
           size={ props.iconSize === 'lg' ? 40 : 30 }
           src={ imgUrl }
-          name="Axie Infinity"
+          name={ props.domain.name || 'Axie' }
         />
       </Flex>
     </Tooltip>
   );
 };
 
-type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'domain' | 'start'>;
+type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'domain'>;
 
 const Content = chakra((props: ContentProps) => {
   // if (props.domain.name || props.domain.ens_domain_name) {
@@ -128,12 +128,11 @@ const Content = chakra((props: ContentProps) => {
   //     </Tooltip>
   //   );
   // }
-  const text = props.start ? 'ZeroX Arena' : 'Axie Infinity';
   return (
     <EntityBase.Content
       { ...props }
       // text={ props.domain.hash }
-      text={ text }
+      text={ props.domain.name || 'GTA V' }
     />
   );
 });
@@ -144,7 +143,7 @@ const Copy = (props: CopyProps) => {
   return (
     <EntityBase.Copy
       { ...props }
-      text={ props.domain.hash }
+      text="Axie Infinity"
     />
   );
 };
@@ -152,9 +151,9 @@ const Copy = (props: CopyProps) => {
 const Container = EntityBase.Container;
 
 export interface EntityProps extends EntityBase.EntityBaseProps {
-  domain: Pick<DomainParam, 'hash' | 'name' | 'is_contract' | 'is_verified' | 'implementation_name' | 'ens_domain_name'>;
+  domain: DomainParam;
   isSafeAddress?: boolean;
-  start?: boolean;
+  type: 'collection' | 'domain';
 }
 
 const DomainEntry = (props: EntityProps) => {
