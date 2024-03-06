@@ -9,19 +9,15 @@ export interface WatchlistName {
   display_name: string;
 }
 
-export interface UserTags {
-  private_tags: Array<AddressTag> | null;
-  watchlist_names: Array<WatchlistName> | null;
-  public_tags: Array<AddressTag> | null;
-}
-
 export type DomainParamBasic = {
-  hash: string;
-  implementation_name: string | null;
-  name: string | null;
-  is_contract: boolean;
-  is_verified: boolean | null;
-  ens_domain_name: string | null;
+  domainId: string;
+  name: string;
+  description: string | null;
+  created_at: string;
+  updated_at: string;
+  attributes: null;
+  img_url?: string;
+  hash?: string;
 }
 
-export type DomainParam = UserTags & DomainParamBasic;
+export type DomainParam = DomainParamBasic;

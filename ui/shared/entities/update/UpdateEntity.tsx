@@ -6,10 +6,10 @@ import { route } from 'nextjs-routes';
 
 import * as EntityBase from 'ui/shared/entities/base/components';
 
-type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'hash'>;
+type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'blockId' | 'hash'>;
 
 const Link = chakra((props: LinkProps) => {
-  const defaultHref = route({ pathname: '/update/[hash]', query: { hash: props.hash } });
+  const defaultHref = route({ pathname: '/update/[blockId]', query: { blockId: String(props.blockId) } });
 
   return (
     <EntityBase.Link
@@ -52,7 +52,7 @@ const Copy = (props: CopyProps) => {
     <EntityBase.Copy
       { ...props }
       text={ props.hash }
-      // by default we don't show copy icon, maybe this should be revised
+      // by default, we don't show copy icon, maybe this should be revised
       noCopy={ props.noCopy ?? true }
     />
   );
@@ -62,6 +62,7 @@ const Container = EntityBase.Container;
 
 export interface EntityProps extends EntityBase.EntityBaseProps {
   hash: string;
+  blockId: number;
   text?: string;
 }
 

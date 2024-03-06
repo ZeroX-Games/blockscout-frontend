@@ -12,10 +12,18 @@ const handler = async(nextReq: NextApiRequest, nextRes: NextApiResponse) => {
     return;
   }
 
-  const url = new URL(
-    nextReq.url.replace(/^\/node-api\/proxy/, ''),
-    nextReq.headers['x-endpoint']?.toString() || appConfig.api.endpoint,
-  );
+  let url;
+  if (nextReq.url.includes('/api/v1/')) {
+    url = new URL(
+      nextReq.url.replace(/^\/node-api\/proxy/, ''),
+      nextReq.headers['x-endpoint']?.toString() || appConfig.api.newEndpoint,
+    );
+  } else {
+    url = new URL(
+      nextReq.url.replace(/^\/node-api\/proxy/, ''),
+      nextReq.headers['x-endpoint']?.toString() || appConfig.api.endpoint,
+    );
+  }
   const apiRes = await fetchFactory(nextReq)(
     url.toString(),
     _pickBy(_pick(nextReq, [ 'body', 'method' ]), Boolean),

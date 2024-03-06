@@ -1,10 +1,12 @@
 import { Box, Grid, Skeleton, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 
+import type { MatrixEntry } from '../../../types/api/update';
+
 import TruncatedValue from 'ui/shared/TruncatedValue';
 
 interface Props {
-  data: any;
+  data: Array<MatrixEntry>;
   isLoading?: boolean;
 }
 
@@ -25,12 +27,15 @@ const HeaderItem = ({ children, isLoading }: { children: React.ReactNode; isLoad
 };
 
 // row: [ '#7352', 10, 0, 1, 20, 1, 0 ]
-const Row = ({ row, isLoading }: any & { isLoading?: boolean }) => {
+const Row = ({ row, isLoading, header }: any & { isLoading?: boolean }) => {
   // const content = (() => {
   //
   // });
   return (
     <>
+      <Skeleton isLoaded={ !isLoading } p={ 2 }>
+        <TruncatedValue value={ header } isLoading={ isLoading } fontWeight={ 600 }/>
+      </Skeleton>
       { row.map((item: any, index: any) => {
         let color; let value;
         if (isNaN(item)) {
@@ -55,10 +60,13 @@ const Row = ({ row, isLoading }: any & { isLoading?: boolean }) => {
 };
 
 const LogUpdatedTokenDataTable = ({ data, isLoading }: Props) => {
+  // create 100 random name, stored in an array
+  const attributes = Array.from({ length: 100 }, () => Math.random().toString(36).substring(7));
+
   // const bgColor = useColorModeValue('blackAlpha.50', 'whiteAlpha.50');
-  const gridTemplateColumnsBase = `120px repeat(${ data.attributes.length }, 75px)`;
+  const gridTemplateColumnsBase = `120px repeat(${ data[0].delta.length }, 75px)`;
   // const gridTemplateColumnsLg = `80px repeat(${ data.attributes.length }, minmax(0, 1fr)`;
-  const selector = `&>:nth-of-type(${ data.attributes.length + 1 }n - ${ data.attributes.length })`;
+  const selector = `&>:nth-of-type(${ data[0].delta.length + 1 }n - ${ data[0].delta.length })`;
   return (
     <Box overflowX="scroll">
       <Grid
@@ -88,12 +96,12 @@ const LogUpdatedTokenDataTable = ({ data, isLoading }: Props) => {
           },
         }}
       >
-        <HeaderItem isLoading={ isLoading }>Name</HeaderItem>
-        { data.attributes.map((att: any) => {
+        <HeaderItem isLoading={ isLoading }>Token ID</HeaderItem>
+        { attributes.map((att: any) => {
           return <HeaderItem key={ att } isLoading={ isLoading }>{ att }</HeaderItem>;
         }) }
-        { data.values.map((row: any, index: any) => {
-          return <Row key={ index } row={ row } isLoading={ isLoading }/>;
+        { data.map((row: MatrixEntry, index: any) => {
+          return <Row key={ index } row={ row.delta } header={ `#${ row.token_id }` } isLoading={ isLoading }/>;
         }) }
       </Grid>
     </Box>

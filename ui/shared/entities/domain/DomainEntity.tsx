@@ -16,7 +16,7 @@ import DomainIdenticon from './DomainIdenticon';
 type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'domain'>;
 
 const Link = chakra((props: LinkProps) => {
-  const defaultHref = route({ pathname: '/address/[hash]', query: { ...props.query, hash: props.domain.hash } });
+  const defaultHref = route({ pathname: '/address/[hash]', query: { ...props.query, hash: props.domain.name } });
 
   return (
     <EntityBase.Link
@@ -30,6 +30,7 @@ const Link = chakra((props: LinkProps) => {
 
 type IconProps = Pick<EntityProps, 'domain' | 'isLoading' | 'iconSize' | 'noIcon' | 'isSafeAddress'> & {
   asProp?: As;
+  type: 'collection' | 'domain';
 };
 
 const Icon = (props: IconProps) => {
@@ -84,13 +85,22 @@ const Icon = (props: IconProps) => {
   //   );
   // }
 
+  let imgUrl;
+  if (props.domain.img_url) {
+    imgUrl = props.domain.img_url;
+  } else if (props.type === 'domain') {
+    imgUrl = 'https://axieinfinity.com/images/branding/axie-infinity-logo.png';
+  } else {
+    imgUrl = 'https://i.seadn.io/gae/_BYA3bhx1ebgDr3QsuQuh2OMSznmS_TkwJhikCtCVMh4RUcpn2gnJmmOHHA28gy0mKP50flV31iXsDBUr_zjBaXNJA?auto=format&dpr=1&w=64 64w';
+  }
+
   return (
-    <Tooltip label={ props.domain.implementation_name }>
+    <Tooltip label={ props.domain.name }>
       <Flex marginRight={ styles.marginRight }>
         <DomainIdenticon
           size={ props.iconSize === 'lg' ? 40 : 30 }
-          src="https://i.pinimg.com/564x/72/b6/08/72b608e2d9760300ca8773481a7a509a.jpg"
-          name="GTA V"
+          src={ imgUrl }
+          name={ props.domain.name || 'Axie' }
         />
       </Flex>
     </Tooltip>
@@ -118,12 +128,11 @@ const Content = chakra((props: ContentProps) => {
   //     </Tooltip>
   //   );
   // }
-  const text = 'GTA V';
   return (
     <EntityBase.Content
       { ...props }
       // text={ props.domain.hash }
-      text={ text }
+      text={ props.domain.name || 'GTA V' }
     />
   );
 });
@@ -134,7 +143,7 @@ const Copy = (props: CopyProps) => {
   return (
     <EntityBase.Copy
       { ...props }
-      text={ props.domain.hash }
+      text="Axie Infinity"
     />
   );
 };
@@ -142,8 +151,9 @@ const Copy = (props: CopyProps) => {
 const Container = EntityBase.Container;
 
 export interface EntityProps extends EntityBase.EntityBaseProps {
-  domain: Pick<DomainParam, 'hash' | 'name' | 'is_contract' | 'is_verified' | 'implementation_name' | 'ens_domain_name'>;
+  domain: DomainParam;
   isSafeAddress?: boolean;
+  type: 'collection' | 'domain';
 }
 
 const DomainEntry = (props: EntityProps) => {
