@@ -1,25 +1,26 @@
 import { Box, Heading, Flex, Text, VStack } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence } from 'framer-motion';
-import React from 'react';
+import React, { useEffect } from 'react';
 
+import type { BlockSummary } from '../../types/api/update';
 import type { SocketMessage } from 'lib/socket/types';
-import type { Event } from 'types/api/event';
 
 import { route } from 'nextjs-routes';
 
 import config from 'configs/app';
 import useApiQuery, { getResourceKey } from 'lib/api/useApiQuery';
 import useIsMobile from 'lib/hooks/useIsMobile';
-import useSocketChannel from 'lib/socket/useSocketChannel';
-import useSocketMessage from 'lib/socket/useSocketMessage';
-import { BLOCK } from 'stubs/block';
+import { BLOCK_SUMMARY } from 'stubs/update';
 import LinkInternal from 'ui/shared/LinkInternal';
 
+import { assertIsNewEventResponse, assertIsValidNewEventMsg } from '../../lib/hooks/useNewEventsSocket';
+import { useWebSocketContext } from '../../lib/socket/useSocketContext';
 import LatestEventSummaryItem from './LatestEventSummaryItem';
 
 const LatestEventSummary = () => {
   const isMobile = useIsMobile();
+  const socket = useWebSocketContext();
   // const blocksMaxCount = isMobile ? 2 : 3;
   let eventsMaxCount: number;
   if (config.features.optimisticRollup.isEnabled || config.UI.views.event.hiddenFields?.total_reward) {
@@ -27,16 +28,27 @@ const LatestEventSummary = () => {
   } else {
     eventsMaxCount = isMobile ? 2 : 3;
   }
-  const { data, isPlaceholderData, isError } = useApiQuery('homepage_blocks', {
+  const { data, isPlaceholderData, isError } = useApiQuery('homepage_events_summary', {
     queryOptions: {
-      placeholderData: Array(eventsMaxCount).fill(BLOCK),
+      placeholderData: BLOCK_SUMMARY,
     },
   });
 
+  const handleNewUpdateMessage = React.useCallback(() => {
+    if (assertIsNewEventResponse(socket)) {
+      const obj = JSON.parse(socket?.lastMessage?.data);
+      if (assertIsValidNewEventMsg(obj)) {
+        assertIsValidNewEventMsg(obj);
+        // handleNewEventMessage(obj);
+      }
+    }
+  }, [ socket ]);
+
   const queryClient = useQueryClient();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleNewEventMessage: SocketMessage.NewBlock['handler'] = React.useCallback((payload) => {
-    queryClient.setQueryData(getResourceKey('homepage_blocks'), (prevData: Array<Event> | undefined) => {
+    queryClient.setQueryData(getResourceKey('homepage_events_summary'), (prevData: BlockSummary | undefined) => {
 
       const newData = prevData ? [ ...prevData ] : [];
 
@@ -48,15 +60,10 @@ const LatestEventSummary = () => {
     });
   }, [ queryClient, eventsMaxCount ]);
 
-  const channel = useSocketChannel({
-    topic: 'blocks:new_block',
-    isDisabled: isPlaceholderData || isError,
-  });
-  useSocketMessage({
-    channel,
-    event: 'new_block',
-    handler: handleNewEventMessage,
-  });
+  useEffect(() => {
+    handleNewUpdateMessage();
+    // handleSocketClose();
+  }, [ socket, handleNewUpdateMessage ]);
 
   let content;
 
@@ -64,8 +71,8 @@ const LatestEventSummary = () => {
     content = <Text>No data. Please reload page.</Text>;
   }
 
-  if (data) {
-    const dataToShow = data.slice(0, eventsMaxCount);
+  if (data && data.results) {
+    const dataToShow = data.results.slice(0, eventsMaxCount);
 
     content = (
       <>
@@ -83,7 +90,7 @@ const LatestEventSummary = () => {
           <AnimatePresence initial={ false } >
             { dataToShow.map(((event, index) => (
               <LatestEventSummaryItem
-                key={ event.height + (isPlaceholderData ? String(index) : '') }
+                key={ event.eventHash + (isPlaceholderData ? String(index) : '') }
                 event={ event }
                 isLoading={ isPlaceholderData }
               />

@@ -33,7 +33,7 @@ declare module "nextjs-routes" {
     | StaticRoute<"/contract-verification">
     | StaticRoute<"/csv-export">
     | StaticRoute<"/deposits">
-    | DynamicRoute<"/event/[height_or_hash]", { "height_or_hash": string }>
+    | DynamicRoute<"/event/[event_id]", { "event_id": string }>
     | StaticRoute<"/events">
     | StaticRoute<"/graphiql">
     | StaticRoute<"/">

@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import React from 'react';
 
 // TODO: update to Event
-import type { Block } from 'types/api/block';
+import type { BlockSummaryResult } from '../../types/api/update';
 
 // import config from 'configs/app';
 // import getBlockTotalReward from 'lib/block/getBlockTotalReward';
@@ -18,7 +18,7 @@ import BlockTimestamp from 'ui/blocks/BlockTimestamp';
 import EventEntity from 'ui/shared/entities/event/EventEntity';
 
 type Props = {
-  event: Block;
+  event: BlockSummaryResult;
   isLoading?: boolean;
 }
 
@@ -40,7 +40,7 @@ const LatestEventSummaryItem = ({ event, isLoading }: Props) => {
       <Flex alignItems="center" overflow="hidden" w="100%" mb={ 3 }>
         <EventEntity
           isLoading={ isLoading }
-          number={ event.height }
+          number={ event.block_number }
           tailLength={ 2 }
           fontSize="xl"
           lineHeight={ 7 }
@@ -59,7 +59,7 @@ const LatestEventSummaryItem = ({ event, isLoading }: Props) => {
       </Flex>
       <Grid gridGap={ 2 } templateColumns="auto minmax(0, 1fr)" fontSize="sm">
         <Skeleton isLoaded={ !isLoading }>Udpt</Skeleton>
-        <Skeleton isLoaded={ !isLoading } color="text_secondary"><span>{ event.tx_count }</span></Skeleton>
+        <Skeleton isLoaded={ !isLoading } color="text_secondary"><span>{ event.numberOfUpdates }</span></Skeleton>
 
         { /*{ !config.features.optimisticRollup.isEnabled && !config.UI.views.block.hiddenFields?.total_reward && (*/ }
         { /*  <>*/ }

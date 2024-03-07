@@ -62,7 +62,7 @@ const NetworkLogo = ({ isCollapsed, onClick, imageProps }: Props) => {
       overflow="hidden"
       onClick={ onClick }
       flexShrink={ 0 }
-      aria-label="Link to main page"
+      aria-label="Utils to main page"
     >
       { /* big logo */ }
       <Image

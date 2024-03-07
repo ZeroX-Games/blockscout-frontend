@@ -10,18 +10,18 @@ interface NewEventMsg {
 
 }
 
-function assertIsNewEventResponse(socket: WebSocketContextType) {
+export function assertIsNewEventResponse(socket: WebSocketContextType) {
   return socket && socket.lastMessage &&
     socket.lastMessage.data &&
     typeof socket.lastMessage.data === 'string' &&
     socket.lastMessage.data.includes('New block added:');
 }
 
-function assertIsValidNewEventMsg(obj: any): obj is NewEventMsg {
+export function assertIsValidNewEventMsg(obj: any): obj is NewEventMsg {
   return typeof obj === 'object' && obj !== null && 'message' in obj;
 }
 
-function assertIsSocketClosed(socket: WebSocketContextType) {
+export function assertIsSocketClosed(socket: WebSocketContextType) {
   return socket && (socket.readyState === 3 || socket.readyState === 2);
 }
 

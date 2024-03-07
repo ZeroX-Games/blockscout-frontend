@@ -2,38 +2,9 @@ import { chakra } from '@chakra-ui/react';
 import _omit from 'lodash/omit';
 import React from 'react';
 
-import { route } from 'nextjs-routes';
-
 import * as EntityBase from 'ui/shared/entities/base/components';
 
-type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'number'>;
-
-const Link = chakra((props: LinkProps) => {
-  const blockId = String(props.number);
-  const defaultHref = route({ pathname: '/update/[blockId]', query: { blockId } });
-
-  return (
-    <EntityBase.Link
-      { ...props }
-      href={ props.href ?? defaultHref }
-    >
-      { props.children }
-    </EntityBase.Link>
-  );
-});
-
-type IconProps = Omit<EntityBase.IconBaseProps, 'name'> & {
-  name?: EntityBase.IconBaseProps['name'];
-};
-
-const Icon = (props: IconProps) => {
-  return (
-    <EntityBase.Icon
-      { ...props }
-      name={ props.name ?? 'block_slim' }
-    />
-  );
-};
+import { Icon, Link } from './Utils';
 
 type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'number'>;
 
@@ -71,7 +42,5 @@ export default React.memo(chakra(EventEntity));
 
 export {
   Container,
-  Link,
-  Icon,
   Content,
 };
