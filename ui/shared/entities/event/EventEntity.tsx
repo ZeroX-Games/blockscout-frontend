@@ -6,11 +6,11 @@ import { route } from 'nextjs-routes';
 
 import * as EntityBase from 'ui/shared/entities/base/components';
 
-type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'hash' | 'number'>;
+type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'number'>;
 
 const Link = chakra((props: LinkProps) => {
-  const heightOrHash = props.hash ?? String(props.number);
-  const defaultHref = route({ pathname: '/event/[height_or_hash]', query: { height_or_hash: heightOrHash } });
+  const blockId = String(props.number);
+  const defaultHref = route({ pathname: '/update/[blockId]', query: { blockId } });
 
   return (
     <EntityBase.Link
@@ -51,7 +51,6 @@ const Container = EntityBase.Container;
 
 export interface EntityProps extends EntityBase.EntityBaseProps {
   number: number;
-  hash?: string;
 }
 
 const EventEntity = (props: EntityProps) => {

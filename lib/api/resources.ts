@@ -45,6 +45,7 @@ import type {
   EnsDomainLookupResponse,
   EnsLookupSorting,
 } from 'types/api/ens';
+import type { HomeSummary } from 'types/api/HomeSummary';
 import type { IndexingStatus } from 'types/api/indexingStatus';
 import type { InternalTransactionsResponse } from 'types/api/internalTransaction';
 import type { L2DepositsResponse, L2DepositsItem } from 'types/api/l2Deposits';
@@ -77,7 +78,7 @@ import type {
 import type { TxInterpretationResponse } from 'types/api/txInterpretation';
 import type { TTxsFilters } from 'types/api/txsFilters';
 import type { TxStateChanges } from 'types/api/txStateChanges';
-import type { Update, BlockSummary, BlockDetail } from 'types/api/update';
+import type { BlockSummary, BlockDetail } from 'types/api/update';
 import type { UpdateInterpretationResponse } from 'types/api/updateInterpretation';
 import type { UserOpsResponse, UserOp, UserOpsFilters, UserOpsAccount } from 'types/api/userOps';
 import type { VerifiedContractsSorting } from 'types/api/verifiedContracts';
@@ -493,6 +494,9 @@ export const RESOURCES = {
   homepage_stats: {
     path: '/api/v2/stats',
   },
+  homepage_summary_stat: {
+    path: '/api/v1/summary',
+  },
   homepage_chart_txs: {
     path: '/api/v2/stats/charts/transactions',
   },
@@ -508,11 +512,8 @@ export const RESOURCES = {
   homepage_txs: {
     path: '/api/v2/main-page/transactions',
   },
-  homepage_updates_summary: {
+  homepage_events_summary: {
     path: '/api/v1/blocks',
-  },
-  homepage_updates: {
-    path: '/api/v3/main-page/updates',
   },
   homepage_zkevm_l2_batches: {
     path: '/api/v2/main-page/zkevm/batches/confirmed',
@@ -699,12 +700,12 @@ Q extends 'verified_addresses' ? VerifiedAddressResponse :
 Q extends 'token_info_applications_config' ? TokenInfoApplicationConfig :
 Q extends 'token_info_applications' ? TokenInfoApplications :
 Q extends 'homepage_stats' ? HomeStats :
+Q extends 'homepage_summary_stat' ? HomeSummary :
 Q extends 'homepage_chart_txs' ? ChartTransactionResponse :
 Q extends 'homepage_chart_market' ? ChartMarketResponse :
 Q extends 'homepage_blocks' ? Array<Block> :
 Q extends 'homepage_txs' ? Array<Transaction> :
-Q extends 'homepage_updates_summary' ? BlockSummary :
-Q extends 'homepage_updates' ? Array<Update> :
+Q extends 'homepage_events_summary' ? BlockSummary :
 Q extends 'homepage_txs_watchlist' ? Array<Transaction> :
 Q extends 'homepage_deposits' ? Array<L2DepositsItem> :
 Q extends 'homepage_zkevm_l2_batches' ? { items: Array<ZkEvmL2TxnBatchesItem> } :

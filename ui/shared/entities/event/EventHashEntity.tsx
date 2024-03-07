@@ -6,10 +6,11 @@ import { route } from 'nextjs-routes';
 
 import * as EntityBase from 'ui/shared/entities/base/components';
 
-type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'blockId' | 'hash'>;
+type LinkProps = EntityBase.LinkBaseProps & Pick<EntityHashProps, 'hash' | 'number'>;
 
 const Link = chakra((props: LinkProps) => {
-  const defaultHref = route({ pathname: '/update/[blockId]', query: { blockId: String(props.blockId) } });
+  const blockId = String(props.number);
+  const defaultHref = route({ pathname: '/update/[blockId]', query: { blockId } });
 
   return (
     <EntityBase.Link
@@ -29,44 +30,31 @@ const Icon = (props: IconProps) => {
   return (
     <EntityBase.Icon
       { ...props }
-      name={ props.name ?? 'transactions_slim' }
+      name={ props.name ?? 'block_slim' }
     />
   );
 };
 
-type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'hash' | 'text'>;
+type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityHashProps, 'hash'>;
 
 const Content = chakra((props: ContentProps) => {
   return (
     <EntityBase.Content
       { ...props }
-      text={ props.text ?? props.hash }
+      text={ props.hash }
+      tailLength={ props.tailLength ?? 2 }
     />
   );
 });
 
-type CopyProps = Omit<EntityBase.CopyBaseProps, 'text'> & Pick<EntityProps, 'hash'>;
-
-const Copy = (props: CopyProps) => {
-  return (
-    <EntityBase.Copy
-      { ...props }
-      text={ props.hash }
-      // by default, we don't show copy icon, maybe this should be revised
-      noCopy={ props.noCopy ?? true }
-    />
-  );
-};
-
 const Container = EntityBase.Container;
 
-export interface EntityProps extends EntityBase.EntityBaseProps {
+export interface EntityHashProps extends EntityBase.EntityBaseProps {
+  number: number;
   hash: string;
-  blockId: number;
-  text?: string;
 }
 
-const UpdateEntity = (props: EntityProps) => {
+const EventHashEntity = (props: EntityHashProps) => {
   const linkProps = _omit(props, [ 'className' ]);
   const partsProps = _omit(props, [ 'className', 'onClick' ]);
 
@@ -76,17 +64,15 @@ const UpdateEntity = (props: EntityProps) => {
       <Link { ...linkProps }>
         <Content { ...partsProps }/>
       </Link>
-      <Copy { ...partsProps }/>
     </Container>
   );
 };
 
-export default React.memo(chakra(UpdateEntity));
+export default React.memo(chakra(EventHashEntity));
 
 export {
   Container,
   Link,
   Icon,
   Content,
-  Copy,
 };

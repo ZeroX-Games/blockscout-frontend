@@ -2,11 +2,11 @@ import { Box, Heading, Flex } from '@chakra-ui/react';
 import React from 'react';
 
 import config from 'configs/app';
+import EventsHome from 'ui/home/Events';
 import ChainIndicators from 'ui/home/indicators/ChainIndicators';
-import LatestEvents from 'ui/home/LatestEvents';
+import LatestEventSummary from 'ui/home/LatestEventSummary';
 import LatestZkEvmL2Batches from 'ui/home/LatestZkEvmL2Batches';
 import Stats from 'ui/home/Stats';
-import Updates from 'ui/home/Updates';
 import AdBanner from 'ui/shared/ad/AdBanner';
 import ProfileMenuDesktop from 'ui/snippets/profileMenu/ProfileMenuDesktop';
 import SearchBar from 'ui/snippets/searchBar/SearchBar';
@@ -44,9 +44,9 @@ const Home = () => {
       <ChainIndicators/>
       <AdBanner mt={{ base: 6, lg: 8 }} mx="auto" display="flex" justifyContent="center"/>
       <Flex mt={ 8 } direction={{ base: 'column', lg: 'row' }} columnGap={ 12 } rowGap={ 8 }>
-        { config.features.zkEvmRollup.isEnabled ? <LatestZkEvmL2Batches/> : <LatestEvents/> }
+        { config.features.zkEvmRollup.isEnabled ? <LatestZkEvmL2Batches/> : <LatestEventSummary/> }
         <Box flexGrow={ 1 }>
-          <Updates/>
+          <EventsHome/>
         </Box>
       </Flex>
     </Box>
