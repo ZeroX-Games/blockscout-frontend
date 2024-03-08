@@ -15,8 +15,8 @@ import ServiceDegradationWarning from 'ui/shared/alerts/ServiceDegradationWarnin
 import TestnetWarning from 'ui/shared/alerts/TestnetWarning';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 
-import UpdateInfo from './details/UpdateInfo';
-import type { UpdateQuery } from './useUpdateQuery';
+import EventInfo from './details/EventInfo';
+import type { EventQuery } from './useEventQuery';
 
 type RpcResponseType = [
   GetTransactionReturnType<Chain, 'latest'>,
@@ -27,15 +27,15 @@ type RpcResponseType = [
 
 interface Props {
   hash: string;
-  updateQuery: UpdateQuery;
+  eventQuery: EventQuery;
 }
 
-const UpdateDetailsDegraded = ({ hash, updateQuery }: Props) => {
+const EventDetailsDegraded = ({ hash, eventQuery }: Props) => {
 
-  const [ originalError ] = React.useState(updateQuery.error);
+  const [ originalError ] = React.useState(eventQuery.error);
 
   const query = useQuery<RpcResponseType, unknown, Transaction | null>({
-    queryKey: [ 'RPC', 'update', { hash } ],
+    queryKey: [ 'RPC', 'event', { hash } ],
     queryFn: async() => {
       if (!publicClient) {
         throw new Error('No public RPC client');
@@ -121,7 +121,7 @@ const UpdateDetailsDegraded = ({ hash, updateQuery }: Props) => {
       GET_BLOCK,
     ],
     refetchOnMount: false,
-    enabled: !updateQuery.isPlaceholderData,
+    enabled: !eventQuery.isPlaceholderData,
     retry: 2,
     retryDelay: 5 * SECOND,
   });
@@ -130,15 +130,15 @@ const UpdateDetailsDegraded = ({ hash, updateQuery }: Props) => {
 
   React.useEffect(() => {
     if (!query.isPlaceholderData && hasData) {
-      updateQuery.setRefetchOnError.on();
+      eventQuery.setRefetchOnError.on();
     }
-  }, [ hasData, query.isPlaceholderData, updateQuery ]);
+  }, [ hasData, query.isPlaceholderData, eventQuery ]);
 
   React.useEffect(() => {
     return () => {
-      updateQuery.setRefetchOnError.off();
+      eventQuery.setRefetchOnError.off();
     };
-  }, [ updateQuery.setRefetchOnError ]);
+  }, [ eventQuery.setRefetchOnError ]);
 
   if (!query.data) {
     if (originalError?.status === 404) {
@@ -154,9 +154,9 @@ const UpdateDetailsDegraded = ({ hash, updateQuery }: Props) => {
         <TestnetWarning isLoading={ query.isPlaceholderData }/>
         { originalError?.status !== 404 && <ServiceDegradationWarning isLoading={ query.isPlaceholderData }/> }
       </Flex>
-      <UpdateInfo data={ query.data } isLoading={ query.isPlaceholderData }/>
+      <EventInfo data={ query.data } isLoading={ query.isPlaceholderData }/>
     </>
   );
 };
 
-export default React.memo(UpdateDetailsDegraded);
+export default React.memo(EventDetailsDegraded);

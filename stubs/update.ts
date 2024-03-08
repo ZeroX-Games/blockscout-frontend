@@ -1,4 +1,4 @@
-import type { BlockSummary, BlockDetail } from 'types/api/update';
+import type { BlockSummary, EventDetail } from 'types/api/update';
 
 // export const TX_HASH = '0x3ed9d81e7c1001bdda1caa1dc62c0acbbe3d2c671cdc20dc1e65efdaa4186967';
 
@@ -167,7 +167,7 @@ export const BLOCK_SUMMARY: BlockSummary = {
   ],
 };
 
-export const BLOCK_DETAIL: BlockDetail = {
+export const BLOCK_DETAIL: EventDetail = {
   block_number: 30,
   eventHash: '0xccf546fa45608329ba11a952311c18a16001bf370684d8e72ddcbb18b7c42087',
   transactionHash: '0xccf546fa45608329ba11a952311c18a16001bf370684d8e72ddcbb18b7c42087',

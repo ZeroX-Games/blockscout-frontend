@@ -6,7 +6,7 @@ import contextWithEnvs from 'playwright/fixtures/contextWithEnvs';
 import TestApp from 'playwright/TestApp';
 import * as configs from 'playwright/utils/configs';
 
-import UpdateInfo from './UpdateInfo';
+import EventInfo from './EventInfo';
 
 const hooksConfig = {
   router: {
@@ -17,7 +17,7 @@ const hooksConfig = {
 test('between addresses +@mobile +@dark-mode', async({ mount, page }) => {
   const component = await mount(
     <TestApp>
-      <UpdateInfo data={ txMock.base } isLoading={ false }/>
+      <EventInfo data={ txMock.base } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -33,7 +33,7 @@ test('between addresses +@mobile +@dark-mode', async({ mount, page }) => {
 test('creating contact', async({ mount, page }) => {
   const component = await mount(
     <TestApp>
-      <UpdateInfo data={ txMock.withContractCreation } isLoading={ false }/>
+      <EventInfo data={ txMock.withContractCreation } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -47,7 +47,7 @@ test('creating contact', async({ mount, page }) => {
 test('with token transfer +@mobile', async({ mount, page }) => {
   const component = await mount(
     <TestApp>
-      <UpdateInfo data={ txMock.withTokenTransfer } isLoading={ false }/>
+      <EventInfo data={ txMock.withTokenTransfer } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -61,7 +61,7 @@ test('with token transfer +@mobile', async({ mount, page }) => {
 test('with decoded revert reason', async({ mount, page }) => {
   const component = await mount(
     <TestApp>
-      <UpdateInfo data={ txMock.withDecodedRevertReason } isLoading={ false }/>
+      <EventInfo data={ txMock.withDecodedRevertReason } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -75,7 +75,7 @@ test('with decoded revert reason', async({ mount, page }) => {
 test('with decoded raw reason', async({ mount, page }) => {
   const component = await mount(
     <TestApp>
-      <UpdateInfo data={ txMock.withRawRevertReason } isLoading={ false }/>
+      <EventInfo data={ txMock.withRawRevertReason } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -89,7 +89,7 @@ test('with decoded raw reason', async({ mount, page }) => {
 test('pending', async({ mount, page }) => {
   const component = await mount(
     <TestApp>
-      <UpdateInfo data={ txMock.pending } isLoading={ false }/>
+      <EventInfo data={ txMock.pending } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -105,7 +105,7 @@ test('pending', async({ mount, page }) => {
 test('with actions uniswap +@mobile +@dark-mode', async({ mount, page }) => {
   const component = await mount(
     <TestApp>
-      <UpdateInfo data={ txMock.withActionsUniswap } isLoading={ false }/>
+      <EventInfo data={ txMock.withActionsUniswap } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -124,7 +124,7 @@ const l2Test = test.extend({
 l2Test('l2', async({ mount, page }) => {
   const component = await mount(
     <TestApp>
-      <UpdateInfo data={ txMock.l2tx } isLoading={ false }/>
+      <EventInfo data={ txMock.l2tx } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -145,7 +145,7 @@ const mainnetTest = test.extend({
 mainnetTest('without testnet warning', async({ mount, page }) => {
   const component = await mount(
     <TestApp>
-      <UpdateInfo data={ txMock.l2tx } isLoading={ false }/>
+      <EventInfo data={ txMock.l2tx } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -164,7 +164,7 @@ const stabilityTest = test.extend({
 stabilityTest('stability customization', async({ mount, page }) => {
   const component = await mount(
     <TestApp>
-      <UpdateInfo data={ txMock.stabilityTx } isLoading={ false }/>
+      <EventInfo data={ txMock.stabilityTx } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );

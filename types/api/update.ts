@@ -39,24 +39,6 @@ export type BlockSummary = {
   results: Array<BlockSummaryResult>;
 }
 
-export type MatrixEntry = {
-  collectionAddr: string;
-  token_id: string;
-  delta: Array<number>;
-}
-
-export type BlockDetail = {
-  'block_number': number;
-  'eventHash': string;
-  'transactionHash': string;
-  'numberOfUpdates': number;
-  'status': boolean;
-  'domain_details': DomainParam;
-  'timestamp': string;
-  confirmations?: number;
-  matrix_entries: Array<MatrixEntry>;
-}
-
 export type Update = {
   to: DomainParam;
   created_contract: AddressParam | null;

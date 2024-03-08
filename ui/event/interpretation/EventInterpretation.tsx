@@ -2,15 +2,15 @@ import { Skeleton, chakra, Image, HStack } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
 
+import type { EventDetail } from 'types/api/event';
 import type {
-  UpdateInterpretationSummary,
   UpdateInterpretationVariable,
   UpdateInterpretationVariableString,
 } from 'types/api/updateInterpretation';
 
 import config from 'configs/app';
 import dayjs from 'lib/date/dayjs';
-import * as mixpanel from 'lib/mixpanel/index';
+import * as mixpanel from 'lib/mixpanel';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import EnsEntity from 'ui/shared/entities/ens/EnsEntity';
 import TokenEntity from 'ui/shared/entities/token/TokenEntity';
@@ -19,7 +19,7 @@ import IconSvg from 'ui/shared/IconSvg';
 // import { extractVariables, getStringChunks, fillStringVariables, NATIVE_COIN_SYMBOL_VAR_NAME } from './utils';
 
 type Props = {
-  summary?: UpdateInterpretationSummary;
+  eventDetail?: EventDetail;
   isLoading?: boolean;
   className?: string;
 }
@@ -119,33 +119,17 @@ const ImageRrapper = ({ src, alt }: { src: string; alt: string }) => {
   );
 };
 
-const UpdateInterpretation = ({ summary, isLoading, className }: Props) => {
+const EventInterpretation = ({ eventDetail, isLoading, className }: Props) => {
   // if (!summary) {
   //   return null;
   // }
-  let amount; let collection; let domain;
-  if (!summary) {
-    amount = '1453';
-    collection = {
-      name: 'Axie Infinity',
-      // eslint-disable-next-line max-len
-      imgUrl: 'https://i.seadn.io/gae/_BYA3bhx1ebgDr3QsuQuh2OMSznmS_TkwJhikCtCVMh4RUcpn2gnJmmOHHA28gy0mKP50flV31iXsDBUr_zjBaXNJA?auto=format&dpr=1&w=64 64w',
-    };
-    domain = {
-      name: 'Axie Infinity',
-      imgUrl: 'https://axieinfinity.com/images/branding/axie-infinity-logo.png',
-    };
-  } else {
-    amount = summary.amount;
-    collection = {
-      name: summary.collection.name,
-      imgUrl: summary.collection.imgUrl,
-    };
-    domain = {
-      name: summary.domain.name,
-      imgUrl: summary.domain.imgUrl,
-    };
-  }
+  const domain = {
+    name: eventDetail?.domain_details.name,
+    domainId: eventDetail?.domain_details.domainId,
+    imgUrl: 'https://axieinfinity.com/images/branding/axie-infinity-logo.png',
+  };
+
+  const amount = eventDetail?.numberOfUpdates;
   // const intermediateResult = fillStringVariables(template, variables);
   // const intermediateResult = ``;
   // const variablesNames = extractVariables(intermediateResult);
@@ -155,30 +139,18 @@ const UpdateInterpretation = ({ summary, isLoading, className }: Props) => {
     <Skeleton isLoaded={ !isLoading } className={ className } fontWeight={ 500 } whiteSpace="pre-wrap" >
       <HStack>
         <IconSvg name="lightning" boxSize={ 5 } color="text_secondary" mr={ 2 } verticalAlign="text-top"/>
-        { /*{ chunks.map((chunk, index) => {*/ }
-        { /*  return (*/ }
-        { /*    <chakra.span key={ chunk + index }>*/ }
-        { /*      <chakra.span color="text_secondary">{ chunk.trim() + (chunk.trim() && variablesNames[index] ? ' ' : '') }</chakra.span>*/ }
-        { /*      { index < variablesNames.length && (*/ }
-        { /*        variablesNames[index] === NATIVE_COIN_SYMBOL_VAR_NAME ?*/ }
-        { /*          <chakra.span>{ currencyUnits.ether + ' ' }</chakra.span> :*/ }
-        { /*          <TxInterpretationElementByType variable={ variables[variablesNames[index]] as NonStringTxInterpretationVariable }/>*/ }
-        { /*      ) }*/ }
-        { /*    </chakra.span>*/ }
-        { /*  );*/ }
-        { /*}) }*/ }
         <chakra.span color="text_secondary">Update</chakra.span>
         <chakra.span>{ amount }</chakra.span>
-        <ImageRrapper src={ collection.imgUrl } alt={ collection.name }/>
-        <chakra.span>{ collection.name }</chakra.span>
-        <chakra.span color="text_secondary">in</chakra.span>
+        { /*<ImageRrapper src={ collectionImgUrl } alt={ Object.keys(collection)[0] }/>*/ }
+        { /*<chakra.span>{ Object.keys(collection)[0] }</chakra.span>*/ }
+        <chakra.span color="text_secondary">tokens in</chakra.span>
         <ImageRrapper
-          src="https://github.com/ZeroX-Games/blockscout-frontend/blob/main/configs/assets/network-icons/zerox-icon-light.png?raw=true"
-          alt={ domain.name }/>
-        <chakra.span>ZeroX Arena</chakra.span>
+          src={ domain.imgUrl }
+          alt={ domain.name ? domain.name : 'empty domain name' }/>
+        <chakra.span>{ domain.name ? domain.name : 'empty domain name' }</chakra.span>
       </HStack>
     </Skeleton>
   );
 };
 
-export default chakra(UpdateInterpretation);
+export default chakra(EventInterpretation);

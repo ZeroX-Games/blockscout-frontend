@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import { scroller, Element } from 'react-scroll';
 
-import type { BlockDetail } from 'types/api/update';
+import type { EventDetail } from 'types/api/event';
 
 // import { route } from 'nextjs-routes';
 
@@ -19,23 +19,22 @@ import CopyToClipboard from 'ui/shared/CopyToClipboard';
 import DetailsFee from 'ui/shared/DetailsFee';
 import DetailsInfoItem from 'ui/shared/DetailsInfoItem';
 import DetailsInfoItemDivider from 'ui/shared/DetailsInfoItemDivider';
-import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import EventEntity from 'ui/shared/entities/event/EventEntity';
 import NetworkEntity from 'ui/shared/entities/network/NetworkEntity';
 import HashStringShortenDynamic from 'ui/shared/HashStringShortenDynamic';
 import LogUpdatedTokenData from 'ui/shared/logs/LogUpdatedTokenData';
 import TxStatus from 'ui/shared/statusTag/TxStatus';
 import UpdateStatus from 'ui/shared/statusTag/UpdateStatus';
-import TextSeparator from 'ui/shared/TextSeparator';
-import TxSocketAlert from 'ui/tx/TxSocketAlert';
+
+import DetailsCollections from '../../shared/DetailsCollections';
 
 interface Props {
-  data: BlockDetail | undefined;
+  data: EventDetail | undefined;
   isLoading: boolean;
-  socketStatus?: 'close' | 'error';
 }
 
-const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
+const EventInfo = ({ data, isLoading }: Props) => {
+  console.log(data);
   const [ isExpanded, setIsExpanded ] = React.useState(false);
 
   const handleCutClick = React.useCallback(() => {
@@ -58,11 +57,6 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
   // };
   return (
     <Grid columnGap={ 8 } rowGap={{ base: 3, lg: 3 }} templateColumns={{ base: 'minmax(0, 1fr)', lg: 'max-content minmax(728px, auto)' }}>
-      { socketStatus && (
-        <GridItem colSpan={{ base: undefined, lg: 2 }} mb={ 2 }>
-          <TxSocketAlert status={ socketStatus }/>
-        </GridItem>
-      ) }
       <DetailsInfoItem
         title="Event hash"
         hint="Unique character string (TxID) assigned to every verified transaction"
@@ -76,8 +70,8 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
         <CopyToClipboard text={ data.eventHash } isLoading={ isLoading }/>
       </DetailsInfoItem>
       <DetailsInfoItem
-        title="Update status"
-        hint="Current update state: Success, Failed (Error), or Pending (In Process)"
+        title="Event status"
+        hint="Current event state: Success, Failed (Error), or Pending (In Process)"
         isLoading={ isLoading }
       >
         <UpdateStatus status="ok" errorText="error" isLoading={ isLoading }/>
@@ -90,7 +84,7 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
       </DetailsInfoItem>
       <DetailsInfoItem
         title="Event"
-        hint="Event number containing the update"
+        hint="Event number"
         isLoading={ isLoading }
       >
         { data.block_number === null ?
@@ -103,15 +97,19 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
           ) }
       </DetailsInfoItem>
       <DetailsInfoItem
+        title="Updated Collections"
+        isLoading={ isLoading }
+        hint="The updated tokens belong to which collections">
+        <DetailsCollections collections={ [ 'Azuki', 'BAYC' ] } isLoading={ isLoading }/>
+      </DetailsInfoItem>
+      <DetailsInfoItem
         title="Fee"
         hint="Fees paid for the transaction"
         isLoading={ isLoading }
       >
         <DetailsFee fee={ 0.0021 } isLoading={ isLoading }/>
       </DetailsInfoItem>
-
       <DetailsInfoItemDivider/>
-
       <DetailsInfoItem
         title="To"
         hint="Destination where the update was sent"
@@ -141,28 +139,6 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
         <Tag colorScheme="gray" isLoading={ isLoading } isTruncated ml={ 3 }>
           placeholder
         </Tag>
-      </DetailsInfoItem>
-      <DetailsInfoItem
-        title="Block"
-        hint="Block number containing the transaction"
-        isLoading={ isLoading }
-      >
-        { data.block_number === null ?
-          <Text>Pending</Text> : (
-            <BlockEntity
-              isLoading={ isLoading }
-              number={ data.block_number }
-              noIcon
-            />
-          ) }
-        { Boolean(data.confirmations) && (
-          <>
-            <TextSeparator color="gray.500"/>
-            <Skeleton isLoaded={ !isLoading } color="text_secondary">
-              <span>{ data.confirmations } Block confirmations</span>
-            </Skeleton>
-          </>
-        ) }
       </DetailsInfoItem>
       <GridItem colSpan={{ base: undefined, lg: 2 }}>
         <Element name="TxInfo__cutLink">
@@ -195,4 +171,4 @@ const UpdateInfo = ({ data, isLoading, socketStatus }: Props) => {
   );
 };
 
-export default UpdateInfo;
+export default EventInfo;

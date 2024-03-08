@@ -10,7 +10,7 @@ type Props = {
   isLoading?: boolean;
 }
 
-const UpdatePath = ({ blockId, isLoading }: Props) => {
+const EventPath = ({ blockId, isLoading }: Props) => {
   // const darkModeFilter = { filter: 'brightness(0) invert(1)' };
   // const style = useColorModeValue({}, darkModeFilter);
   return (
@@ -43,4 +43,4 @@ const UpdatePath = ({ blockId, isLoading }: Props) => {
   );
 };
 
-export default React.memo(UpdatePath);
+export default React.memo(EventPath);

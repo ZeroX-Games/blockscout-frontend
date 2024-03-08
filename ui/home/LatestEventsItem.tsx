@@ -14,10 +14,10 @@ import config from 'configs/app';
 import getValueWithUnit from 'lib/getValueWithUnit';
 import useTimeAgoIncrement from 'lib/hooks/useTimeAgoIncrement';
 import { currencyUnits } from 'lib/units';
+import UpdatePath from 'ui/event/EventPath';
 import DomainFromTo from 'ui/shared/domain/DomainFromTo';
 import EventHashEntity from 'ui/shared/entities/event/EventHashEntity';
 import EventStatus from 'ui/shared/statusTag/EventStatus';
-import UpdatePath from 'ui/update/UpdatePath';
 import UpdateAdditionalInfo from 'ui/updates/UpdateAdditionalInfo';
 
 type Props = {
