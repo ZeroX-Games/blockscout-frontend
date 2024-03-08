@@ -1,7 +1,7 @@
 import { Box, Grid, Skeleton, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 
-import type { MatrixEntry } from '../../../types/api/update';
+import type { MatrixEntry } from 'types/api/event';
 
 import TruncatedValue from 'ui/shared/TruncatedValue';
 

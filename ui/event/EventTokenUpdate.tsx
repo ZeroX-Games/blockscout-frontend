@@ -26,7 +26,7 @@ interface Props {
 const EventTokenTransfer = ({ eventQuery }: Props) => {
   const router = useRouter();
   const [ typeFilter, setTypeFilter ] = React.useState<Array<TokenType>>(getTokenFilterValue(router.query.type) || []);
-  const tokenUpdates = eventQuery.data?.matrix_entries;
+  const tokenUpdates = eventQuery.data?.matrix_entries.slice(0, 8);
 
   // const handleTypeFilterChange = React.useCallback((nextValue: Array<TokenType>) => {
   //   tokenUpdates.onFilterChange({ type: nextValue });
@@ -43,7 +43,9 @@ const EventTokenTransfer = ({ eventQuery }: Props) => {
 
   let items: Array<MatrixEntry> = [];
 
+  let attributes: Array<string> = [];
   if (tokenUpdates) {
+    attributes = Array.from({ length: tokenUpdates[0].delta.length + 1 }, () => Math.random().toString(36).substring(7));
     if (eventQuery.isPlaceholderData) {
       items = tokenUpdates;
     } else {
@@ -51,10 +53,11 @@ const EventTokenTransfer = ({ eventQuery }: Props) => {
       items = tokenUpdates;
     }
   }
+  attributes[0] = 'Token ID';
   const content = tokenUpdates ? (
     <>
       <Hide below="lg" ssr={ false }>
-        <TokenUpdateTable data={ items } top={ isActionBarHidden ? 0 : 80 } isLoading={ eventQuery.isPlaceholderData }/>
+        <TokenUpdateTable data={ items } top={ isActionBarHidden ? 0 : 80 } isLoading={ eventQuery.isPlaceholderData } attributes={ attributes }/>
       </Hide>
       <Show below="lg" ssr={ false }>
         <TokenUpdateList data={ items } isLoading={ eventQuery.isPlaceholderData }/>

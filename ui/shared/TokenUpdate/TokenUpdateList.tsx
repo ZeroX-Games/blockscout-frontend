@@ -7,22 +7,16 @@ import TokenUpdateListItem from 'ui/shared/TokenUpdate/TokenUpdateListItem';
 
 interface Props {
   data: Array<MatrixEntry>;
-  baseAddress?: string;
-  showTxInfo?: boolean;
-  enableTimeIncrement?: boolean;
   isLoading?: boolean;
 }
 
-const TokenUpdateList = ({ data, baseAddress, showTxInfo, enableTimeIncrement, isLoading }: Props) => {
+const TokenUpdateList = ({ data, isLoading }: Props) => {
   return (
     <Box>
       { data.map((item, index) => (
         <TokenUpdateListItem
           key={ index }
           { ...item }
-          baseAddress={ baseAddress }
-          showTxInfo={ showTxInfo }
-          enableTimeIncrement={ enableTimeIncrement }
           isLoading={ isLoading }
         />
       )) }
