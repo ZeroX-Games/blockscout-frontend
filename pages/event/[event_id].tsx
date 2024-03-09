@@ -5,12 +5,12 @@ import React from 'react';
 import type { Props } from 'nextjs/getServerSideProps';
 import PageNextJs from 'nextjs/PageNextJs';
 
-const Block = dynamic(() => import('ui/pages/Event'), { ssr: false });
+const Event = dynamic(() => import('ui/pages/Event'), { ssr: false });
 
 const Page: NextPage<Props> = (props: Props) => {
   return (
-    <PageNextJs pathname="/event/[height_or_hash]" query={ props }>
-      <Block/>
+    <PageNextJs pathname="/event/[event_id]" query={ props }>
+      <Event/>
     </PageNextJs>
   );
 };

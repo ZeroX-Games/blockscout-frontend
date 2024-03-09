@@ -7,7 +7,7 @@ interface InjectedProps {
 }
 
 interface Props {
-  type?: 'transaction' | 'token_transfer' | 'deposit' | 'block' | 'update';
+  type?: 'transaction' | 'token_transfer' | 'deposit' | 'block' | 'event';
   children?: (props: InjectedProps) => JSX.Element;
   className?: string;
   url: string;
@@ -36,8 +36,8 @@ const SocketNewItemsNotice = chakra(({ children, className, url, num, alert, typ
       case 'block':
         name = 'block';
         break;
-      case 'update':
-        name = 'update';
+      case 'event':
+        name = 'event';
         break;
       default:
         name = 'transaction';

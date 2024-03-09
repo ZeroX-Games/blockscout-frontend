@@ -1,160 +1,101 @@
-import { chakra, Skeleton } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 import React from 'react';
 
-import type { PaginationParams } from 'ui/shared/pagination/types';
 import type { RoutedTab } from 'ui/shared/Tabs/types';
 
-import config from 'configs/app';
 import { useAppContext } from 'lib/contexts/app';
-import throwOnAbsentParamError from 'lib/errors/throwOnAbsentParamError';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
-import useIsMobile from 'lib/hooks/useIsMobile';
-import getQueryParamString from 'lib/router/getQueryParamString';
-import BlockDetails from 'ui/block/BlockDetails';
-import BlockWithdrawals from 'ui/block/BlockWithdrawals';
-import useBlockQuery from 'ui/block/useBlockQuery';
-import useBlockTxQuery from 'ui/block/useBlockTxQuery';
-import useBlockWithdrawalsQuery from 'ui/block/useBlockWithdrawalsQuery';
+import { publicClient } from 'lib/web3/client';
+import EventDetails from 'ui/event/EventDetails';
+import EventSubHeading from 'ui/event/EventSubHeading';
+import useEventQuery from 'ui/event/useEventQuery';
 import TextAd from 'ui/shared/ad/TextAd';
-import ServiceDegradationWarning from 'ui/shared/alerts/ServiceDegradationWarning';
-import AddressEntity from 'ui/shared/entities/address/AddressEntity';
-import NetworkExplorers from 'ui/shared/NetworkExplorers';
 import PageTitle from 'ui/shared/Page/PageTitle';
-import Pagination from 'ui/shared/pagination/Pagination';
 import RoutedTabs from 'ui/shared/Tabs/RoutedTabs';
 import TabsSkeleton from 'ui/shared/Tabs/TabsSkeleton';
-import TxsWithFrontendSorting from 'ui/txs/TxsWithFrontendSorting';
+import useTabIndexFromQuery from 'ui/shared/Tabs/useTabIndexFromQuery';
 
-const TAB_LIST_PROPS = {
-  marginBottom: 0,
-  py: 5,
-  marginTop: -5,
-};
+import EventTokenUpdate from '../event/EventTokenUpdate';
 
 const EventPageContent = () => {
-  const router = useRouter();
-  const isMobile = useIsMobile();
   const appProps = useAppContext();
-  const heightOrHash = getQueryParamString(router.query.height_or_hash);
-  const tab = getQueryParamString(router.query.tab);
 
-  const blockQuery = useBlockQuery({ heightOrHash });
-  const blockTxsQuery = useBlockTxQuery({ heightOrHash, blockQuery, tab });
-  const blockWithdrawalsQuery = useBlockWithdrawalsQuery({ heightOrHash, blockQuery, tab });
+  const eventQuery = useEventQuery();
+  const { data, isPlaceholderData, isError, error, errorUpdateCount } = eventQuery;
 
-  const tabs: Array<RoutedTab> = React.useMemo(() => ([
-    {
-      id: 'index',
-      title: 'Details',
-      component: (
-        <>
-          { blockQuery.isDegradedData && <ServiceDegradationWarning isLoading={ blockQuery.isPlaceholderData } mb={ 6 }/> }
-          <BlockDetails query={ blockQuery }/>
-        </>
-      ),
-    },
-    {
-      id: 'txs',
-      title: 'Transactions',
-      component: (
-        <>
-          { blockTxsQuery.isDegradedData && <ServiceDegradationWarning isLoading={ blockTxsQuery.isPlaceholderData } mb={ 6 }/> }
-          <TxsWithFrontendSorting query={ blockTxsQuery } showBlockInfo={ false } showSocketInfo={ false }/>
-        </>
-      ),
-    },
-    config.features.beaconChain.isEnabled && Boolean(blockQuery.data?.withdrawals_count) ?
+  const showDegradedView = publicClient && (isError || isPlaceholderData) && errorUpdateCount > 0;
+
+  const tabs: Array<RoutedTab> = (() => {
+    // const detailsComponent = showDegradedView ?
+    //   // TODO: UpdateDetailsDegraded
+    //   <UpdateDetailsDegraded hash={ hash } updateQuery={ updateQuery }/> :
+    //   <UpdateDetails updateQuery={ updateQuery }/>;
+    const detailsComponent = <EventDetails eventQuery={ eventQuery }/>;
+
+    return [
       {
-        id: 'withdrawals',
-        title: 'Withdrawals',
-        component: (
-          <>
-            { blockWithdrawalsQuery.isDegradedData && <ServiceDegradationWarning isLoading={ blockWithdrawalsQuery.isPlaceholderData } mb={ 6 }/> }
-            <BlockWithdrawals blockWithdrawalsQuery={ blockWithdrawalsQuery }/>
-          </>
-        ),
-      } : null,
-  ].filter(Boolean)), [ blockQuery, blockTxsQuery, blockWithdrawalsQuery ]);
+        id: 'index',
+        title: 'Details',
+        component: detailsComponent,
+      },
+      // config.features.suave.isEnabled && data?.wrapped ?
+      //   { id: 'wrapped', title: 'Regular tx details', component: <TxDetailsWrapped data={ data.wrapped }/> } :
+      //   undefined,
+      { id: 'token_updates', title: 'Token updates', component: <EventTokenUpdate eventQuery={ eventQuery }/> },
+      // config.features.userOps.isEnabled ?
+      //   { id: 'user_ops', title: 'User operations', component: <TxUserOps txQuery={ updateQuery }/> } :
+      //   undefined,
+      // { id: 'internal', title: 'Internal txns', component: <TxInternals txQuery={ updateQuery }/> },
+      // { id: 'logs', title: 'Logs', component: <TxLogs txQuery={ updateQuery }/> },
+      // { id: 'state', title: 'State', component: <TxState txQuery={ updateQuery }/> },
+      // { id: 'raw_trace', title: 'Raw trace', component: <TxRawTrace txQuery={ updateQuery }/> },
+    ].filter(Boolean);
+  })();
 
-  const hasPagination = !isMobile && (
-    (tab === 'txs' && blockTxsQuery.pagination.isVisible) ||
-    (tab === 'withdrawals' && blockWithdrawalsQuery.pagination.isVisible)
-  );
-
-  let pagination;
-  if (tab === 'txs') {
-    pagination = blockTxsQuery.pagination;
-  } else if (tab === 'withdrawals') {
-    pagination = blockWithdrawalsQuery.pagination;
-  }
+  const tabIndex = useTabIndexFromQuery(tabs);
 
   const backLink = React.useMemo(() => {
-    const hasGoBackLink = appProps.referrer && appProps.referrer.includes('/blocks');
+    const hasGoBackLink = appProps.referrer && appProps.referrer.includes('/');
 
     if (!hasGoBackLink) {
       return;
     }
 
     return {
-      label: 'Back to blocks list',
+      label: 'Back to main page',
       url: appProps.referrer,
     };
   }, [ appProps.referrer ]);
 
-  throwOnAbsentParamError(heightOrHash);
-  throwOnResourceLoadError(blockQuery);
+  const titleSecondRow = data ? <EventSubHeading eventDetail={ data } isLoading={ isPlaceholderData }/> : null;
 
-  const title = (() => {
-    switch (blockQuery.data?.type) {
-      case 'reorg':
-        return `Reorged block #${ blockQuery.data?.height }`;
-
-      case 'uncle':
-        return `Uncle block #${ blockQuery.data?.height }`;
-
-      default:
-        return `Block #${ blockQuery.data?.height }`;
+  const content = (() => {
+    if (isPlaceholderData && !showDegradedView) {
+      return (
+        <>
+          <TabsSkeleton tabs={ tabs } mt={ 6 }/>
+          { tabs[tabIndex]?.component }
+        </>
+      );
     }
+
+    return <RoutedTabs tabs={ tabs }/>;
   })();
-  const titleSecondRow = (
-    <>
-      { !config.UI.views.block.hiddenFields?.miner && (
-        <Skeleton
-          isLoaded={ !blockQuery.isPlaceholderData }
-          fontFamily="heading"
-          display="flex"
-          minW={ 0 }
-          columnGap={ 2 }
-          fontWeight={ 500 }
-        >
-          <chakra.span flexShrink={ 0 }>
-            { config.chain.verificationType === 'validation' ? 'Validated by' : 'Mined by' }
-          </chakra.span>
-          <AddressEntity address={ blockQuery.data?.miner }/>
-        </Skeleton>
-      ) }
-      <NetworkExplorers type="block" pathParam={ heightOrHash } ml={{ base: config.UI.views.block.hiddenFields?.miner ? 0 : 3, lg: 'auto' }}/>
-    </>
-  );
+
+  if (isError && !showDegradedView) {
+    if (error?.status === 422 || error?.status === 404) {
+      throwOnResourceLoadError({ resource: 'event', error, isError: true });
+    }
+  }
 
   return (
     <>
       <TextAd mb={ 6 }/>
       <PageTitle
-        title={ title }
+        title="Event details"
         backLink={ backLink }
         secondRow={ titleSecondRow }
-        isLoading={ blockQuery.isPlaceholderData }
       />
-      { blockQuery.isPlaceholderData ? <TabsSkeleton tabs={ tabs }/> : (
-        <RoutedTabs
-          tabs={ tabs }
-          tabListProps={ isMobile ? undefined : TAB_LIST_PROPS }
-          rightSlot={ hasPagination ? <Pagination { ...(pagination as PaginationParams) }/> : null }
-          stickyEnabled={ hasPagination }
-        />
-      ) }
+      { content }
     </>
   );
 };

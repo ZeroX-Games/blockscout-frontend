@@ -8,7 +8,7 @@ import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 // import { WEI } from 'lib/consts';
 // import { currencyUnits } from 'lib/units';
-import { HOMEPAGE_STATS } from 'stubs/stats';
+import { HOME_SUMMARY, HOMEPAGE_STATS } from 'stubs/stats';
 // import GasInfoTooltipContent from 'ui/shared/GasInfoTooltipContent/GasInfoTooltipContent';
 
 import StatsItem from './StatsItem';
@@ -29,6 +29,12 @@ const Stats = () => {
     },
   });
 
+  const { data: homeSummary, isPlaceholderData: isSummaryPlaceHolder, isError: isSummaryError } = useApiQuery('homepage_summary_stat', {
+    queryOptions: {
+      placeholderData: HOME_SUMMARY,
+    },
+  });
+
   const zkEvmLatestBatchQuery = useApiQuery('homepage_zkevm_latest_batch', {
     queryOptions: {
       placeholderData: 12345,
@@ -36,7 +42,7 @@ const Stats = () => {
     },
   });
 
-  if (isError || zkEvmLatestBatchQuery.isError) {
+  if (isError || zkEvmLatestBatchQuery.isError || isSummaryError) {
     return null;
   }
 
@@ -48,7 +54,7 @@ const Stats = () => {
   // !hasGasTracker && itemsCount--;
   // !hasAvgBlockTime && itemsCount--;
 
-  if (data) {
+  if (data && homeSummary) {
     !data.gas_prices && itemsCount--;
     data.rootstock_locked_btc && itemsCount++;
     const isOdd = Boolean(itemsCount % 2);
@@ -84,34 +90,25 @@ const Stats = () => {
           <StatsItem
             icon="zerox-blocks"
             title="Total blocks"
-            value={ Number(data.total_blocks).toLocaleString() }
+            value={ Number(homeSummary.totalBlock).toLocaleString() }
             url={ route({ pathname: '/blocks' }) }
             isLoading={ isPlaceholderData }
           />
         ) }
-        { /*{ hasAvgBlockTime && (*/ }
-        { /*  <StatsItem*/ }
-        { /*    icon="clock-light"*/ }
-        { /*    title="Average block time"*/ }
-        { /*    value={ `${ (data.average_block_time / 1000).toFixed(1) }s` }*/ }
-        { /*    isLoading={ isPlaceholderData }*/ }
-        { /*  />*/ }
-        { /*) }*/ }
-
         { /* TODO: connect backend to get update, replace data */ }
         <StatsItem
           icon="zerox-updates"
           title="Total updates"
           value={ Number(data.total_transactions).toLocaleString() }
           url={ route({ pathname: '/txs' }) }
-          isLoading={ isPlaceholderData }
+          isLoading={ isSummaryPlaceHolder }
         />
         <StatsItem
           icon="zerox-events"
           title="Total events"
-          value={ Number(data.total_transactions).toLocaleString() }
+          value={ Number(homeSummary.totalBlock).toLocaleString() }
           url={ route({ pathname: '/txs' }) }
-          isLoading={ isPlaceholderData }
+          isLoading={ isSummaryPlaceHolder }
         />
         <StatsItem
           icon="zerox-domains"

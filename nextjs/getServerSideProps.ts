@@ -12,6 +12,7 @@ export type Props = {
   q: string;
   name: string;
   blockId: string;
+  event_id: string;
 }
 
 export const base: GetServerSideProps<Props> = async({ req, query }) => {
@@ -26,6 +27,7 @@ export const base: GetServerSideProps<Props> = async({ req, query }) => {
       q: query.q?.toString() || '',
       name: query.name?.toString() || '',
       blockId: query.blockId?.toString() || '',
+      event_id: query.event_id?.toString() || '',
     },
   };
 };

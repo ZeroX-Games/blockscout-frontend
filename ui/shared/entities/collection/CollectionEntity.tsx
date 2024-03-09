@@ -3,7 +3,7 @@ import { Flex, Skeleton, Tooltip, chakra, useColorModeValue, Box, VStack } from 
 import _omit from 'lodash/omit';
 import React from 'react';
 
-import type { DomainParam } from 'types/api/domainParams';
+import type { CollectionParam } from 'types/api/collectionParams';
 
 import { route } from 'nextjs-routes';
 
@@ -12,10 +12,10 @@ import * as EntityBase from 'ui/shared/entities/base/components';
 
 import { getIconProps } from '../base/utils';
 
-type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'domain'>;
+type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'collection'>;
 
 const Link = chakra((props: LinkProps) => {
-  const defaultHref = route({ pathname: '/address/[hash]', query: { ...props.query, hash: props.domain.name } });
+  const defaultHref = route({ pathname: '/address/[hash]', query: { ...props.query, hash: props.collection.name } });
 
   return (
     <EntityBase.Link
@@ -27,7 +27,7 @@ const Link = chakra((props: LinkProps) => {
   );
 });
 
-type IconProps = Pick<EntityProps, 'domain' | 'isLoading' | 'iconSize' | 'noIcon' | 'isSafeAddress'> & {
+type IconProps = Pick<EntityProps, 'collection' | 'isLoading' | 'iconSize' | 'noIcon' | 'isSafeAddress'> & {
   asProp?: As;
 };
 
@@ -84,11 +84,11 @@ const Icon = (props: IconProps) => {
   // }
 
   return (
-    <Tooltip label="Domain">
+    <Tooltip label="Collection">
       <Flex marginRight={ styles.marginRight }>
         <EntityBase.Icon
           { ...props }
-          name="apps"
+          name="collection"
           borderRadius={ 0 }
         />
       </Flex>
@@ -96,12 +96,12 @@ const Icon = (props: IconProps) => {
   );
 };
 
-type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'domain'>;
+type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'collection'>;
 
 const Content = chakra((props: ContentProps) => {
-  if (props.domain.name || props.domain.domainId) {
-    const text = 'GTA V' + (props.domain.name || props.domain.domainId);
-    const hash = props.domain.domainId || '0x HASH Place holder';
+  if (props.collection.name || props.collection.collectionId) {
+    const text = 'Axie Infinity';
+    const hash = props.collection.collectionId;
     const label = (
       <VStack gap={ 0 } py={ 1 } color="inherit">
         <Box fontWeight={ 600 } whiteSpace="pre-wrap" wordBreak="break-word">{ text }</Box>
@@ -120,12 +120,12 @@ const Content = chakra((props: ContentProps) => {
   return (
     <EntityBase.Content
       { ...props }
-      text={ props.domain.name || 'GTA V' + props.domain.domainId }
+      text={ props.collection.name || 'GTA V' + props.collection.collectionId }
     />
   );
 });
 
-type CopyProps = Omit<EntityBase.CopyBaseProps, 'text'> & Pick<EntityProps, 'domain'>;
+type CopyProps = Omit<EntityBase.CopyBaseProps, 'text'> & Pick<EntityProps, 'collection'>;
 
 const Copy = (props: CopyProps) => {
   return (
@@ -139,11 +139,11 @@ const Copy = (props: CopyProps) => {
 const Container = EntityBase.Container;
 
 export interface EntityProps extends EntityBase.EntityBaseProps {
-  domain: DomainParam;
+  collection: CollectionParam;
   isSafeAddress?: boolean;
 }
 
-const DomainEntry = (props: EntityProps) => {
+const CollectionEntry = (props: EntityProps) => {
   const linkProps = _omit(props, [ 'className' ]);
   const partsProps = _omit(props, [ 'className', 'onClick' ]);
 
@@ -154,11 +154,11 @@ const DomainEntry = (props: EntityProps) => {
   return (
     <Container
       className={ props.className }
-      data-hash={ props.domain.domainId }
+      data-hash={ props.collection.collectionId }
       onMouseEnter={ context?.onMouseEnter }
       onMouseLeave={ context?.onMouseLeave }
       position="relative"
-      _before={ !props.isLoading && context?.highlightedAddress === props.domain.domainId ? {
+      _before={ !props.isLoading && context?.highlightedAddress === props.collection.collectionId ? {
         content: `" "`,
         position: 'absolute',
         py: 1,
@@ -185,7 +185,7 @@ const DomainEntry = (props: EntityProps) => {
   );
 };
 
-export default React.memo(chakra(DomainEntry));
+export default React.memo(chakra(CollectionEntry));
 
 export {
   Container,

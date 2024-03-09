@@ -6,13 +6,13 @@ import * as EntityBase from 'ui/shared/entities/base/components';
 
 import { Icon, Link } from './Utils';
 
-type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'number'>;
+type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityHashProps, 'hash'>;
 
 const Content = chakra((props: ContentProps) => {
   return (
     <EntityBase.Content
       { ...props }
-      text={ String(props.number) }
+      text={ props.hash }
       tailLength={ props.tailLength ?? 2 }
     />
   );
@@ -20,11 +20,12 @@ const Content = chakra((props: ContentProps) => {
 
 const Container = EntityBase.Container;
 
-export interface EntityProps extends EntityBase.EntityBaseProps {
+export interface EntityHashProps extends EntityBase.EntityBaseProps {
   number: number;
+  hash: string;
 }
 
-const EventEntity = (props: EntityProps) => {
+const EventHashEntity = (props: EntityHashProps) => {
   const linkProps = _omit(props, [ 'className' ]);
   const partsProps = _omit(props, [ 'className', 'onClick' ]);
 
@@ -38,7 +39,7 @@ const EventEntity = (props: EntityProps) => {
   );
 };
 
-export default React.memo(chakra(EventEntity));
+export default React.memo(chakra(EventHashEntity));
 
 export {
   Container,

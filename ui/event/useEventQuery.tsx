@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 import type { SocketMessage } from 'lib/socket/types';
-import type { BlockDetail } from 'types/api/update';
+import type { EventDetail } from 'types/api/event';
 
 import type { ResourceError } from 'lib/api/resources';
 import useApiQuery, { getResourceKey } from 'lib/api/useApiQuery';
@@ -18,7 +18,7 @@ import useSocketMessage from 'lib/socket/useSocketMessage';
 
 import { BLOCK_DETAIL } from '../../stubs/update';
 
-export type UpdateQuery = UseQueryResult<BlockDetail, ResourceError<{ status: number }>> & {
+export type EventQuery = UseQueryResult<EventDetail, ResourceError<{ status: number }>> & {
   socketStatus: 'close' | 'error' | undefined;
   setRefetchOnError: {
     on: () => void;
@@ -32,19 +32,17 @@ interface Params {
   isEnabled?: boolean;
 }
 
-export default function useUpdateQuery(params?: Params): UpdateQuery {
+export default function useEventQuery(params?: Params): EventQuery {
   const [ socketStatus, setSocketStatus ] = React.useState<'close' | 'error'>();
   const [ isRefetchEnabled, setRefetchEnabled ] = useBoolean(false);
 
   const router = useRouter();
   const queryClient = useQueryClient();
-
-  const blockId = params?.blockId ?? getQueryParamString(router.query.blockId);
-
-  const queryResult = useApiQuery<'update', { status: number }>('update', {
-    pathParams: { blockId },
+  const eventId = params?.blockId ?? getQueryParamString(router.query.event_id);
+  const queryResult = useApiQuery<'event', { status: number }>('event', {
+    pathParams: { eventId },
     queryOptions: {
-      enabled: Boolean(blockId) && params?.isEnabled !== false,
+      enabled: Boolean(eventId) && params?.isEnabled !== false,
       refetchOnMount: false,
       placeholderData: BLOCK_DETAIL,
       retry: (failureCount, error) => {
@@ -64,9 +62,9 @@ export default function useUpdateQuery(params?: Params): UpdateQuery {
   const handleStatusUpdateMessage: SocketMessage.TxStatusUpdate['handler'] = React.useCallback(async() => {
     await delay(5 * SECOND);
     queryClient.invalidateQueries({
-      queryKey: getResourceKey('update', { pathParams: { blockId } }),
+      queryKey: getResourceKey('event', { pathParams: { eventId } }),
     });
-  }, [ queryClient, blockId ]);
+  }, [ queryClient, eventId ]);
 
   const handleSocketClose = React.useCallback(() => {
     setSocketStatus('close');
@@ -77,7 +75,7 @@ export default function useUpdateQuery(params?: Params): UpdateQuery {
   }, []);
 
   const channel = useSocketChannel({
-    topic: `updates:${ blockId }`,
+    topic: `updates:${ eventId }`,
     onSocketClose: handleSocketClose,
     onSocketError: handleSocketError,
     isDisabled: isPending || isPlaceholderData || isError || data.status !== null,

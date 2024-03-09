@@ -1,122 +1,81 @@
-import { Box, Heading, Flex, Text, VStack, Skeleton } from '@chakra-ui/react';
-import { useQueryClient } from '@tanstack/react-query';
+import { Box, Flex } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 
-import type { SocketMessage } from 'lib/socket/types';
-import type { Event } from 'types/api/event';
-
 import { route } from 'nextjs-routes';
 
-import config from 'configs/app';
-import useApiQuery, { getResourceKey } from 'lib/api/useApiQuery';
+import useApiQuery from 'lib/api/useApiQuery';
+import { AddressHighlightProvider } from 'lib/contexts/addressHighlight';
 import useIsMobile from 'lib/hooks/useIsMobile';
-import { nbsp } from 'lib/html-entities';
-import useSocketChannel from 'lib/socket/useSocketChannel';
-import useSocketMessage from 'lib/socket/useSocketMessage';
-import { BLOCK } from 'stubs/block';
-import { HOMEPAGE_STATS } from 'stubs/stats';
+import useNewEventsSocket from 'lib/hooks/useNewEventsSocket';
+import { EVENT_SUMMARY } from 'stubs/update';
 import LinkInternal from 'ui/shared/LinkInternal';
+import SocketNewItemsNotice from 'ui/shared/SocketNewItemsNotice';
 
 import LatestEventsItem from './LatestEventsItem';
+import LatestEventsItemMobile from './LatestEventsItemMobile';
 
 const LatestEvents = () => {
   const isMobile = useIsMobile();
-  // const blocksMaxCount = isMobile ? 2 : 3;
-  let eventsMaxCount: number;
-  if (config.features.optimisticRollup.isEnabled || config.UI.views.event.hiddenFields?.total_reward) {
-    eventsMaxCount = isMobile ? 4 : 5;
-  } else {
-    eventsMaxCount = isMobile ? 2 : 3;
-  }
-  const { data, isPlaceholderData, isError } = useApiQuery('homepage_blocks', {
+  const eventsCount = isMobile ? 2 : 6;
+  const { data, isPlaceholderData, isError } = useApiQuery('homepage_events_summary', {
     queryOptions: {
-      placeholderData: Array(eventsMaxCount).fill(BLOCK),
+      placeholderData: EVENT_SUMMARY,
     },
   });
-
-  const queryClient = useQueryClient();
-  const statsQueryResult = useApiQuery('homepage_stats', {
-    fetchParams: {
-      headers: {
-        'updated-gas-oracle': 'true',
-      },
-    },
-    queryOptions: {
-      refetchOnMount: false,
-      placeholderData: HOMEPAGE_STATS,
-    },
-  });
-
-  const handleNewEventMessage: SocketMessage.NewBlock['handler'] = React.useCallback((payload) => {
-    queryClient.setQueryData(getResourceKey('homepage_blocks'), (prevData: Array<Event> | undefined) => {
-
-      const newData = prevData ? [ ...prevData ] : [];
-
-      if (newData.some((event => event.height === payload.block.height))) {
-        return newData;
-      }
-
-      return [ payload.block, ...newData ].sort((b1, b2) => b2.height - b1.height).slice(0, eventsMaxCount);
-    });
-  }, [ queryClient, eventsMaxCount ]);
-
-  const channel = useSocketChannel({
-    topic: 'blocks:new_block',
-    isDisabled: isPlaceholderData || isError,
-  });
-  useSocketMessage({
-    channel,
-    event: 'new_block',
-    handler: handleNewEventMessage,
-  });
-
-  let content;
-
+  const { socketAlert } = useNewEventsSocket(data?.count);
+  let response;
   if (isError) {
-    content = <Text>No data. Please reload page.</Text>;
+    response = EVENT_SUMMARY;
+    // return <Text mt={ 4 }>No data. Please reload page.</Text>;
   }
-
   if (data) {
-    const dataToShow = data.slice(0, eventsMaxCount);
+    response = data;
+    const results = response.results;
+    const txsUrl = route({ pathname: '/txs' });
+    const dataToShow = results.slice(0, eventsCount);
 
-    content = (
+    return (
       <>
-        { statsQueryResult.data?.network_utilization_percentage !== undefined && (
-          <Skeleton isLoaded={ !statsQueryResult.isPlaceholderData } mb={{ base: 6, lg: 3 }} display="inline-block">
-            <Text as="span" fontSize="sm">
-              Network utilization:{ nbsp }
-            </Text>
-            <Text as="span" fontSize="sm" color="blue.400" fontWeight={ 700 }>
-              { statsQueryResult.data?.network_utilization_percentage.toFixed(2) }%
-            </Text>
-          </Skeleton>
-        ) }
-        <VStack spacing={ 3 } mb={ 4 } overflow="hidden" alignItems="stretch">
+        <SocketNewItemsNotice borderBottomRadius={ 0 } url={ txsUrl } alert={ socketAlert } isLoading={ false } type="event"/>
+        <Box mb={ 3 } display={{ base: 'block', lg: 'none' }}>
           <AnimatePresence initial={ false } >
-            { dataToShow.map(((event, index) => (
-              <LatestEventsItem
-                key={ event.height + (isPlaceholderData ? String(index) : '') }
-                event={ event }
-                isLoading={ isPlaceholderData }
-              />
-            ))) }
+            { dataToShow.map(((event, index) => {
+              return (event.collectionsAddrs.map((addr) => (
+                <LatestEventsItemMobile
+                  key={ event.eventHash + addr + (isPlaceholderData ? String(index) : '') }
+                  event={ event }
+                  isLoading={ isPlaceholderData }
+                  collectionAddr={ addr }
+                />
+              )));
+            })) }
           </AnimatePresence>
-        </VStack>
+        </Box>
+        <AddressHighlightProvider>
+          <Box mb={ 4 } display={{ base: 'none', lg: 'block' }}>
+            <AnimatePresence initial={ false } >
+              { dataToShow.map(((event, index) => {
+                return (event.collectionsAddrs.map((addr) => (
+                  <LatestEventsItem
+                    key={ event.eventHash + addr + (isPlaceholderData ? String(index) : '') }
+                    event={ event }
+                    isLoading={ isPlaceholderData }
+                    collectionAddr={ addr }
+                  />
+                )));
+              })) }
+            </AnimatePresence>
+          </Box>
+        </AddressHighlightProvider>
         <Flex justifyContent="center">
-          { /*TODO: change to events*/ }
-          <LinkInternal fontSize="sm" href={ route({ pathname: '/events' }) }>View all Events</LinkInternal>
+          <LinkInternal fontSize="sm" href={ txsUrl }>View all events</LinkInternal>
         </Flex>
       </>
     );
   }
 
-  return (
-    <Box width={{ base: '100%', lg: '280px' }} flexShrink={ 0 }>
-      <Heading as="h4" size="sm" mb={ 4 }>Latest events</Heading>
-      { content }
-    </Box>
-  );
+  return null;
 };
 
 export default LatestEvents;

@@ -15,7 +15,7 @@ const apiEndpoint = [
 ].filter(Boolean).join('');
 
 const newApiEndpoint = [
-  apiSchema || 'https',
+  'http',
   '://',
   newApiHost,
   newApiPort && ':' + newApiPort,
@@ -29,6 +29,13 @@ const socketEndpoint = [
   apiPort && ':' + apiPort,
 ].filter(Boolean).join('');
 
+const newSocketEndpoint = [
+  socketSchema,
+  '://',
+  newApiHost,
+  newApiPort && ':' + newApiPort,
+].filter(Boolean).join('');
+
 const api = Object.freeze({
   host: apiHost,
   protocol: apiSchema,
@@ -36,6 +43,7 @@ const api = Object.freeze({
   endpoint: apiEndpoint,
   newEndpoint: newApiEndpoint,
   socket: socketEndpoint,
+  newSocket: newSocketEndpoint,
   basePath: stripTrailingSlash(getEnvValue('NEXT_PUBLIC_API_BASE_PATH') || ''),
 });
 

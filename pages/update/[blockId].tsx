@@ -5,7 +5,7 @@ import React from 'react';
 import type { Props } from 'nextjs/getServerSideProps';
 import PageNextJs from 'nextjs/PageNextJs';
 
-const Update = dynamic(() => import('ui/pages/Update'), { ssr: false });
+const Update = dynamic(() => import('ui/pages/Event'), { ssr: false });
 
 const Page: NextPage<Props> = (props: Props) => {
   return (

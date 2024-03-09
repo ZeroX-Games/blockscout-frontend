@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { MatrixEntry } from '../../../types/api/update';
+import type { MatrixEntry } from 'types/api/event';
 
 import LogUpdatedTokenDataTable from './LogUpdatedTokenDataTable';
 interface Props {
