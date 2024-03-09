@@ -1,24 +1,17 @@
 import { Box, Divider, Skeleton } from '@chakra-ui/react';
 import React from 'react';
 
-import useApiQuery from 'lib/api/useApiQuery';
-import DataFetchAlert from 'ui/shared/DataFetchAlert';
+import type { EventSummaryResult } from 'types/api/update';
 
-import TxAdditionalInfoContent from './UpdateAdditionalInfoContent';
+import EventAdditionalInfoContent from './EventAdditionalInfoContent';
 
 interface Props {
-  hash: string;
+  event: EventSummaryResult;
+  isLoading: boolean;
 }
 
-const UpdateAdditionalInfoContainer = ({ hash }: Props) => {
-  const { data, isError, isPending } = useApiQuery('tx', {
-    pathParams: { hash },
-    queryOptions: {
-      refetchOnMount: false,
-    },
-  });
-
-  if (isPending) {
+const EventAdditionalInfoContainer = ({ event, isLoading }: Props) => {
+  if (isLoading) {
     return (
       <Box>
         <Skeleton w="130px" h="24px" borderRadius="full" mb={ 6 }/>
@@ -49,11 +42,7 @@ const UpdateAdditionalInfoContainer = ({ hash }: Props) => {
     );
   }
 
-  if (isError) {
-    return <DataFetchAlert/>;
-  }
-
-  return <TxAdditionalInfoContent tx={ data }/>;
+  return <EventAdditionalInfoContent event={ event }/>;
 };
 
-export default React.memo(UpdateAdditionalInfoContainer);
+export default React.memo(EventAdditionalInfoContainer);

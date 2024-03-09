@@ -21,22 +21,24 @@ export interface OpWithdrawal {
   status: L2WithdrawalStatus;
 }
 
-export type BlockSummaryResult = {
+export type EventSummaryResult = {
   block_number: number;
+  destination: string;
+  chainId: number;
   eventHash: string;
   transactionHash: string;
+  collectionsAddrs: Array<string>;
   numberOfUpdates: number;
   status: boolean;
   domain_details: DomainParam;
   timestamp: string;
-  fee: string;
 }
 
-export type BlockSummary = {
+export type EventSummary = {
   count: number;
   next: string | null;
   previous: string | null;
-  results: Array<BlockSummaryResult>;
+  results: Array<EventSummaryResult>;
 }
 
 export type Update = {

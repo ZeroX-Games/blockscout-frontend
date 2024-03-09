@@ -15,7 +15,6 @@ export type DomainParamBasic = {
   description: string | null;
   created_at: string;
   updated_at: string;
-  attributes: null;
   img_url?: string;
   hash?: string;
 }

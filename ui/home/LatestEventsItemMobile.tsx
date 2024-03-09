@@ -7,10 +7,10 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
-import type { BlockSummaryResult } from 'types/api/update';
+import type { CollectionParam } from '../../types/api/collectionParams';
+import type { EventSummaryResult } from 'types/api/update';
 
 import config from 'configs/app';
-import getValueWithUnit from 'lib/getValueWithUnit';
 import useTimeAgoIncrement from 'lib/hooks/useTimeAgoIncrement';
 import { currencyUnits } from 'lib/units';
 import DomainFromTo from 'ui/shared/domain/DomainFromTo';
@@ -19,13 +19,17 @@ import TxStatus from 'ui/shared/statusTag/TxStatus';
 import TxAdditionalInfo from 'ui/txs/TxAdditionalInfo';
 
 type Props = {
-  event: BlockSummaryResult;
+  event: EventSummaryResult;
   isLoading?: boolean;
+  collectionAddr: string;
 }
 
-const LatestEventsItemMobile = ({ event, isLoading }: Props) => {
+const LatestEventsItemMobile = ({ event, isLoading, collectionAddr }: Props) => {
   const timeAgo = useTimeAgoIncrement(event.timestamp || '0', true);
-
+  const to: CollectionParam = {
+    collectionId: collectionAddr,
+    name: 'GTA V',
+  };
   return (
     <Box
       width="100%"
@@ -63,7 +67,7 @@ const LatestEventsItemMobile = ({ event, isLoading }: Props) => {
       </Flex>
       <DomainFromTo
         from={ event.domain_details }
-        to={ event.domain_details }
+        to={ to }
         isLoading={ isLoading }
         fontSize="sm"
         fontWeight="500"
@@ -72,13 +76,13 @@ const LatestEventsItemMobile = ({ event, isLoading }: Props) => {
       { !config.UI.views.tx.hiddenFields?.value && (
         <Skeleton isLoaded={ !isLoading } mb={ 2 } fontSize="sm" w="fit-content">
           <Text as="span">Value { currencyUnits.ether } </Text>
-          <Text as="span" variant="secondary">{ getValueWithUnit(event.fee).dp(5).toFormat() }</Text>
+          { /*<Text as="span" variant="secondary">{ getValueWithUnit(event.fee).dp(5).toFormat() }</Text>*/ }
         </Skeleton>
       ) }
       { !config.UI.views.tx.hiddenFields?.tx_fee && (
         <Skeleton isLoaded={ !isLoading } fontSize="sm" w="fit-content" display="flex" whiteSpace="pre">
           <Text as="span">Fee { !config.UI.views.tx.hiddenFields?.fee_currency ? `${ currencyUnits.ether } ` : '' }</Text>
-          <Text as="span" variant="secondary">{ event.fee ? getValueWithUnit(event.fee).dp(5).toFormat() : '-' }</Text>
+          { /*<Text as="span" variant="secondary">{ event.fee ? getValueWithUnit(event.fee).dp(5).toFormat() : '-' }</Text>*/ }
         </Skeleton>
       ) }
     </Box>

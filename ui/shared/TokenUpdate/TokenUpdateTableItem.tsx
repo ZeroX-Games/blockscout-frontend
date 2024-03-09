@@ -27,7 +27,6 @@ const TokenUpdateTableItem = ({
   delta,
   isLoading,
 }: Props) => {
-  console.log(collectionAddr, tokenId, delta, isLoading);
   const token = {
     icon_url:
       'https://i.seadn.io/gae/H8jOCJuQokNqGBpkBN5wk1oZwO7LM8bNnrHCaekV2nKjnCqw6UB5oaH8XyNeBDj6bA_n1mjejzhFQUP3O1NfjFLHr3FOaeHcTOOT?auto=format&dpr=1&w=48 48w',

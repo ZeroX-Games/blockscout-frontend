@@ -1,7 +1,7 @@
 // import { Flex, Skeleton } from '@chakra-ui/react';
 import React from 'react';
 
-import type { MatrixEntry } from 'types/api/event';
+import type { MatrixUpdate, MatrixEntry } from 'types/api/event';
 
 // import getCurrencyValue from 'lib/getCurrencyValue';
 // import AddressFromTo from 'ui/shared/address/AddressFromTo';
@@ -13,7 +13,7 @@ import type { MatrixEntry } from 'types/api/event';
 // import { getTokenTransferTypeText } from 'ui/shared/TokenTransfer/helpers';
 // import TxAdditionalInfo from 'ui/txs/TxAdditionalInfo';
 
-type Props = MatrixEntry & {
+type Props = MatrixUpdate & Pick<MatrixEntry, 'collectionAddr' | 'attributes'> & {
   baseAddress?: string;
   showTxInfo?: boolean;
   enableTimeIncrement?: boolean;

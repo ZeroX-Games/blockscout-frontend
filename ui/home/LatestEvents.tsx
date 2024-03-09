@@ -1,4 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
+import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 
 import { route } from 'nextjs-routes';
@@ -7,7 +8,7 @@ import useApiQuery from 'lib/api/useApiQuery';
 import { AddressHighlightProvider } from 'lib/contexts/addressHighlight';
 import useIsMobile from 'lib/hooks/useIsMobile';
 import useNewEventsSocket from 'lib/hooks/useNewEventsSocket';
-import { BLOCK_SUMMARY } from 'stubs/update';
+import { EVENT_SUMMARY } from 'stubs/update';
 import LinkInternal from 'ui/shared/LinkInternal';
 import SocketNewItemsNotice from 'ui/shared/SocketNewItemsNotice';
 
@@ -19,40 +20,52 @@ const LatestEvents = () => {
   const eventsCount = isMobile ? 2 : 6;
   const { data, isPlaceholderData, isError } = useApiQuery('homepage_events_summary', {
     queryOptions: {
-      placeholderData: BLOCK_SUMMARY,
+      placeholderData: EVENT_SUMMARY,
     },
   });
-  const { num, socketAlert } = useNewEventsSocket(data?.count);
+  const { socketAlert } = useNewEventsSocket(data?.count);
   let response;
   if (isError) {
-    response = BLOCK_SUMMARY;
+    response = EVENT_SUMMARY;
     // return <Text mt={ 4 }>No data. Please reload page.</Text>;
   }
   if (data) {
     response = data;
     const results = response.results;
     const txsUrl = route({ pathname: '/txs' });
+    const dataToShow = results.slice(0, eventsCount);
+
     return (
       <>
-        <SocketNewItemsNotice borderBottomRadius={ 0 } url={ txsUrl } num={ num } alert={ socketAlert } isLoading={ false } type="event"/>
+        <SocketNewItemsNotice borderBottomRadius={ 0 } url={ txsUrl } alert={ socketAlert } isLoading={ false } type="event"/>
         <Box mb={ 3 } display={{ base: 'block', lg: 'none' }}>
-          { results.slice(0, eventsCount).map(((event, index) => (
-            <LatestEventsItemMobile
-              key={ index }
-              event={ event }
-              isLoading={ isPlaceholderData }
-            />
-          ))) }
+          <AnimatePresence initial={ false } >
+            { dataToShow.map(((event, index) => {
+              return (event.collectionsAddrs.map((addr) => (
+                <LatestEventsItemMobile
+                  key={ event.eventHash + addr + (isPlaceholderData ? String(index) : '') }
+                  event={ event }
+                  isLoading={ isPlaceholderData }
+                  collectionAddr={ addr }
+                />
+              )));
+            })) }
+          </AnimatePresence>
         </Box>
         <AddressHighlightProvider>
           <Box mb={ 4 } display={{ base: 'none', lg: 'block' }}>
-            { results.slice(0, eventsCount).map(((event, index) => (
-              <LatestEventsItem
-                key={ index }
-                event={ event }
-                isLoading={ isPlaceholderData }
-              />
-            ))) }
+            <AnimatePresence initial={ false } >
+              { dataToShow.map(((event, index) => {
+                return (event.collectionsAddrs.map((addr) => (
+                  <LatestEventsItem
+                    key={ event.eventHash + addr + (isPlaceholderData ? String(index) : '') }
+                    event={ event }
+                    isLoading={ isPlaceholderData }
+                    collectionAddr={ addr }
+                  />
+                )));
+              })) }
+            </AnimatePresence>
           </Box>
         </AddressHighlightProvider>
         <Flex justifyContent="center">

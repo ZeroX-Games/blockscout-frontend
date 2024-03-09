@@ -11,31 +11,23 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
-import type { Transaction } from 'types/api/transaction';
+import type { EventSummaryResult } from '../../types/api/update';
 
 import AdditionalInfoButton from 'ui/shared/AdditionalInfoButton';
 
-import TxAdditionalInfoContainer from './UpdateAdditionalInfoContainer';
-import TxAdditionalInfoContent from './UpdateAdditionalInfoContent';
+import EventAdditionalInfoContainer from './EventAdditionalInfoContainer';
 
 type Props =
-  ({
-    hash: string;
-    tx?: undefined;
-  } |
-  {
-    hash?: undefined;
-    tx: Transaction;
-  }) & {
+  {event: EventSummaryResult} & {
     isMobile?: boolean;
-    isLoading?: boolean;
+    isLoading: boolean;
     className?: string;
   }
 
-const UpdateAdditionalInfo = ({ hash, tx, isMobile, isLoading, className }: Props) => {
+const EventAdditionalInfo = ({ event, isMobile, isLoading, className }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const content = hash !== undefined ? <TxAdditionalInfoContainer hash={ hash }/> : <TxAdditionalInfoContent tx={ tx }/>;
+  const content = <EventAdditionalInfoContainer event={ event } isLoading={ isLoading }/> ;
 
   if (isMobile) {
     return (
@@ -68,4 +60,4 @@ const UpdateAdditionalInfo = ({ hash, tx, isMobile, isLoading, className }: Prop
   );
 };
 
-export default React.memo(chakra(UpdateAdditionalInfo));
+export default React.memo(chakra(EventAdditionalInfo));

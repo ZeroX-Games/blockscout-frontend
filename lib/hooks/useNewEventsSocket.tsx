@@ -1,24 +1,24 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect } from 'react';
 
-import useGradualIncrement from 'lib/hooks/useGradualIncrement';
+import type { EventSummary, EventSummaryResult } from '../../types/api/update';
 
+import { getResourceKey } from '../api/useApiQuery';
 import type { WebSocketContextType } from '../socket/useSocketContext';
 import { useWebSocketContext } from '../socket/useSocketContext';
 
 interface NewEventMsg {
-  message: string;
-
+  block: EventSummaryResult;
 }
 
 export function assertIsNewEventResponse(socket: WebSocketContextType) {
   return socket && socket.lastMessage &&
     socket.lastMessage.data &&
-    typeof socket.lastMessage.data === 'string' &&
-    socket.lastMessage.data.includes('New block added:');
+    typeof socket.lastMessage.data === 'string';
 }
 
 export function assertIsValidNewEventMsg(obj: any): obj is NewEventMsg {
-  return typeof obj === 'object' && obj !== null && 'message' in obj;
+  return typeof obj === 'object' && obj !== null && 'block' in obj;
 }
 
 export function assertIsSocketClosed(socket: WebSocketContextType) {
@@ -26,22 +26,28 @@ export function assertIsSocketClosed(socket: WebSocketContextType) {
 }
 
 export default function useNewEventsSocket(currentEvent: number | undefined) {
-  const [ num, setNum ] = useGradualIncrement(0);
   const [ socketAlert, setSocketAlert ] = React.useState('');
   const socket = useWebSocketContext();
-
+  const queryClient = useQueryClient();
   const handleNewUpdateMessage = React.useCallback(() => {
-    if (currentEvent && assertIsNewEventResponse(socket)) {
-      const obj = JSON.parse(socket?.lastMessage?.data);
-      if (assertIsValidNewEventMsg(obj)) {
-        const newEvent = Number(obj.message.split(': ')[1]);
-        // setNum(currentBlock - currentEvent);
-        if (newEvent > currentEvent) {
-          setNum(1);
-        }
+    if (assertIsNewEventResponse(socket)) {
+      const newEventSummaryObj = JSON.parse(socket?.lastMessage?.data);
+      if (assertIsValidNewEventMsg(newEventSummaryObj)) {
+        const newEventSummary = newEventSummaryObj.block;
+        queryClient.setQueryData(getResourceKey('homepage_events_summary'), (prevData: EventSummary | undefined) => {
+
+          const newData = (prevData && prevData.results) ? prevData : { results: [] };
+
+          if (newData.results.some((event => event.block_number === newEventSummary.block_number))) {
+            return newData;
+          }
+          newData.results = [ newEventSummary, ...newData.results ]
+            .sort((b1, b2) => b2.block_number - b1.block_number).slice(0, 5);
+          return newData;
+        });
       }
     }
-  }, [ setNum, currentEvent, socket ]);
+  }, [ socket, queryClient ]);
 
   const handleSocketClose = React.useCallback(() => {
     if (assertIsSocketClosed(socket)) {
@@ -52,7 +58,7 @@ export default function useNewEventsSocket(currentEvent: number | undefined) {
   useEffect(() => {
     handleNewUpdateMessage();
     handleSocketClose();
-  }, [ socket, setNum, currentEvent, handleNewUpdateMessage, handleSocketClose ]);
+  }, [ socket, currentEvent, handleNewUpdateMessage, handleSocketClose ]);
 
-  return { num, socketAlert };
+  return { socketAlert };
 }

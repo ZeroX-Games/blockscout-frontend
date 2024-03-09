@@ -2,18 +2,20 @@ import type { ThemeTypings } from '@chakra-ui/react';
 import { Flex, chakra, useBreakpointValue } from '@chakra-ui/react';
 import React from 'react';
 
+import type { CollectionParam } from 'types/api/collectionParams';
 import type { DomainParam } from 'types/api/domainParams';
 
 import type { EntityProps } from 'ui/shared/entities/domain/DomainEntity';
 import DomainEntity from 'ui/shared/entities/domain/DomainEntity';
 
+import CollectionEntry from '../entities/collection/CollectionEntity';
 import DomainFromToIcon from './DomainFromToIcon';
 
 type Mode = 'compact' | 'long';
 
 interface Props {
   from: DomainParam;
-  to: DomainParam;
+  to: CollectionParam;
   mode?: Mode | Partial<Record<ThemeTypings['breakpoints'], Mode>>;
   className?: string;
   isLoading?: boolean;
@@ -47,12 +49,12 @@ const DomainFromTo = ({ from, to, mode: modeProp, className, isLoading, tokenHas
             truncation={ truncation }
             maxW={ truncation === 'constant' ? undefined : 'calc(100% - 28px)' }
             w="min-content"
-            type="domain"
+            iconSize="lg"
           />
         </Flex>
         { to && (
-          <DomainEntity
-            domain={ to }
+          <CollectionEntry
+            collection={ to }
             isLoading={ isLoading }
             noIcon={ noIcon }
             tokenHash={ tokenHash }
@@ -60,7 +62,7 @@ const DomainFromTo = ({ from, to, mode: modeProp, className, isLoading, tokenHas
             maxW={ truncation === 'constant' ? undefined : 'calc(100% - 28px)' }
             w="min-content"
             ml="28px"
-            type="collection"
+            iconSize="lg"
           />
         ) }
       </Flex>
@@ -79,22 +81,22 @@ const DomainFromTo = ({ from, to, mode: modeProp, className, isLoading, tokenHas
         truncation={ truncation }
         maxW={ truncation === 'constant' ? undefined : `calc(50% - ${ iconSizeWithMargins / 2 }px)` }
         mr={ 4 }
-        type="domain"
+        iconSize="lg"
       />
       <DomainFromToIcon
         isLoading={ isLoading }
         type="unspecified"
       />
       { to && (
-        <DomainEntity
-          domain={ to }
+        <CollectionEntry
+          collection={ to }
           isLoading={ isLoading }
           noIcon={ noIcon }
           tokenHash={ tokenHash }
           truncation={ truncation }
           maxW={ truncation === 'constant' ? undefined : `calc(50% - ${ iconSizeWithMargins / 2 }px)` }
           ml={ 3 }
-          type="collection"
+          iconSize="lg"
         />
       ) }
     </Flex>

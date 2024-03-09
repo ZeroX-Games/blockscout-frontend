@@ -78,7 +78,7 @@ import type {
 import type { TxInterpretationResponse } from 'types/api/txInterpretation';
 import type { TTxsFilters } from 'types/api/txsFilters';
 import type { TxStateChanges } from 'types/api/txStateChanges';
-import type { BlockSummary, EventDetail } from 'types/api/update';
+import type { EventSummary, EventDetail } from 'types/api/update';
 import type { UpdateInterpretationResponse } from 'types/api/updateInterpretation';
 import type { UserOpsResponse, UserOp, UserOpsFilters, UserOpsAccount } from 'types/api/userOps';
 import type { VerifiedContractsSorting } from 'types/api/verifiedContracts';
@@ -705,7 +705,7 @@ Q extends 'homepage_chart_txs' ? ChartTransactionResponse :
 Q extends 'homepage_chart_market' ? ChartMarketResponse :
 Q extends 'homepage_blocks' ? Array<Block> :
 Q extends 'homepage_txs' ? Array<Transaction> :
-Q extends 'homepage_events_summary' ? BlockSummary :
+Q extends 'homepage_events_summary' ? EventSummary :
 Q extends 'homepage_txs_watchlist' ? Array<Transaction> :
 Q extends 'homepage_deposits' ? Array<L2DepositsItem> :
 Q extends 'homepage_zkevm_l2_batches' ? { items: Array<ZkEvmL2TxnBatchesItem> } :

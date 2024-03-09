@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import React from 'react';
 
 // TODO: update to Event
-import type { BlockSummaryResult } from '../../types/api/update';
+import type { EventSummaryResult } from '../../types/api/update';
 
 // import config from 'configs/app';
 // import getBlockTotalReward from 'lib/block/getBlockTotalReward';
@@ -18,7 +18,7 @@ import BlockTimestamp from 'ui/blocks/BlockTimestamp';
 import EventEntity from 'ui/shared/entities/event/EventEntity';
 
 type Props = {
-  event: BlockSummaryResult;
+  event: EventSummaryResult;
   isLoading?: boolean;
 }
 
