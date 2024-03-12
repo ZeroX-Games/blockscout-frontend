@@ -1,22 +1,18 @@
 import { Hide, Show } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import type { MatrixEntry } from '../../types/api/event';
-import type { TokenType } from 'types/api/token';
+import type { MatrixEntry } from 'types/api/event';
 import type { TokenTransfer } from 'types/api/tokenTransfer';
 
-import getFilterValuesFromQuery from 'lib/getFilterValuesFromQuery';
 import { apos } from 'lib/html-entities';
-import { TOKEN_TYPE_IDS } from 'lib/token/tokenTypes';
+import ActionBar from 'ui/shared/ActionBar';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 import DataListDisplay from 'ui/shared/DataListDisplay';
+import TokenUpdateFilter from 'ui/shared/TokenUpdate/TokenUpdateFilter';
 import TokenUpdateList from 'ui/shared/TokenUpdate/TokenUpdateList';
 import TokenUpdateTable from 'ui/shared/TokenUpdate/TokenUpdateTable';
 
 import type { EventQuery } from './useEventQuery';
-
-const getTokenFilterValue = (getFilterValuesFromQuery<TokenType>).bind(null, TOKEN_TYPE_IDS);
 
 interface Props {
   eventQuery: EventQuery;
@@ -24,28 +20,41 @@ interface Props {
 }
 
 const EventTokenTransfer = ({ eventQuery }: Props) => {
-  const router = useRouter();
-  const [ typeFilter, setTypeFilter ] = React.useState<Array<TokenType>>(getTokenFilterValue(router.query.type) || []);
-  const tokenUpdates = eventQuery.data?.matrix_entries.slice(0, 8);
+  const [ typeFilter, setTypeFilter ] = React.useState<string>('');
+  const [ updates, setUpdates ] = React.useState<Array<MatrixEntry>>([]);
+  const [ attributes, setAttributes ] = React.useState<Array<string>>([]);
+  const tokenUpdates = React.useMemo(() => {
+    return eventQuery.data ? eventQuery.data.matrix_entries.slice(0, 8) : [];
+  }, [ eventQuery.data ]);
 
-  // const handleTypeFilterChange = React.useCallback((nextValue: Array<TokenType>) => {
-  //   tokenUpdates.onFilterChange({ type: nextValue });
-  //   setTypeFilter(nextValue);
-  // }, [ tokenUpdates ]);
+  useEffect(() => {
+    if (tokenUpdates.length) {
+      const defaultCollectionAddr = tokenUpdates[0].collectionAddr;
+      const filterData = tokenUpdates.filter((entry) => entry.collectionAddr === defaultCollectionAddr);
+      setUpdates(filterData);
+      setTypeFilter(defaultCollectionAddr);
+      setAttributes(tokenUpdates[0].attributes);
+    }
+  }, [ tokenUpdates ]);
+
+  const handleFilterChange = React.useCallback((nextValue: string) => {
+    const filterData = tokenUpdates.filter((entry) => entry.collectionAddr === nextValue);
+    setUpdates(filterData);
+    setAttributes(filterData[0].attributes);
+    setTypeFilter(nextValue);
+  }, [ tokenUpdates ]);
 
   if (eventQuery.isError) {
-    setTypeFilter([]);
+    setTypeFilter('');
     return <DataFetchAlert/>;
   }
-  const numActiveFilters = typeFilter.length;
-  // const isActionBarHidden = !numActiveFilters && !tokenUpdates.length;
-  const isActionBarHidden = true;
+
+  // const isActionBarHidden = !typeFilter.length && !updates.length;
+  const isActionBarHidden = false;
 
   let items: Array<MatrixEntry> = [];
 
-  let attributes: Array<string> = [];
   if (tokenUpdates) {
-    attributes = tokenUpdates.attributes;
     if (eventQuery.isPlaceholderData) {
       items = tokenUpdates;
     } else {
@@ -53,29 +62,29 @@ const EventTokenTransfer = ({ eventQuery }: Props) => {
       items = tokenUpdates;
     }
   }
-  attributes[0] = 'Token ID';
   const content = tokenUpdates ? (
     <>
       <Hide below="lg" ssr={ false }>
-        <TokenUpdateTable data={ items } top={ isActionBarHidden ? 0 : 80 } isLoading={ eventQuery.isPlaceholderData } attributes={ attributes }/>
+        <TokenUpdateTable data={ updates } top={ isActionBarHidden ? 0 : 80 } isLoading={ eventQuery.isPlaceholderData } attributes={ attributes }/>
       </Hide>
       <Show below="lg" ssr={ false }>
-        <TokenUpdateList data={ items } isLoading={ eventQuery.isPlaceholderData }/>
+        <TokenUpdateList data={ updates } isLoading={ eventQuery.isPlaceholderData }/>
       </Show>
     </>
   ) : null;
 
-  // const actionBar = !isActionBarHidden ? (
-  //   <ActionBar mt={ -6 }>
-  //     <TokenTransferFilter
-  //       defaultTypeFilters={ typeFilter }
-  //       onTypeFilterChange={ handleTypeFilterChange }
-  //       appliedFiltersNum={ numActiveFilters }
-  //       isLoading={ eventQuery.isPlaceholderData }
-  //     />
-  //     { /*<Pagination ml="auto" { ...tokenTransferQuery.pagination }/>*/ }
-  //   </ActionBar>
-  // ) : null;
+  const actionBar = !isActionBarHidden ? (
+    <ActionBar mt={ -6 }>
+      <TokenUpdateFilter
+        defaultFilter={ typeFilter }
+        onFilterChange={ handleFilterChange }
+        isLoading={ eventQuery.isPlaceholderData }
+        // map and get rid of duplicates
+        collections={ tokenUpdates.map((entry) => entry.collectionAddr).filter((value, index, self) => self.indexOf(value) === index) }
+      />
+      { /*<Pagination ml="auto" { ...tokenTransferQuery.pagination }/>*/ }
+    </ActionBar>
+  ) : null;
 
   return (
     <DataListDisplay
@@ -84,9 +93,10 @@ const EventTokenTransfer = ({ eventQuery }: Props) => {
       emptyText="There are no token transfers."
       filterProps={{
         emptyFilteredText: `Couldn${ apos }t find any token transfer that matches your query.`,
-        hasActiveFilters: Boolean(numActiveFilters),
+        hasActiveFilters: true,
       }}
       content={ content }
+      actionBar={ actionBar }
     />
   );
 };

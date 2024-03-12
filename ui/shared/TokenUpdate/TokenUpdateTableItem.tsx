@@ -1,7 +1,7 @@
 import { Tr, Td, Skeleton, Flex } from '@chakra-ui/react';
 import React from 'react';
 
-import type { MatrixEntry } from '../../../types/api/event';
+import type { MatrixUpdate } from '../../../types/api/event';
 
 // import type { TokenTransfer } from 'types/api/tokenTransfer';
 //
@@ -17,8 +17,9 @@ import TokenEntity from '../entities/token/TokenEntity';
 // import { getTokenTransferTypeText } from 'ui/shared/TokenTransfer/helpers';
 // import TxAdditionalInfo from 'ui/txs/TxAdditionalInfo';
 
-type Props = MatrixEntry & {
+type Props = MatrixUpdate & {
   isLoading?: boolean;
+  collectionAddr: string;
 }
 
 const TokenUpdateTableItem = ({
