@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 import type { EventSummary, EventSummaryResult } from '../../types/api/update';
 
-import { getResourceKey } from '../api/useApiQuery';
+import { getResourceKeyV1 } from '../api/v1/useApiQueryV1';
 import type { WebSocketContextType } from '../socket/useSocketContext';
 import { useWebSocketContext } from '../socket/useSocketContext';
 
@@ -25,7 +25,7 @@ export function assertIsSocketClosed(socket: WebSocketContextType) {
   return socket && (socket.readyState === 3 || socket.readyState === 2);
 }
 
-export default function useNewEventsSocket(currentEvent: number | undefined) {
+export default function useNewEventsSocket() {
   const [ socketAlert, setSocketAlert ] = React.useState('');
   const socket = useWebSocketContext();
   const queryClient = useQueryClient();
@@ -34,7 +34,7 @@ export default function useNewEventsSocket(currentEvent: number | undefined) {
       const newEventSummaryObj = JSON.parse(socket?.lastMessage?.data);
       if (assertIsValidNewEventMsg(newEventSummaryObj)) {
         const newEventSummary = newEventSummaryObj.block;
-        queryClient.setQueryData(getResourceKey('homepage_events_summary'), (prevData: EventSummary | undefined) => {
+        queryClient.setQueryData(getResourceKeyV1('homepage_events_summary'), (prevData: EventSummary | undefined) => {
 
           const newData = (prevData && prevData.results) ? prevData : { results: [] };
 
@@ -58,7 +58,7 @@ export default function useNewEventsSocket(currentEvent: number | undefined) {
   useEffect(() => {
     handleNewUpdateMessage();
     handleSocketClose();
-  }, [ socket, currentEvent, handleNewUpdateMessage, handleSocketClose ]);
+  }, [ socket, handleNewUpdateMessage, handleSocketClose ]);
 
   return { socketAlert };
 }

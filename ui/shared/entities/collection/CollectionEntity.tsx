@@ -38,7 +38,7 @@ const Icon = (props: IconProps) => {
 
   const styles = {
     ...getIconProps(props.iconSize),
-    marginRight: 2,
+    marginRight: 0,
   };
 
   if (props.isLoading) {
@@ -125,14 +125,20 @@ const Content = chakra((props: ContentProps) => {
   );
 });
 
-type CopyProps = Omit<EntityBase.CopyBaseProps, 'text'> & Pick<EntityProps, 'collection'>;
+type CopyProps = Omit<EntityBase.CopyBaseProps, 'text'> & Pick<EntityProps, 'collection'> &Pick<EntityProps, 'iconSize'>;
 
 const Copy = (props: CopyProps) => {
+  const styles = {
+    ...getIconProps(props.iconSize),
+    marginLeft: 1,
+  };
   return (
-    <EntityBase.Copy
-      { ...props }
-      text="Axie Infinity"
-    />
+    <Flex marginLeft={ styles.marginLeft }>
+      <EntityBase.Copy
+        { ...props }
+        text="Axie Infinity"
+      />
+    </Flex>
   );
 };
 

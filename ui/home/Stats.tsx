@@ -6,6 +6,7 @@ import { route } from 'nextjs-routes';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
+import useApiQueryV1 from 'lib/api/v1/useApiQueryV1';
 // import { WEI } from 'lib/consts';
 // import { currencyUnits } from 'lib/units';
 import { HOME_SUMMARY, HOMEPAGE_STATS } from 'stubs/stats';
@@ -29,7 +30,7 @@ const Stats = () => {
     },
   });
 
-  const { data: homeSummary, isPlaceholderData: isSummaryPlaceHolder, isError: isSummaryError } = useApiQuery('homepage_summary_stat', {
+  const { data: homeSummary, isPlaceholderData: isSummaryPlaceHolder, isError: isSummaryError } = useApiQueryV1('homepage_summary_stat', {
     queryOptions: {
       placeholderData: HOME_SUMMARY,
     },

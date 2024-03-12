@@ -4,7 +4,7 @@ import React from 'react';
 
 import { route } from 'nextjs-routes';
 
-import useApiQuery from 'lib/api/useApiQuery';
+import useApiQueryV1 from 'lib/api/v1/useApiQueryV1';
 import { AddressHighlightProvider } from 'lib/contexts/addressHighlight';
 import useIsMobile from 'lib/hooks/useIsMobile';
 import useNewEventsSocket from 'lib/hooks/useNewEventsSocket';
@@ -18,12 +18,12 @@ import LatestEventsItemMobile from './LatestEventsItemMobile';
 const LatestEvents = () => {
   const isMobile = useIsMobile();
   const eventsCount = isMobile ? 2 : 6;
-  const { data, isPlaceholderData, isError } = useApiQuery('homepage_events_summary', {
+  const { data, isPlaceholderData, isError } = useApiQueryV1('homepage_events_summary', {
     queryOptions: {
       placeholderData: EVENT_SUMMARY,
     },
   });
-  const { socketAlert } = useNewEventsSocket(data?.count);
+  const { socketAlert } = useNewEventsSocket();
   let response;
   if (isError) {
     response = EVENT_SUMMARY;
@@ -32,12 +32,12 @@ const LatestEvents = () => {
   if (data) {
     response = data;
     const results = response.results;
-    const txsUrl = route({ pathname: '/txs' });
+    const eventsUrl = route({ pathname: '/events' });
     const dataToShow = results.slice(0, eventsCount);
 
     return (
       <>
-        <SocketNewItemsNotice borderBottomRadius={ 0 } url={ txsUrl } alert={ socketAlert } isLoading={ false } type="event"/>
+        <SocketNewItemsNotice borderBottomRadius={ 0 } url={ eventsUrl } alert={ socketAlert } isLoading={ false } type="event"/>
         <Box mb={ 3 } display={{ base: 'block', lg: 'none' }}>
           <AnimatePresence initial={ false } >
             { dataToShow.map(((event, index) => {
@@ -69,7 +69,7 @@ const LatestEvents = () => {
           </Box>
         </AddressHighlightProvider>
         <Flex justifyContent="center">
-          <LinkInternal fontSize="sm" href={ txsUrl }>View all events</LinkInternal>
+          <LinkInternal fontSize="sm" href={ eventsUrl }>View all events</LinkInternal>
         </Flex>
       </>
     );

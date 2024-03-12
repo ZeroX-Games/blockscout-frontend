@@ -26,3 +26,16 @@ export type EventDetail = {
   confirmations?: number;
   matrix_entries: Array<MatrixEntry>;
 }
+
+export interface EventFilters {
+  type?: EventType;
+}
+
+export interface EventsSorting {
+  sort: 'blockId';
+  order: 'asc' | 'desc';
+}
+
+export type EventsSortingField = EventsSorting['sort'];
+
+export type EventsSortingValue = `${ EventsSortingField }-${ EventsSorting['order'] }`;

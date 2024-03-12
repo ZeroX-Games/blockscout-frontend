@@ -9,7 +9,7 @@ import {
 import { motion } from 'framer-motion';
 import React from 'react';
 
-import type { CollectionParam } from '../../types/api/collectionParams';
+import type { CollectionParam } from 'types/api/collectionParams';
 import type { EventSummaryResult } from 'types/api/update';
 
 import config from 'configs/app';
@@ -17,7 +17,7 @@ import config from 'configs/app';
 import useTimeAgoIncrement from 'lib/hooks/useTimeAgoIncrement';
 import { currencyUnits } from 'lib/units';
 import EventAdditionalInfo from 'ui/event/EventAdditionalInfo';
-import UpdatePath from 'ui/event/EventPath';
+import EventPath from 'ui/event/EventPath';
 import DomainFromTo from 'ui/shared/domain/DomainFromTo';
 import EventHashEntity from 'ui/shared/entities/event/EventHashEntity';
 import EventStatus from 'ui/shared/statusTag/EventStatus';
@@ -63,7 +63,7 @@ const LatestEventsItem = ({ event, isLoading, collectionAddr }: Props) => {
             <HStack flexWrap="wrap" my="3px">
               { /*<TxType types={ tx.tx_types } isLoading={ isLoading }/>*/ }
               <EventStatus status="ok" isLoading={ isLoading }/>
-              <UpdatePath blockId={ event.block_number } isLoading={ isLoading }/>
+              <EventPath blockId={ event.block_number } isLoading={ isLoading }/>
               { /*<TxWatchListTags tx={ update } isLoading={ isLoading }/>*/ }
             </HStack>
             <Flex
@@ -76,6 +76,7 @@ const LatestEventsItem = ({ event, isLoading, collectionAddr }: Props) => {
                 number={ event.block_number }
                 hash={ event.eventHash }
                 mr="auto"
+                fontWeight="700"
               />
               { event.timestamp && (
                 <Skeleton

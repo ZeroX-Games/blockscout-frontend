@@ -8,6 +8,7 @@ export enum NAMES {
   INVALID_SESSION='invalid_session',
   CONFIRM_EMAIL_PAGE_VIEWED='confirm_email_page_viewed',
   TXS_SORT='txs_sort',
+  EVENTS_SORT='events_sort',
   COLOR_MODE='chakra-ui-color-mode',
   COLOR_MODE_HEX='chakra-ui-color-mode-hex',
   INDEXING_ALERT='indexing_alert',
