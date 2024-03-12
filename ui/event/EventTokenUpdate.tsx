@@ -45,7 +45,7 @@ const EventTokenTransfer = ({ eventQuery }: Props) => {
 
   let attributes: Array<string> = [];
   if (tokenUpdates) {
-    attributes = Array.from({ length: tokenUpdates[0].delta.length + 1 }, () => Math.random().toString(36).substring(7));
+    attributes = tokenUpdates.attributes;
     if (eventQuery.isPlaceholderData) {
       items = tokenUpdates;
     } else {

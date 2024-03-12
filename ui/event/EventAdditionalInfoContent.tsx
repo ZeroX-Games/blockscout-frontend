@@ -8,7 +8,6 @@ import { route } from 'nextjs-routes';
 import LinkInternal from 'ui/shared/LinkInternal';
 
 const EventAdditionalInfoContent = ({ event }: { event: EventSummaryResult }) => {
-  console.log('EventAdditionalInfoContent', event);
   const sectionProps = {
     borderBottom: '1px solid',
     borderColor: 'divider',

@@ -5,7 +5,7 @@ import React from 'react';
 import { route } from 'nextjs-routes';
 
 import config from 'configs/app';
-import useApiQuery from 'lib/api/useApiQuery';
+import useApiQueryV1 from 'lib/api/v1/useApiQueryV1';
 import useIsMobile from 'lib/hooks/useIsMobile';
 import { EVENT_SUMMARY } from 'stubs/update';
 import LinkInternal from 'ui/shared/LinkInternal';
@@ -24,7 +24,7 @@ const LatestEventSummary = () => {
     eventsMaxCount = isMobile ? 2 : 3;
   }
   eventsMaxCount = 5;
-  const { data, isPlaceholderData, isError } = useApiQuery('homepage_events_summary', {
+  const { data, isPlaceholderData, isError } = useApiQueryV1('homepage_events_summary', {
     queryOptions: {
       placeholderData: EVENT_SUMMARY,
     },
@@ -35,7 +35,7 @@ const LatestEventSummary = () => {
   //   handleNewUpdateMessage();
   //   // handleSocketClose();
   // }, [ socket, handleNewUpdateMessage ]);
-  useNewEventsSocket(data?.count);
+  useNewEventsSocket();
 
   let content;
 

@@ -28,6 +28,7 @@ export type EventSummaryResult = {
   eventHash: string;
   transactionHash: string;
   collectionsAddrs: Array<string>;
+  numberOfTokens: number;
   numberOfUpdates: number;
   status: boolean;
   domain_details: DomainParam;

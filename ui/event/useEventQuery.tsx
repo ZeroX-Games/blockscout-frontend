@@ -8,8 +8,8 @@ import type { SocketMessage } from 'lib/socket/types';
 import type { EventDetail } from 'types/api/event';
 
 import type { ResourceError } from 'lib/api/resources';
-import useApiQuery, { getResourceKey } from 'lib/api/useApiQuery';
 import { retry } from 'lib/api/useQueryClientConfig';
+import useApiQueryV1, { getResourceKeyV1 } from 'lib/api/v1/useApiQueryV1';
 import { SECOND } from 'lib/consts';
 import delay from 'lib/delay';
 import getQueryParamString from 'lib/router/getQueryParamString';
@@ -39,7 +39,7 @@ export default function useEventQuery(params?: Params): EventQuery {
   const router = useRouter();
   const queryClient = useQueryClient();
   const eventId = params?.blockId ?? getQueryParamString(router.query.event_id);
-  const queryResult = useApiQuery<'event', { status: number }>('event', {
+  const queryResult = useApiQueryV1<'event', { status: number }>('event', {
     pathParams: { eventId },
     queryOptions: {
       enabled: Boolean(eventId) && params?.isEnabled !== false,
@@ -62,7 +62,7 @@ export default function useEventQuery(params?: Params): EventQuery {
   const handleStatusUpdateMessage: SocketMessage.TxStatusUpdate['handler'] = React.useCallback(async() => {
     await delay(5 * SECOND);
     queryClient.invalidateQueries({
-      queryKey: getResourceKey('event', { pathParams: { eventId } }),
+      queryKey: getResourceKeyV1('event', { pathParams: { eventId } }),
     });
   }, [ queryClient, eventId ]);
 

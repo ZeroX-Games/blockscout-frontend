@@ -2,15 +2,14 @@ import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import React from 'react';
 
-import type { Props } from 'nextjs/getServerSideProps';
 import PageNextJs from 'nextjs/PageNextJs';
 
-const Update = dynamic(() => import('ui/pages/Event'), { ssr: false });
+const Transactions = dynamic(() => import('ui/pages/Events'), { ssr: false });
 
-const Page: NextPage<Props> = (props: Props) => {
+const Page: NextPage = () => {
   return (
-    <PageNextJs pathname="/update/[blockId]" query={ props }>
-      <Update/>
+    <PageNextJs pathname="/events">
+      <Transactions/>
     </PageNextJs>
   );
 };

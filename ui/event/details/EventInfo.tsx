@@ -34,7 +34,6 @@ interface Props {
 }
 
 const EventInfo = ({ data, isLoading }: Props) => {
-  console.log(data);
   const [ isExpanded, setIsExpanded ] = React.useState(false);
 
   const handleCutClick = React.useCallback(() => {

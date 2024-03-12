@@ -88,6 +88,7 @@ export const EVENT_SUMMARY: EventSummary = {
       transactionHash: '0xccf546fa45608329ba11a952311c18a16001bf370684d8e72ddcbb18b7c42089',
       collectionsAddrs: [ '0x1', '0x2' ],
       numberOfUpdates: 2,
+      numberOfTokens: 4,
       status: true,
       domain_details: {
         domainId: '1',
@@ -106,6 +107,7 @@ export const EVENT_SUMMARY: EventSummary = {
       transactionHash: '0xccf546fa45608329ba11a952311c18a16001bf370684d8e72ddcbb18b7c42089',
       collectionsAddrs: [ '0x1', '0x2' ],
       numberOfUpdates: 2,
+      numberOfTokens: 4,
       status: true,
       domain_details: {
         domainId: '1',
@@ -124,6 +126,7 @@ export const EVENT_SUMMARY: EventSummary = {
       transactionHash: '0xccf546fa45608329ba11a952311c18a16001bf370684d8e72ddcbb18b7c42089',
       collectionsAddrs: [ '0x1', '0x2' ],
       numberOfUpdates: 2,
+      numberOfTokens: 4,
       status: true,
       domain_details: {
         domainId: '1',
@@ -142,6 +145,7 @@ export const EVENT_SUMMARY: EventSummary = {
       transactionHash: '0xccf546fa45608329ba11a952311c18a16001bf370684d8e72ddcbb18b7c42089',
       collectionsAddrs: [ '0x1', '0x2' ],
       numberOfUpdates: 2,
+      numberOfTokens: 4,
       status: true,
       domain_details: {
         domainId: '1',
@@ -160,6 +164,7 @@ export const EVENT_SUMMARY: EventSummary = {
       transactionHash: '0xccf546fa45608329ba11a952311c18a16001bf370684d8e72ddcbb18b7c42089',
       collectionsAddrs: [ '0x1', '0x2' ],
       numberOfUpdates: 2,
+      numberOfTokens: 4,
       status: true,
       domain_details: {
         domainId: '1',

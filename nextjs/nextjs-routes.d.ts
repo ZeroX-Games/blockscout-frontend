@@ -35,6 +35,7 @@ declare module "nextjs-routes" {
     | StaticRoute<"/deposits">
     | DynamicRoute<"/event/[event_id]", { "event_id": string }>
     | StaticRoute<"/events">
+    | StaticRoute<"/events">
     | StaticRoute<"/graphiql">
     | StaticRoute<"/">
     | StaticRoute<"/login">
@@ -52,7 +53,6 @@ declare module "nextjs-routes" {
     | DynamicRoute<"/tx/[hash]", { "hash": string }>
     | StaticRoute<"/txs">
     | DynamicRoute<"/txs/kettle/[hash]", { "hash": string }>
-    | DynamicRoute<"/update/[blockId]", { "blockId": string }>
     | StaticRoute<"/verified-contracts">
     | StaticRoute<"/visualize/sol2uml">
     | StaticRoute<"/withdrawals">;
