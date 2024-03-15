@@ -104,7 +104,7 @@ const Content = chakra((props: ContentProps) => {
     if (props.collection.collectionId === '0xED5AF388653567Af2F388E6224dC7C4b3241C544') {
       text = 'Meebit';
     } else {
-      text = 'Doge';
+      text = 'Meebit';
     }
 
     const hash = props.collection.collectionId;

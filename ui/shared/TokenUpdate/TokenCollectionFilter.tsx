@@ -1,22 +1,28 @@
 import { Flex, Radio, RadioGroup, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 
+import type { Filter } from '../../event/EventTokenUpdate';
 import EventEntity from '../entities/event/EventEntity';
+import type { FilterTypeSingleUpdate } from './TokenUpdateFilterGroup';
 
 interface Props {
-  defaultFilter: string;
-  onFilterChange: (nextValue: any) => void;
+  defaultFilter: Filter;
+  onFilterChange: FilterTypeSingleUpdate;
   collections: Array<string>;
 }
 
 const TokenCollectionFilter = ({ defaultFilter, onFilterChange, collections }: Props) => {
+  const defaultValue = defaultFilter.collectionAddr;
+  const handleChange = React.useCallback((nextValue: string) => {
+    onFilterChange(nextValue);
+  }, [ onFilterChange ]);
   return (
     <>
       <Text variant="secondary" fontWeight={ 600 }>Address</Text>
       <RadioGroup
         size="lg"
-        onChange={ onFilterChange }
-        defaultValue={ defaultFilter }
+        onChange={ handleChange }
+        defaultValue={ defaultValue }
         paddingBottom={ 4 }
         borderBottom="1px solid"
         borderColor="divider"

@@ -22,12 +22,13 @@ const TokenUpdateTable = ({
   isLoading,
 }: Props) => {
   console.log(top);
+  const thWidth = 'calc(80vw/7)';
   return (
     <AddressHighlightProvider>
-      <TableContainer maxW="1200px" overflowX="scroll" overflowY="unset">
-        <Table style={{ tableLayout: 'unset' }}>
-          <Thead top={ 0 } position="sticky" backgroundColor="#383F4A" borderTopLeftRadius="20px">
-            <Tr>
+      <TableContainer overflowX="scroll" overflowY="unset" w="50vw">
+        <Table style={{ tableLayout: 'unset' }} display="block" maxH="400px" overflowY="scroll">
+          <Thead top={ 0 } position="sticky" backgroundColor="#383F4A" borderTopLeftRadius="20px" display="table">
+            <Tr display="table">
               <Th
                 minW="180px"
                 maxW="300px"
@@ -41,11 +42,11 @@ const TokenUpdateTable = ({
                 TokenId
               </Th>
               { attributes.map((attribute, index) => (
-                <Th key={ index } minW="125px" maxW="200px" ml="20px" >{ attribute }</Th>
+                <Th key={ index } minW={ thWidth } maxW={ thWidth } ml="20px" >{ attribute }</Th>
               )) }
             </Tr>
           </Thead>
-          <Tbody>
+          <Tbody >
             { data.map((item, collectionIndex) => {
               return (item.updates.map((update, rowIndex) => (
                 <TokenUpdateTableItem
