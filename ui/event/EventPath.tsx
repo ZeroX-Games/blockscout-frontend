@@ -31,12 +31,12 @@ const EventPath = ({ blockId, isLoading }: Props) => {
       />
       <HStack gap={ 2 }>
         <IconSvg
-          name="networks/base"
+          name="networks/arbitrum"
           isLoading={ isLoading }
           boxSize={ 5 }
         />
         <Skeleton isLoaded={ !isLoading }>
-          <Box>BASE</Box>
+          <Box>Arbitrum</Box>
         </Skeleton>
       </HStack>
     </HStack>

@@ -11,11 +11,17 @@ type Props = {
 
 const DetailsCollections = ({ collections, isLoading }: Props) => {
   const separatorColor = useColorModeValue('gray.200', 'gray.700');
-  const imgUrl = 'https://i.seadn.io/gae/_BYA3bhx1ebgDr3QsuQuh2OMSznmS_TkwJhikCtCVMh4RUcpn2gnJmmOHHA28gy0mKP50flV31iXsDBUr_zjBaXNJA?auto=format&dpr=1&w=64 64w';
 
   return (
     <>
       { collections.map((collection, index) => {
+        let imgUrl = '';
+        if (collection === 'Meebit') {
+          imgUrl = 'https://i.seadn.io/gcs/files/2d036c8c2bed042a1588622c3173677f.png?auto=format&dpr=1&w=64 64w';
+        } else {
+          imgUrl = 'https://i.seadn.io/gae/' +
+            'oJmaHkYOBEoqOWxvSf6B2tTjZaymNCnhrimYEzYYRIu_aogqgTs9PGKn0fyubCJ4D0qDQLGxujFRw3RsreGJhWPpl4HW-BKcxHnpjGY?auto=format&dpr=1&w=64 64w';
+        }
         return (
           <Flex key={ index }>
             <Skeleton isLoaded={ !isLoading }>

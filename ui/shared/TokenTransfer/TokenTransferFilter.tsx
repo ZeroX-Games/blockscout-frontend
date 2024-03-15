@@ -38,7 +38,7 @@ const TokenTransferFilter = ({
     <PopoverFilter appliedFiltersNum={ appliedFiltersNum } contentProps={{ w: '220px' }} isLoading={ isInitialLoading }>
       { withAddressFilter && (
         <>
-          <Text variant="secondary" fontWeight={ 600 }>Address</Text>
+          <Text variant="secondary" fontWeight={ 600 }>Collection</Text>
           <RadioGroup
             size="lg"
             onChange={ onAddressFilterChange }

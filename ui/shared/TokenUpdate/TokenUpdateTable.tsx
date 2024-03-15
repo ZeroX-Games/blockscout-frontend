@@ -46,10 +46,10 @@ const TokenUpdateTable = ({
             </Tr>
           </Thead>
           <Tbody>
-            { data.map((item, index) => {
-              return (item.updates.map((update) => (
+            { data.map((item, collectionIndex) => {
+              return (item.updates.map((update, rowIndex) => (
                 <TokenUpdateTableItem
-                  key={ index }
+                  key={ `${ collectionIndex }-${ rowIndex }` }
                   collectionAddr={ item.collectionAddr }
                   { ...update }
                   isLoading={ isLoading }

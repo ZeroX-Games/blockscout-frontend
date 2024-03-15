@@ -2,13 +2,12 @@ import {
   Grid,
   GridItem,
   Text,
-  Link,
   Spinner,
   Skeleton,
 } from '@chakra-ui/react';
 // import BigNumber from 'bignumber.js';
 import React from 'react';
-import { scroller, Element } from 'react-scroll';
+import { scroller } from 'react-scroll';
 
 import type { EventDetail } from 'types/api/event';
 
@@ -36,6 +35,7 @@ interface Props {
 const EventInfo = ({ data, isLoading }: Props) => {
   const [ isExpanded, setIsExpanded ] = React.useState(false);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleCutClick = React.useCallback(() => {
     setIsExpanded((flag) => !flag);
     scroller.scrollTo('TxInfo__cutLink', {
@@ -48,7 +48,7 @@ const EventInfo = ({ data, isLoading }: Props) => {
     return null;
   }
 
-  const network = { name: 'Base', hash: '0x881D40237659C251811CEC9c364ef91dC08D300C' };
+  const network = { name: 'Arbitrum', hash: '0x881D40237659C251811CEC9c364ef91dC08D300C' };
   // const updates = { attributes: [ 'Rp', 'Mp', 'Speed', 'Exposure', 'Hp', 'Decoration', 'Rp1', 'Mp1', 'Speed1', 'Exposure1', 'Hp1', 'Decoration1' ],
   //   values: [ [ 'Azuki #7352', 10, 0, 1, 20, 1, 0, 10, 0, 1, 20, 1, 0 ],
   //     [ 'Azuki #2314', 0, 0, 5, 0, 0, 10, 0, 0, 5, 0, 0, 10 ],
@@ -99,7 +99,7 @@ const EventInfo = ({ data, isLoading }: Props) => {
         title="Updated Collections"
         isLoading={ isLoading }
         hint="The updated tokens belong to which collections">
-        <DetailsCollections collections={ [ 'Azuki', 'BAYC' ] } isLoading={ isLoading }/>
+        <DetailsCollections collections={ [ 'Meebit', 'Doge' ] } isLoading={ isLoading }/>
       </DetailsInfoItem>
       <DetailsInfoItem
         title="Fee"
@@ -139,21 +139,21 @@ const EventInfo = ({ data, isLoading }: Props) => {
           placeholder
         </Tag>
       </DetailsInfoItem>
-      <GridItem colSpan={{ base: undefined, lg: 2 }}>
-        <Element name="TxInfo__cutLink">
-          <Skeleton isLoaded={ !isLoading } mt={ 6 } display="inline-block">
-            <Link
-              display="inline-block"
-              fontSize="sm"
-              textDecorationLine="underline"
-              textDecorationStyle="dashed"
-              onClick={ handleCutClick }
-            >
-              { isExpanded ? 'Hide details' : 'View details' }
-            </Link>
-          </Skeleton>
-        </Element>
-      </GridItem>
+      { /*<GridItem colSpan={{ base: undefined, lg: 2 }}>*/ }
+      { /*  <Element name="TxInfo__cutLink">*/ }
+      { /*    <Skeleton isLoaded={ !isLoading } mt={ 6 } display="inline-block">*/ }
+      { /*      <Link*/ }
+      { /*        display="inline-block"*/ }
+      { /*        fontSize="sm"*/ }
+      { /*        textDecorationLine="underline"*/ }
+      { /*        textDecorationStyle="dashed"*/ }
+      { /*        onClick={ handleCutClick }*/ }
+      { /*      >*/ }
+      { /*        { isExpanded ? 'Hide details' : 'View details' }*/ }
+      { /*      </Link>*/ }
+      { /*    </Skeleton>*/ }
+      { /*  </Element>*/ }
+      { /*</GridItem>*/ }
       { isExpanded && (
         <>
           <GridItem colSpan={{ base: undefined, lg: 2 }} mt={{ base: 1, lg: 4 }}/>

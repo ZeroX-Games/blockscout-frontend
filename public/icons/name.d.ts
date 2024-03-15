@@ -70,6 +70,7 @@
 	| "moon-with-star"
 	| "moon"
 	| "networks"
+	| "networks/arbitrum"
 	| "networks/base"
 	| "networks/icon-placeholder"
 	| "networks/logo-placeholder"

@@ -28,11 +28,21 @@ const TokenUpdateTableItem = ({
   delta,
   isLoading,
 }: Props) => {
+  let collectionName = '';
+  let iconUrl = '';
+  if (collectionAddr === '0xED5AF388653567Af2F388E6224dC7C4b3241C544') {
+    collectionName = 'Meebit';
+    iconUrl = 'https://i.seadn.io/gcs/files/2d036c8c2bed042a1588622c3173677f.png?auto=format&dpr=1&w=64 64w';
+  } else {
+    collectionName = 'Doge';
+    iconUrl =
+      'https://i.seadn.io/gae/' +
+      'oJmaHkYOBEoqOWxvSf6B2tTjZaymNCnhrimYEzYYRIu_aogqgTs9PGKn0fyubCJ4D0qDQLGxujFRw3RsreGJhWPpl4HW-BKcxHnpjGY?auto=format&dpr=1&w=64 64w';
+  }
   const token = {
-    icon_url:
-      'https://i.seadn.io/gae/H8jOCJuQokNqGBpkBN5wk1oZwO7LM8bNnrHCaekV2nKjnCqw6UB5oaH8XyNeBDj6bA_n1mjejzhFQUP3O1NfjFLHr3FOaeHcTOOT?auto=format&dpr=1&w=48 48w',
+    icon_url: iconUrl,
     address: collectionAddr,
-    name: 'collection Name',
+    name: collectionName,
   };
   return (
     <Tr alignItems="top">
@@ -45,7 +55,7 @@ const TokenUpdateTableItem = ({
             noCopy
             my="2px"
           />
-          <Tag isLoading={ isLoading }>#{ tokenId }</Tag>
+          <Tag isLoading={ isLoading }>Token #{ tokenId }</Tag>
         </Flex>
       </Td>
       { delta.map((item, index) => (

@@ -54,7 +54,7 @@ const Icon = (props: IconProps) => {
         { /*/>*/ }
         <EntityBase.Icon
           { ...props }
-          name="networks/base"
+          name="networks/arbitrum"
           color="green.500"
           borderRadius={ 0 }
         />

@@ -100,7 +100,7 @@ type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps
 
 const Content = chakra((props: ContentProps) => {
   if (props.domain.name || props.domain.domainId) {
-    const text = 'GTA V' + (props.domain.name || props.domain.domainId);
+    const text = 'NFT Fighter';
     const hash = props.domain.domainId || '0x HASH Place holder';
     const label = (
       <VStack gap={ 0 } py={ 1 } color="inherit">
