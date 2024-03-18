@@ -11,22 +11,19 @@ interface Props {
   data: Array<MatrixEntry>;
   attributes: Array<string>;
   baseAddress?: string;
-  top: number;
   isLoading?: boolean;
 }
 
 const TokenUpdateTable = ({
   data,
   attributes,
-  top,
   isLoading,
 }: Props) => {
-  console.log(top);
   const thWidth = 'calc(80vw/7)';
   return (
     <AddressHighlightProvider>
-      <TableContainer overflowX="scroll" overflowY="unset" w="50vw">
-        <Table style={{ tableLayout: 'unset' }} display="block" maxH="400px" overflowY="scroll">
+      <TableContainer overflowX="scroll" overflowY="unset" w="80vw">
+        <Table style={{ tableLayout: 'unset' }} display="block" maxH="800px" overflowY="scroll">
           <Thead top={ 0 } position="sticky" backgroundColor="#383F4A" borderTopLeftRadius="20px" display="table">
             <Tr display="table">
               <Th

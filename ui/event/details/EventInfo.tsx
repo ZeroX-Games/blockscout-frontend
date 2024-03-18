@@ -26,16 +26,13 @@ import TxStatus from 'ui/shared/statusTag/TxStatus';
 import UpdateStatus from 'ui/shared/statusTag/UpdateStatus';
 
 import DetailsCollections from '../../shared/DetailsCollections';
-import EventTokenUpdate from '../EventTokenUpdate';
-import type { EventQuery } from '../useEventQuery';
 
 interface Props {
   data: EventDetail | undefined;
   isLoading: boolean;
-  eventQuery: EventQuery;
 }
 
-const EventInfo = ({ data, isLoading, eventQuery }: Props) => {
+const EventInfo = ({ data, isLoading }: Props) => {
   const [ isExpanded, setIsExpanded ] = React.useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -141,14 +138,6 @@ const EventInfo = ({ data, isLoading, eventQuery }: Props) => {
         <Tag colorScheme="gray" isLoading={ isLoading } isTruncated ml={ 3 }>
           placeholder
         </Tag>
-      </DetailsInfoItem>
-      <DetailsInfoItem
-        title="Token updates"
-        hint="Destination where the update was sent"
-        isLoading={ isLoading }
-        columnGap={ 3 }
-      >
-        <EventTokenUpdate eventQuery={ eventQuery }/>
       </DetailsInfoItem>
       { /*<GridItem colSpan={{ base: undefined, lg: 2 }}>*/ }
       { /*  <Element name="TxInfo__cutLink">*/ }

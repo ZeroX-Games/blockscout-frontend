@@ -1,12 +1,11 @@
 import { CheckboxGroup, Checkbox, Text, Flex, Link, useCheckboxGroup } from '@chakra-ui/react';
 import React from 'react';
 
-import type { Filter } from '../../event/EventTokenUpdate';
 import type { FilterTypeMultiUpdate } from './TokenUpdateFilterGroup';
 
 type Props = {
   onChange: FilterTypeMultiUpdate;
-  defaultValue?: Filter;
+  defaultValue?: Array<string>;
   options: Array<string>;
 }
 const TokenMultiFilter = ({ onChange, defaultValue, options }: Props) => {
@@ -42,7 +41,7 @@ const TokenMultiFilter = ({ onChange, defaultValue, options }: Props) => {
       </Flex>
       <CheckboxGroup size="lg" onChange={ handleChange } value={ value }>
         { options.map((option, index) => (
-          <Checkbox key={ index } value={ index }>
+          <Checkbox key={ index } value={ option }>
             <Text fontSize="md">{ option }</Text>
           </Checkbox>
         )) }

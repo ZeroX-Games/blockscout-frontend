@@ -48,9 +48,34 @@ const EventTokenTransfer = ({ eventQuery }: Props) => {
   }, [ initFilterObj, tokenUpdates ]);
 
   const handleFilterChange = React.useCallback((nextValue: Filter) => {
-    const filterData = tokenUpdates.filter((entry) => entry.collectionAddr === nextValue.collectionAddr);
-    setUpdates(filterData);
-    setAttributes(filterData[0].attributes);
+    const filterCollectionData = tokenUpdates.filter((entry) => entry.collectionAddr === nextValue.collectionAddr);
+    if (nextValue.attributes.length) {
+      const attributes = filterCollectionData[0].attributes;
+      const selectedAttributesIdx = attributes.map((attribute) => {
+        return nextValue.attributes.includes(attribute);
+      });
+      const filterData = filterCollectionData.map((entry) => {
+        return {
+          ...entry,
+          attributes: entry.attributes.filter((_, idx) => {
+            return selectedAttributesIdx[idx];
+          }),
+          updates: entry.updates.map((update) => {
+            return {
+              ...update,
+              delta: update.delta.filter((_, idx) => {
+                return selectedAttributesIdx[idx];
+              }),
+            };
+          }),
+        };
+      });
+      setUpdates(filterData);
+      setAttributes(nextValue.attributes);
+    } else {
+      setUpdates(filterCollectionData);
+      setAttributes(filterCollectionData[0].attributes);
+    }
     setTypeFilter(nextValue);
   }, [ tokenUpdates ]);
 
@@ -75,7 +100,7 @@ const EventTokenTransfer = ({ eventQuery }: Props) => {
   const content = tokenUpdates ? (
     <>
       <Hide below="lg" ssr={ false }>
-        <TokenUpdateTable data={ updates } top={ isActionBarHidden ? 0 : 80 } isLoading={ eventQuery.isPlaceholderData } attributes={ attributes }/>
+        <TokenUpdateTable data={ updates } isLoading={ eventQuery.isPlaceholderData } attributes={ attributes }/>
       </Hide>
       <Show below="lg" ssr={ false }>
         <TokenUpdateList data={ updates } isLoading={ eventQuery.isPlaceholderData }/>

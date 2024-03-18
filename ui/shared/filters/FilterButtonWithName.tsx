@@ -27,7 +27,7 @@ const FilterButtonWithName = ({ isActive, isLoading, appliedFiltersNum, onClick,
 
   let filterText;
   if (currentFilter.length === 0) {
-    filterText = 0;
+    filterText = ``;
   } else if (currentFilter.length === 1) {
     filterText = `: ${ currentFilter[0] }`;
   } else {

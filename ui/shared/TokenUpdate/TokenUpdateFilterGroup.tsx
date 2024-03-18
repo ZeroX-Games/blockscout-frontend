@@ -14,22 +14,19 @@ interface Props {
   tokenUpdates: Array<MatrixEntry>;
 }
 
-export type FilterType = string | Array<string>;
 export type FilterTypeSingleUpdate = (nextValue: string) => void;
 export type FilterTypeMultiUpdate = (nextValue: Array<string>) => void;
 
 const TokenUpdateFilterGroup = ({ typeFilter, handleFilterChange, eventQuery, tokenUpdates }: Props) => {
   const getAllAttributesWithOutDuplicates = useMemo(() => {
-    const allAttributes: Array<string> = [];
+    const attributes: Array<string> = [];
     tokenUpdates.forEach((entry) => {
-      entry.attributes.forEach((attribute) => {
-        if (!allAttributes.includes(attribute)) {
-          allAttributes.push(attribute);
-        }
-      });
+      if (entry.collectionAddr === typeFilter.collectionAddr) {
+        attributes.push(...entry.attributes);
+      }
     });
-    return allAttributes;
-  }, [ tokenUpdates ]);
+    return attributes;
+  }, [ tokenUpdates, typeFilter.collectionAddr ]);
 
   const handleAttributeFilterChange = useCallback((newAttributes: Array<string>) => {
     if (Array.isArray(newAttributes)) {
@@ -37,13 +34,14 @@ const TokenUpdateFilterGroup = ({ typeFilter, handleFilterChange, eventQuery, to
       return;
     }
   }, [ handleFilterChange, typeFilter ]);
+
   const handleCollectionFilterChange = useCallback((newCollection: string) => {
-    handleFilterChange({ ...typeFilter, collectionAddr: newCollection });
+    handleFilterChange({ ...typeFilter, collectionAddr: newCollection, attributes: [] });
   }, [ handleFilterChange, typeFilter ]);
   return (
     <Flex gap={ 4 }>
       <TokenUpdateCollectionFilter
-        defaultFilter={ typeFilter }
+        defaultFilter={ typeFilter.collectionAddr }
         onFilterChange={ handleCollectionFilterChange }
         isLoading={ eventQuery.isPlaceholderData }
         // map and get rid of duplicates
@@ -52,7 +50,7 @@ const TokenUpdateFilterGroup = ({ typeFilter, handleFilterChange, eventQuery, to
         multi={ false }
       />
       <TokenUpdateCollectionFilter
-        defaultFilter={ typeFilter }
+        defaultFilter={ typeFilter.attributes }
         onFilterChange={ handleAttributeFilterChange }
         isLoading={ eventQuery.isPlaceholderData }
         // map and get rid of duplicates

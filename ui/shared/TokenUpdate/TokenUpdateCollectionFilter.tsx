@@ -4,13 +4,12 @@ import useIsInitialLoading from 'lib/hooks/useIsInitialLoading';
 import PopoverFilterWithName from 'ui/shared/filters/PopoverFilterWithName';
 import TokenCollectionFilter from 'ui/shared/TokenUpdate/TokenCollectionFilter';
 
-import type { Filter } from '../../event/EventTokenUpdate';
 import TokenMultiFilter from './TokenMultiFilter';
 import type { FilterTypeMultiUpdate, FilterTypeSingleUpdate } from './TokenUpdateFilterGroup';
 
 type BaseProps = {
   appliedFiltersNum?: number;
-  defaultFilter: Filter;
+  defaultFilter: string | Array<string>;
   isLoading?: boolean;
   collections: Array<string>;
   multi: boolean;
@@ -43,18 +42,23 @@ const TokenUpdateCollectionFilter = ({
 }: Props) => {
   const isInitialLoading = useIsInitialLoading(isLoading);
   // replace defaultFilter with object
-  console.log(defaultFilter);
-  const currentFilters = defaultFilter.collectionAddr.slice(-4);
+  let currentFilters: Array<string>;
+  if (typeof defaultFilter === 'string') {
+    currentFilters = [ defaultFilter.slice(-4) ];
+  } else {
+    currentFilters = defaultFilter;
+  }
+
   return (
     <PopoverFilterWithName
       appliedFiltersNum={ appliedFiltersNum }
       contentProps={{ w: '220px' }}
       isLoading={ isInitialLoading }
       name={ name }
-      currentFilter={ [ currentFilters ] }>
+      currentFilter={ currentFilters }>
       { multi ?
-        <TokenMultiFilter onChange={ onFilterChange } options={ options } defaultValue={ defaultFilter }/> :
-        <TokenCollectionFilter defaultFilter={ defaultFilter } onFilterChange={ onFilterChange } collections={ collections }/> }
+        <TokenMultiFilter onChange={ onFilterChange } options={ options } defaultValue={ defaultFilter as Array<string> }/> :
+        <TokenCollectionFilter defaultFilter={ defaultFilter as string } onFilterChange={ onFilterChange } collections={ collections }/> }
       { /*<TokenTypeFilter<TokenType> onChange={ onTypeFilterChange } defaultValue={ defaultTypeFilters } nftOnly={ false }/>*/ }
     </PopoverFilterWithName>
   );

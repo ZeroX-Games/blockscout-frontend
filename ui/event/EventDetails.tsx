@@ -23,7 +23,7 @@ const EventDetails = ({ eventQuery }: Props) => {
   return (
     <>
       <TestnetWarning mb={ 6 } isLoading={ false }/>
-      <EventInfo data={ data } isLoading={ false } eventQuery={ eventQuery }/>
+      <EventInfo data={ data } isLoading={ false }/>
     </>
   );
 };
