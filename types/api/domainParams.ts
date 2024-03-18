@@ -17,6 +17,7 @@ export type DomainParamBasic = {
   updated_at: string;
   img_url?: string;
   hash?: string;
+  chainID: number;
 }
 
 export type DomainParam = DomainParamBasic;

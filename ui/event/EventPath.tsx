@@ -5,14 +5,20 @@ import React from 'react';
 import EventEntity from 'ui/shared/entities/event/EventEntity';
 import IconSvg from 'ui/shared/IconSvg';
 
+import { DOMAIN_CHAIN_TYPES } from '../../lib/domain/domainChainTypes';
+
 type Props = {
   blockId: number;
+  chainID: number;
   isLoading?: boolean;
 }
 
-const EventPath = ({ blockId, isLoading }: Props) => {
+const EventPath = ({ blockId, chainID, isLoading }: Props) => {
   // const darkModeFilter = { filter: 'brightness(0) invert(1)' };
   // const style = useColorModeValue({}, darkModeFilter);
+  const network = DOMAIN_CHAIN_TYPES[`${ chainID }`];
+  const icon = network?.icon || 'networks/unknown';
+  const name = network?.title || 'unknown';
   return (
     <HStack gap={ 2 }>
       <EventEntity
@@ -31,12 +37,12 @@ const EventPath = ({ blockId, isLoading }: Props) => {
       />
       <HStack gap={ 2 }>
         <IconSvg
-          name="networks/arbitrum"
+          name={ icon }
           isLoading={ isLoading }
           boxSize={ 5 }
         />
         <Skeleton isLoaded={ !isLoading }>
-          <Box>Arbitrum</Box>
+          <Box>{ name }</Box>
         </Skeleton>
       </HStack>
     </HStack>

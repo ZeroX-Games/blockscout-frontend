@@ -72,6 +72,7 @@
 	| "networks"
 	| "networks/arbitrum"
 	| "networks/base"
+	| "networks/ethereum"
 	| "networks/icon-placeholder"
 	| "networks/logo-placeholder"
 	| "networks/optimism"
