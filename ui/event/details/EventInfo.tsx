@@ -15,6 +15,7 @@ import type { EventDetail } from 'types/api/event';
 
 import Tag from 'ui/shared/chakra/Tag';
 import CopyToClipboard from 'ui/shared/CopyToClipboard';
+import DetailsCollections from 'ui/shared/DetailsCollections';
 import DetailsFee from 'ui/shared/DetailsFee';
 import DetailsInfoItem from 'ui/shared/DetailsInfoItem';
 import DetailsInfoItemDivider from 'ui/shared/DetailsInfoItemDivider';
@@ -24,8 +25,6 @@ import HashStringShortenDynamic from 'ui/shared/HashStringShortenDynamic';
 import LogUpdatedTokenData from 'ui/shared/logs/LogUpdatedTokenData';
 import TxStatus from 'ui/shared/statusTag/TxStatus';
 import UpdateStatus from 'ui/shared/statusTag/UpdateStatus';
-
-import DetailsCollections from '../../shared/DetailsCollections';
 
 interface Props {
   data: EventDetail | undefined;
@@ -47,13 +46,6 @@ const EventInfo = ({ data, isLoading }: Props) => {
   if (!data) {
     return null;
   }
-
-  const network = { name: 'Arbitrum', hash: '0x881D40237659C251811CEC9c364ef91dC08D300C' };
-  // const updates = { attributes: [ 'Rp', 'Mp', 'Speed', 'Exposure', 'Hp', 'Decoration', 'Rp1', 'Mp1', 'Speed1', 'Exposure1', 'Hp1', 'Decoration1' ],
-  //   values: [ [ 'Azuki #7352', 10, 0, 1, 20, 1, 0, 10, 0, 1, 20, 1, 0 ],
-  //     [ 'Azuki #2314', 0, 0, 5, 0, 0, 10, 0, 0, 5, 0, 0, 10 ],
-  //     [ 'Azuki #6381', -30, 0, 0, -8, 0, 0, -30, 0, 0, -8, 0, 0 ] ],
-  // };
   return (
     <Grid columnGap={ 8 } rowGap={{ base: 3, lg: 3 }} templateColumns={{ base: 'minmax(0, 1fr)', lg: 'max-content minmax(728px, auto)' }}>
       <DetailsInfoItem
@@ -116,7 +108,7 @@ const EventInfo = ({ data, isLoading }: Props) => {
         columnGap={ 3 }
       >
         <NetworkEntity
-          network={ network }
+          chainId={ data.domain_details.chainID }
           isLoading={ isLoading }
         />
       </DetailsInfoItem>

@@ -80,5 +80,9 @@ export const STATS_COUNTER: Counter = {
 };
 
 export const HOME_SUMMARY: HomeSummary = {
-  totalBlock: 100,
+  totalBlock: 20,
+  totalChains: 3,
+  totalCollections: 4,
+  totalDomains: 3,
+  totalUpdates: 10,
 };

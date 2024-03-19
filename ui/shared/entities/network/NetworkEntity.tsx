@@ -3,19 +3,19 @@ import { Box, Flex, Skeleton, Tooltip, chakra, VStack, useColorModeValue } from 
 import _omit from 'lodash/omit';
 import React from 'react';
 
-import type { NetworkParam } from 'types/api/networkParams';
-
 import { route } from 'nextjs-routes';
 
 import { useAddressHighlightContext } from 'lib/contexts/addressHighlight';
+import { DOMAIN_CHAIN_TYPES } from 'lib/domain/domainChainTypes';
 import * as EntityBase from 'ui/shared/entities/base/components';
 
 import { getIconProps } from '../base/utils';
 
-type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'network'>;
+type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'chainId'>;
 
 const Link = chakra((props: LinkProps) => {
-  const defaultHref = route({ pathname: '/network/[name]', query: { ...props.query, name: props.network.name } });
+  const name = DOMAIN_CHAIN_TYPES[`${ props.chainId }`].icon;
+  const defaultHref = route({ pathname: '/network/[name]', query: { ...props.query, name: name } });
 
   return (
     <EntityBase.Link
@@ -27,7 +27,7 @@ const Link = chakra((props: LinkProps) => {
   );
 });
 
-type IconProps = Pick<EntityProps, 'network' | 'isLoading' | 'iconSize' | 'noIcon' | 'isSafeAddress'> & {
+type IconProps = Pick<EntityProps, 'chainId' | 'isLoading' | 'iconSize' | 'noIcon' | 'isSafeAddress'> & {
   asProp?: As;
 };
 
@@ -44,9 +44,10 @@ const Icon = (props: IconProps) => {
   if (props.isLoading) {
     return <Skeleton { ...styles } borderRadius="full" flexShrink={ 0 }/>;
   }
+  const iconName = DOMAIN_CHAIN_TYPES[`${ props.chainId }`].icon;
 
   return (
-    <Tooltip label={ props.network.name }>
+    <Tooltip label={ iconName }>
       <Flex >
         { /*<AddressIdenticon*/ }
         { /*  size={ props.iconSize === 'lg' ? 30 : 20 }*/ }
@@ -54,7 +55,7 @@ const Icon = (props: IconProps) => {
         { /*/>*/ }
         <EntityBase.Icon
           { ...props }
-          name="networks/arbitrum"
+          name={ iconName }
           color="green.500"
           borderRadius={ 0 }
         />
@@ -63,12 +64,13 @@ const Icon = (props: IconProps) => {
   );
 };
 
-type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'network'>;
+type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'chainId' | 'txHash'>;
 
 const Content = chakra((props: ContentProps) => {
-  if (props.network.name) {
-    const name = props.network.name;
-    const hash = props.network.hash;
+  if (props.chainId) {
+    const network = DOMAIN_CHAIN_TYPES[`${ props.chainId }`];
+    const name = network.title;
+    const hash = props.txHash;
     const label = (
       <VStack gap={ 0 } py={ 1 } color="inherit">
         <Box fontWeight={ 600 } whiteSpace="pre-wrap" wordBreak="break-word">{ name }</Box>
@@ -88,18 +90,18 @@ const Content = chakra((props: ContentProps) => {
   return (
     <EntityBase.Content
       { ...props }
-      text={ props.network.name }
+      text="unknown"
     />
   );
 });
 
-type CopyProps = Omit<EntityBase.CopyBaseProps, 'text'> & Pick<EntityProps, 'network'>;
+type CopyProps = Omit<EntityBase.CopyBaseProps, 'text'> & Pick<EntityProps, 'txHash'>;
 
 const Copy = (props: CopyProps) => {
   return (
     <EntityBase.Copy
       { ...props }
-      text={ props.network.hash }
+      text={ props.txHash }
     />
   );
 };
@@ -107,7 +109,8 @@ const Copy = (props: CopyProps) => {
 const Container = EntityBase.Container;
 
 export interface EntityProps extends EntityBase.EntityBaseProps {
-  network: NetworkParam;
+  chainId: number;
+  txHash: string;
   isSafeAddress?: boolean;
 }
 
@@ -122,11 +125,11 @@ const NetworkEntry = (props: EntityProps) => {
   return (
     <Container
       className={ props.className }
-      data-hash={ props.network.name }
+      data-hash={ props.txHash }
       onMouseEnter={ context?.onMouseEnter }
       onMouseLeave={ context?.onMouseLeave }
       position="relative"
-      _before={ !props.isLoading && context?.highlightedAddress === props.network.name ? {
+      _before={ !props.isLoading && context?.highlightedAddress === String(props.chainId) ? {
         content: `" "`,
         position: 'absolute',
         py: 1,

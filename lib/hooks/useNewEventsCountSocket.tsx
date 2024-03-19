@@ -12,7 +12,7 @@ export default function useNewEventsCountSocket(currentEvent: number | undefined
 
   const handleNewUpdateMessage = React.useCallback(() => {
     if (currentEvent && assertIsNewEventResponse(socket)) {
-      const obj = JSON.parse(socket?.lastMessage?.data);
+      const obj = JSON.parse(socket?.lastBlockMessage?.data);
       if (assertIsValidNewEventMsg(obj)) {
         const newEventNum = obj.block.block_number;
         if (newEventNum > currentEvent) {

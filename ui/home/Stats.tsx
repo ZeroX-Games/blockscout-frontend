@@ -12,6 +12,7 @@ import useApiQueryV1 from 'lib/api/v1/useApiQueryV1';
 import { HOME_SUMMARY, HOMEPAGE_STATS } from 'stubs/stats';
 // import GasInfoTooltipContent from 'ui/shared/GasInfoTooltipContent/GasInfoTooltipContent';
 
+import useNewHomePageSummarySocket from '../../lib/hooks/useNewHomePageSummarySocket';
 import StatsItem from './StatsItem';
 
 // const hasGasTracker = config.UI.homepage.showGasTracker;
@@ -35,7 +36,7 @@ const Stats = () => {
       placeholderData: HOME_SUMMARY,
     },
   });
-
+  useNewHomePageSummarySocket();
   const zkEvmLatestBatchQuery = useApiQuery('homepage_zkevm_latest_batch', {
     queryOptions: {
       placeholderData: 12345,
@@ -73,10 +74,6 @@ const Stats = () => {
     //   return 'N/A';
     // })();
 
-    const connectedChains = (() => {
-      return `123`;
-    })();
-
     content = (
       <>
         { config.features.zkEvmRollup.isEnabled ? (
@@ -92,7 +89,7 @@ const Stats = () => {
             icon="zerox-blocks"
             title="Total blocks"
             value={ Number(homeSummary.totalBlock).toLocaleString() }
-            url={ route({ pathname: '/blocks' }) }
+            url={ route({ pathname: '/events' }) }
             isLoading={ isPlaceholderData }
           />
         ) }
@@ -100,28 +97,28 @@ const Stats = () => {
         <StatsItem
           icon="zerox-updates"
           title="Total updates"
-          value={ Number(data.total_transactions).toLocaleString() }
-          url={ route({ pathname: '/txs' }) }
+          value={ Number(homeSummary.totalUpdates).toLocaleString() }
+          url={ route({ pathname: '/events' }) }
           isLoading={ isSummaryPlaceHolder }
         />
         <StatsItem
           icon="zerox-events"
           title="Total events"
           value={ Number(homeSummary.totalBlock).toLocaleString() }
-          url={ route({ pathname: '/txs' }) }
+          url={ route({ pathname: '/events' }) }
           isLoading={ isSummaryPlaceHolder }
         />
         <StatsItem
           icon="zerox-domains"
-          title="Wallet domains"
-          value={ Number(data.total_addresses).toLocaleString() }
+          title="Total Applications"
+          value={ Number(homeSummary.totalDomains).toLocaleString() }
           _last={ isOdd ? lastItemTouchStyle : undefined }
           isLoading={ isPlaceholderData }
         />
         <StatsItem
           icon="zerox-chains"
           title="Connected chains"
-          value={ connectedChains }
+          value={ Number(homeSummary.totalChains).toLocaleString() }
           _last={ isOdd ? lastItemTouchStyle : undefined }
           // tooltipLabel={ gasLabel }
           isLoading={ isPlaceholderData }

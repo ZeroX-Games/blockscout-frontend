@@ -63,7 +63,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             <QueryClientProvider client={ queryClient }>
               <GrowthBookProvider growthbook={ growthBook }>
                 <ScrollDirectionProvider>
-                  <WebSocketProvider url={ `${ config.api.newSocket }${ config.api.basePath }/ws/blocks/` } >
+                  <WebSocketProvider url={ `${ config.api.newSocket }${ config.api.basePath }/ws/` } >
                     { getLayout(<Component { ...pageProps }/>) }
                   </WebSocketProvider>
                 </ScrollDirectionProvider>

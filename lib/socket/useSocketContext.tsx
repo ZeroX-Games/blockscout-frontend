@@ -3,9 +3,15 @@ import type { ReadyState } from 'react-use-websocket';
 import useWebSocket from 'react-use-websocket';
 
 export interface WebSocketContextType {
-  sendMessage: (message: string) => void;
-  lastMessage: MessageEvent<any> | null;
-  readyState: ReadyState | null;
+  sendBlockMessage: (message: string) => void;
+  lastBlockMessage: MessageEvent<any> | null;
+  readyBlockState: ReadyState | null;
+  sendSummaryMessage: (message: string) => void;
+  lastSummaryMessage: MessageEvent<any> | null;
+  readySummaryState: ReadyState | null;
+  sendUpdatesMessage: (message: string) => void;
+  lastUpdatesMessage: MessageEvent<any> | null;
+  readyUpdatesState: ReadyState | null;
 }
 
 interface SocketProviderProps {
@@ -14,19 +20,42 @@ interface SocketProviderProps {
 }
 
 const WebSocketContext = React.createContext<WebSocketContextType>({
-  sendMessage: () => {},
-  lastMessage: null,
-  readyState: null,
+  sendBlockMessage: () => {},
+  sendSummaryMessage: () => {},
+  sendUpdatesMessage: () => {},
+  lastBlockMessage: null,
+  readyBlockState: null,
+  lastSummaryMessage: null,
+  readySummaryState: null,
+  lastUpdatesMessage: null,
+  readyUpdatesState: null,
 });
 
 export function WebSocketProvider({ children, url }: SocketProviderProps) {
-  const { sendMessage, lastMessage, readyState } = useWebSocket(url);
+  const { sendMessage: sendBlockMessage, lastMessage: lastBlockMessage, readyState: readyBlockState } = useWebSocket(url + 'blocks/');
+  const { sendMessage: sendSummaryMessage, lastMessage: lastSummaryMessage, readyState: readySummaryState } = useWebSocket(url + 'summary/');
+  const { sendMessage: sendUpdatesMessage, lastMessage: lastUpdatesMessage, readyState: readyUpdatesState } = useWebSocket(url + 'daily-updates/');
 
   const value: WebSocketContextType = useMemo(() => ({
-    sendMessage,
-    lastMessage,
-    readyState,
-  }), [ sendMessage, lastMessage, readyState ]);
+    sendBlockMessage,
+    lastBlockMessage,
+    readyBlockState,
+    sendSummaryMessage,
+    lastSummaryMessage,
+    readySummaryState,
+    sendUpdatesMessage,
+    lastUpdatesMessage,
+    readyUpdatesState,
+  }), [
+    sendBlockMessage,
+    lastBlockMessage,
+    readyBlockState,
+    sendSummaryMessage,
+    lastSummaryMessage,
+    readySummaryState,
+    sendUpdatesMessage,
+    lastUpdatesMessage,
+    readyUpdatesState ]);
 
   return (
     <WebSocketContext.Provider value={ value }>
