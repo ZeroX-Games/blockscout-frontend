@@ -3,7 +3,7 @@ import React from 'react';
 
 import config from 'configs/app';
 import EventsHome from 'ui/home/Events';
-import ChainIndicators from 'ui/home/indicators/ChainIndicators';
+import ChainIndicatorsV1 from 'ui/home/indicators/ChainIndicatorsV1';
 import LatestEventSummary from 'ui/home/LatestEventSummary';
 import LatestZkEvmL2Batches from 'ui/home/LatestZkEvmL2Batches';
 import Stats from 'ui/home/Stats';
@@ -41,7 +41,7 @@ const Home = () => {
         <SearchBar isHomepage/>
       </Box>
       <Stats/>
-      <ChainIndicators/>
+      <ChainIndicatorsV1/>
       <AdBanner mt={{ base: 6, lg: 8 }} mx="auto" display="flex" justifyContent="center"/>
       <Flex mt={ 8 } direction={{ base: 'column', lg: 'row' }} columnGap={ 12 } rowGap={ 8 }>
         { config.features.zkEvmRollup.isEnabled ? <LatestZkEvmL2Batches/> : <LatestEventSummary/> }

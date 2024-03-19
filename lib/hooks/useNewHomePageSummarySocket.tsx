@@ -1,48 +1,46 @@
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect } from 'react';
 
-import type { EventSummary, EventSummaryResult } from '../../types/api/update';
+import type { HomeSummary } from '../../types/api/HomeSummary';
 
 import { getResourceKeyV1 } from '../api/v1/useApiQueryV1';
 import type { WebSocketContextType } from '../socket/useSocketContext';
 import { useWebSocketContext } from '../socket/useSocketContext';
 
-interface NewEventMsg {
-  block: EventSummaryResult;
-}
-
 export function assertIsNewEventResponse(socket: WebSocketContextType) {
-  return socket && socket.lastBlockMessage &&
-    socket.lastBlockMessage.data &&
-    typeof socket.lastBlockMessage.data === 'string';
+  return socket && socket.lastSummaryMessage &&
+    socket.lastSummaryMessage.data &&
+    typeof socket.lastSummaryMessage.data === 'string';
 }
 
-export function assertIsValidNewEventMsg(obj: any): obj is NewEventMsg {
-  return typeof obj === 'object' && obj !== null && 'block' in obj;
+export function assertIsValidNewSummaryMsg(obj: any): obj is HomeSummary {
+  return typeof obj === 'object' && obj !== null && 'totalUpdates' in obj;
 }
 
 export function assertIsSocketClosed(socket: WebSocketContextType) {
   return socket && (socket.readyBlockState === 3 || socket.readyBlockState === 2);
 }
 
-export default function useNewEventsSocket() {
+export default function useNewHomePageSummarySocket() {
   const [ socketAlert, setSocketAlert ] = React.useState('');
   const socket = useWebSocketContext();
   const queryClient = useQueryClient();
   const handleNewUpdateMessage = React.useCallback(() => {
     if (assertIsNewEventResponse(socket)) {
-      const newEventSummaryObj = JSON.parse(socket?.lastBlockMessage?.data);
-      if (assertIsValidNewEventMsg(newEventSummaryObj)) {
-        const newEventSummary = newEventSummaryObj.block;
-        queryClient.setQueryData(getResourceKeyV1('homepage_events_summary'), (prevData: EventSummary | undefined) => {
+      console.log(socket);
+      const newSummaryObj = JSON.parse(socket?.lastSummaryMessage?.data);
+      if (assertIsValidNewSummaryMsg(newSummaryObj)) {
+        const newHomePageSummary = newSummaryObj;
+        queryClient.setQueryData(getResourceKeyV1('homepage_summary_stat'), (prevData: HomeSummary | undefined) => {
+          let newData = (prevData) ? prevData : {
+            totalBlock: 0,
+            totalDomains: 0,
+            totalCollections: 0,
+            totalChains: 0,
+            totalUpdates: 0,
+          };
 
-          const newData = (prevData && prevData.results) ? prevData : { results: [] };
-
-          if (newData.results.some((event => event.block_number === newEventSummary.block_number))) {
-            return newData;
-          }
-          newData.results = [ newEventSummary, ...newData.results ]
-            .sort((b1, b2) => b2.block_number - b1.block_number).slice(0, 5);
+          newData = newHomePageSummary;
           return newData;
         });
       }

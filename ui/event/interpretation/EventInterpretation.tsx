@@ -15,6 +15,7 @@ import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import EnsEntity from 'ui/shared/entities/ens/EnsEntity';
 import TokenEntity from 'ui/shared/entities/token/TokenEntity';
 import IconSvg from 'ui/shared/IconSvg';
+import LinkExternal from 'ui/shared/LinkExternal';
 
 // import { extractVariables, getStringChunks, fillStringVariables, NATIVE_COIN_SYMBOL_VAR_NAME } from './utils';
 
@@ -139,15 +140,17 @@ const EventInterpretation = ({ eventDetail, isLoading, className }: Props) => {
     <Skeleton isLoaded={ !isLoading } className={ className } fontWeight={ 500 } whiteSpace="pre-wrap" >
       <HStack>
         <IconSvg name="lightning" boxSize={ 5 } color="text_secondary" mr={ 2 } verticalAlign="text-top"/>
-        <chakra.span color="text_secondary">Update</chakra.span>
         <chakra.span>{ amount }</chakra.span>
+        <chakra.span color="text_secondary">Updates</chakra.span>
         { /*<ImageRrapper src={ collectionImgUrl } alt={ Object.keys(collection)[0] }/>*/ }
         { /*<chakra.span>{ Object.keys(collection)[0] }</chakra.span>*/ }
-        <chakra.span color="text_secondary">tokens in</chakra.span>
+        <chakra.span color="text_secondary">in</chakra.span>
         <ImageRrapper
           src={ domain.imgUrl }
-          alt={ domain.name ? domain.name : 'empty domain name' }/>
-        <chakra.span>{ domain.name ? domain.name : 'empty domain name' }</chakra.span>
+          alt={ domain.name ? domain.name : 'NFT Fighter' }/>
+        <LinkExternal href="http://localhost:5173">
+          <chakra.span>{ domain.name ? domain.name : 'NFT Fighter' }</chakra.span>
+        </LinkExternal>
       </HStack>
     </Skeleton>
   );

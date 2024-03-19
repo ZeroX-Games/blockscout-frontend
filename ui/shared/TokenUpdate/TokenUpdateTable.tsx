@@ -11,24 +11,21 @@ interface Props {
   data: Array<MatrixEntry>;
   attributes: Array<string>;
   baseAddress?: string;
-  top: number;
   isLoading?: boolean;
 }
 
 const TokenUpdateTable = ({
   data,
   attributes,
-  top,
   isLoading,
 }: Props) => {
-
+  const thWidth = 'calc(80vw/7)';
   return (
     <AddressHighlightProvider>
-      <TableContainer maxW="1200px" overflowX="scroll" overflowY="unset">
-        <Table style={{ tableLayout: 'unset' }}>
-          <Thead top={ top } position="sticky" backgroundColor="#383F4A" borderTopLeftRadius="20px">
-            <Tr>
-
+      <TableContainer overflowX="scroll" overflowY="unset" w="80vw">
+        <Table style={{ tableLayout: 'unset' }} display="block" maxH="800px" overflowY="scroll">
+          <Thead top={ 0 } position="sticky" backgroundColor="#383F4A" borderTopLeftRadius="20px" display="table">
+            <Tr display="table">
               <Th
                 minW="180px"
                 maxW="300px"
@@ -39,21 +36,24 @@ const TokenUpdateTable = ({
                 backgroundColor="#383F4A"
                 boxShadow="-20px -20px 0px #232B38"
               >
-                { attributes[0] }
+                TokenId
               </Th>
-              { attributes.slice(1).map((attribute, index) => (
-                <Th key={ index } minW="125px" maxW="200px" ml="20px" >{ attribute }</Th>
+              { attributes.map((attribute, index) => (
+                <Th key={ index } minW={ thWidth } maxW={ thWidth } ml="20px" >{ attribute }</Th>
               )) }
             </Tr>
           </Thead>
-          <Tbody>
-            { data.map((item, index) => (
-              <TokenUpdateTableItem
-                key={ index }
-                { ...item }
-                isLoading={ isLoading }
-              />
-            )) }
+          <Tbody >
+            { data.map((item, collectionIndex) => {
+              return (item.updates.map((update, rowIndex) => (
+                <TokenUpdateTableItem
+                  key={ `${ collectionIndex }-${ rowIndex }` }
+                  collectionAddr={ item.collectionAddr }
+                  { ...update }
+                  isLoading={ isLoading }
+                />
+              )));
+            }) }
           </Tbody>
         </Table>
       </TableContainer>

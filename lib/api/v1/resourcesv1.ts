@@ -1,3 +1,4 @@
+import type { ChartUpdateResponse } from '../../../types/api/charts';
 import type { EventDetail, EventFilters, EventsSorting } from 'types/api/event';
 import type { HomeSummary } from 'types/api/HomeSummary';
 import type { EventSummary } from 'types/api/update';
@@ -32,6 +33,9 @@ export const RESOURCES_V1 = {
   homepage_events_summary: {
     path: '/api/v1/blocks',
     filterFields: [ ],
+  },
+  homepage_chart_updates: {
+    path: '/api/v1/updates',
   },
 };
 
@@ -76,6 +80,7 @@ Q extends 'homepage_summary_stat' ? HomeSummary :
 Q extends 'homepage_events_summary' ? EventSummary :
 Q extends 'event' ? EventDetail :
 Q extends 'event_interpretation' ? UpdateInterpretationResponse :
+Q extends 'homepage_chart_updates' ? ChartUpdateResponse :
 never;
 /* eslint-enable @typescript-eslint/indent */
 

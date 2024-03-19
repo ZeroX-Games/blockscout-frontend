@@ -1,6 +1,7 @@
 import React from 'react';
 
 import type { TChainIndicator } from '../types';
+import type { TChainIndicatorV1 } from '../typesV1';
 
 import config from 'configs/app';
 import { sortByDateDesc } from 'ui/shared/chart/utils/sorts';
@@ -26,19 +27,21 @@ const dailyTxsIndicator: TChainIndicator<'homepage_chart_txs'> = {
 };
 
 // TODO: update txs
-const dailyEventsIndicator: TChainIndicator<'homepage_chart_txs'> = {
-  id: 'daily_events',
-  title: 'Daily events',
-  value: (stats) => Number(stats.transactions_today).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
+const dailyEventsIndicator: TChainIndicatorV1<'homepage_chart_updates'> = {
+  id: 'daily_updates',
+  title: 'Daily updates',
+  value: (stats) => Number(stats.lastDayTotalUpdates).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
   icon: <IconSvg name="transactions" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
-  hint: `Number of events yesterday (0:00 - 23:59 UTC). The chart displays daily events for the past 30 days.`,
+  hint: `Number of events today (0:00 - 23:59 UTC). The chart displays daily events for the past 30 days.`,
   api: {
-    resourceName: 'homepage_chart_txs',
+    resourceName: 'homepage_chart_updates',
     dataFn: (response) => ([ {
       items: response.chart_data
-        .map((item) => ({ date: new Date(item.date), value: item.tx_count }))
+        .map((item) => {
+          return ({ date: (new Date(item.timestamp + 'Z')), value: item.daily_updates });
+        })
         .sort(sortByDateDesc),
-      name: 'Event/day',
+      name: 'Update/day',
       valueFormatter: (x: number) => x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
     } ]),
   },
@@ -118,10 +121,13 @@ const tvlIndicator: TChainIndicator<'homepage_chart_market'> = {
 
 const INDICATORS = [
   dailyTxsIndicator,
-  dailyEventsIndicator,
   coinPriceIndicator,
   marketPriceIndicator,
   tvlIndicator,
+];
+
+export const INDICATORSV1 = [
+  dailyEventsIndicator,
 ];
 
 export default INDICATORS;

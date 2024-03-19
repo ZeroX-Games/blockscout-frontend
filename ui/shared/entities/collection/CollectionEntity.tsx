@@ -100,7 +100,13 @@ type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps
 
 const Content = chakra((props: ContentProps) => {
   if (props.collection.name || props.collection.collectionId) {
-    const text = 'Axie Infinity';
+    let text;
+    if (props.collection.collectionId === '0xED5AF388653567Af2F388E6224dC7C4b3241C544') {
+      text = 'Meebit';
+    } else {
+      text = 'Meebit';
+    }
+
     const hash = props.collection.collectionId;
     const label = (
       <VStack gap={ 0 } py={ 1 } color="inherit">

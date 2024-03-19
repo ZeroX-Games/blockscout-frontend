@@ -63,7 +63,7 @@ const LatestEventsItem = ({ event, isLoading, collectionAddr }: Props) => {
             <HStack flexWrap="wrap" my="3px">
               { /*<TxType types={ tx.tx_types } isLoading={ isLoading }/>*/ }
               <EventStatus status="ok" isLoading={ isLoading }/>
-              <EventPath blockId={ event.block_number } isLoading={ isLoading }/>
+              <EventPath blockId={ event.block_number } chainID={ event.domain_details.chainID } isLoading={ isLoading }/>
               { /*<TxWatchListTags tx={ update } isLoading={ isLoading }/>*/ }
             </HStack>
             <Flex

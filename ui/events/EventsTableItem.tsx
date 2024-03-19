@@ -77,7 +77,7 @@ const EventsTableItem = ({ event, enableTimeIncrement, isLoading }: Props) => {
         <VStack alignItems="start" lineHeight="24px">
           <HStack gap={ 2 }>
             <IconSvg
-              name="networks/base"
+              name="networks/arbitrum"
               isLoading={ isLoading }
               boxSize={ 5 }
             />

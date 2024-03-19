@@ -24,7 +24,7 @@ export interface OpWithdrawal {
 export type EventSummaryResult = {
   block_number: number;
   destination: string;
-  chainId: number;
+  chainID: number;
   eventHash: string;
   transactionHash: string;
   collectionsAddrs: Array<string>;
