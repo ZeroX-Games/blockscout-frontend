@@ -13,7 +13,7 @@ import type { EventSummaryResult } from 'types/api/update';
 import config from 'configs/app';
 import useTimeAgoIncrement from 'lib/hooks/useTimeAgoIncrement';
 import { currencyUnits } from 'lib/units';
-import DomainFromTo from 'ui/shared/domain/DomainFromTo';
+import ApplicationFromTo from 'ui/shared/application/ApplicationFromTo';
 import EventEntity from 'ui/shared/entities/event/EventEntity';
 import TxStatus from 'ui/shared/statusTag/TxStatus';
 import TxAdditionalInfo from 'ui/txs/TxAdditionalInfo';
@@ -65,8 +65,8 @@ const LatestEventsItemMobile = ({ event, isLoading, collectionAddr }: Props) => 
           </Skeleton>
         ) }
       </Flex>
-      <DomainFromTo
-        from={ event.domain_details }
+      <ApplicationFromTo
+        from={ event.application_details }
         to={ to }
         isLoading={ isLoading }
         fontSize="sm"

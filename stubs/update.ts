@@ -90,8 +90,8 @@ export const EVENT_SUMMARY: EventSummary = {
       numberOfUpdates: 2,
       numberOfTokens: 4,
       status: true,
-      domain_details: {
-        domainId: '1',
+      application_details: {
+        applicationID: '1',
         name: '',
         description: null,
         chainID: 84532,
@@ -110,8 +110,8 @@ export const EVENT_SUMMARY: EventSummary = {
       numberOfUpdates: 2,
       numberOfTokens: 4,
       status: true,
-      domain_details: {
-        domainId: '1',
+      application_details: {
+        applicationID: '1',
         name: '',
         description: null,
         chainID: 84532,
@@ -130,8 +130,8 @@ export const EVENT_SUMMARY: EventSummary = {
       numberOfUpdates: 2,
       numberOfTokens: 4,
       status: true,
-      domain_details: {
-        domainId: '1',
+      application_details: {
+        applicationID: '1',
         name: '',
         description: null,
         chainID: 84532,
@@ -150,8 +150,8 @@ export const EVENT_SUMMARY: EventSummary = {
       numberOfUpdates: 2,
       numberOfTokens: 4,
       status: true,
-      domain_details: {
-        domainId: '1',
+      application_details: {
+        applicationID: '1',
         name: '',
         description: null,
         chainID: 84532,
@@ -170,8 +170,8 @@ export const EVENT_SUMMARY: EventSummary = {
       numberOfUpdates: 2,
       numberOfTokens: 4,
       status: true,
-      domain_details: {
-        domainId: '1',
+      application_details: {
+        applicationID: '1',
         name: '',
         description: null,
         chainID: 84532,
@@ -191,8 +191,8 @@ export const BLOCK_DETAIL: EventDetail = {
   transactionHash: '0xccf546fa45608329ba11a952311c18a16001bf370684d8e72ddcbb18b7c42089',
   numberOfUpdates: 2,
   status: true,
-  domain_details: {
-    domainId: '1',
+  application_details: {
+    applicationID: '1',
     name: '',
     description: null,
     chainID: 84532,

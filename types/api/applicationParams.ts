@@ -9,8 +9,8 @@ export interface WatchlistName {
   display_name: string;
 }
 
-export type DomainParamBasic = {
-  domainId: string;
+export type ApplicationParamBasic = {
+  applicationID: string;
   name: string;
   description: string | null;
   created_at: string;
@@ -20,4 +20,4 @@ export type DomainParamBasic = {
   chainID: number;
 }
 
-export type DomainParam = DomainParamBasic;
+export type ApplicationParam = ApplicationParamBasic;

@@ -1,4 +1,4 @@
-import type { DomainParam } from './domainParams';
+import type { ApplicationParam } from './applicationParams';
 
 export type EventType = 'event' | 'reorg' | 'uncle';
 
@@ -21,7 +21,7 @@ export type EventDetail = {
   'transactionHash': string;
   'numberOfUpdates': number;
   'status': boolean;
-  'domain_details': DomainParam;
+  'application_details': ApplicationParam;
   'timestamp': string;
   confirmations?: number;
   matrix_entries: Array<MatrixEntry>;

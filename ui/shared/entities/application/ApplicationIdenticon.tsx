@@ -73,7 +73,7 @@ interface IconImageProps {
 
 type Props = IconImageProps;
 
-const DomainIdenticon = ({ size, src, name }: Props) => {
+const ApplicationIdenticon = ({ size, src, name }: Props) => {
   return (
     <Box boxSize={ `${ size }px` }
       borderRadius="5PX"
@@ -90,4 +90,4 @@ const DomainIdenticon = ({ size, src, name }: Props) => {
   );
 };
 
-export default React.memo(DomainIdenticon);
+export default React.memo(ApplicationIdenticon);

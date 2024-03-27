@@ -25,18 +25,18 @@ const EventAdditionalInfoContent = ({ event }: { event: EventSummaryResult }) =>
     <>
       <Heading as="h4" size="sm" mb={ 6 }>Additional info </Heading>
       <Box { ...sectionProps } mb={ 4 }>
-        <Text { ...sectionTitleProps }>Domain detail</Text>
+        <Text { ...sectionTitleProps }>Application detail</Text>
         <Box>
           <Text as="span" fontWeight="500">Name: </Text>
-          <Text fontWeight="600" as="span">{ event.domain_details.name }</Text>
+          <Text fontWeight="600" as="span">{ event.application_details.name }</Text>
         </Box>
         <Box mt={ 1 }>
           <Text as="span" fontWeight="500">Id: </Text>
-          <Text fontWeight="600" as="span">{ event.domain_details.domainId }</Text>
+          <Text fontWeight="600" as="span">{ event.application_details.applicationID }</Text>
         </Box>
         <Box mt={ 1 }>
           <Text as="span" fontWeight="500">Description: </Text>
-          <Text fontWeight="600" as="span">{ event.domain_details.description }</Text>
+          <Text fontWeight="600" as="span">{ event.application_details.description }</Text>
         </Box>
       </Box>
       <Box { ...sectionProps } mb={ 4 }>
