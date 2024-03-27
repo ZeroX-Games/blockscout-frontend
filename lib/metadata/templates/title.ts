@@ -39,7 +39,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/op/[hash]': 'user operation %hash%',
   '/404': 'error - page not found',
   '/name-domains': 'domains search and resolve',
-  '/name-domains/[name]': '%name% domain details',
+  '/name-domains/[name]': '%name% application details',
 
   // service routes, added only to make typescript happy
   '/login': 'login',

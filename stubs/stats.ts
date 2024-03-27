@@ -83,6 +83,7 @@ export const HOME_SUMMARY: HomeSummary = {
   totalBlock: 20,
   totalChains: 3,
   totalCollections: 4,
-  totalDomains: 3,
+  totalApplications: 3,
   totalUpdates: 10,
+  lastDayTotalUpdates: 2,
 };

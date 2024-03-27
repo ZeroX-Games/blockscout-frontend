@@ -35,7 +35,7 @@ export function account(req: NextRequest) {
     // if user has both cookies, make redirect to logout
     if (apiTokenCookie) {
       // yes, we could have checked that the current URL is not the logout URL, but we hadn't
-      // logout URL is always external URL in auth0.com sub-domain
+      // logout URL is always external URL in auth0.com sub-application
       // at least we hope so
 
       const res = NextResponse.redirect(feature.logoutUrl);

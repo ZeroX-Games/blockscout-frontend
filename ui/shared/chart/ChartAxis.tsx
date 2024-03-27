@@ -36,7 +36,7 @@ const ChartAxis = ({ type, scale, ticks, tickFormatGenerator, disableAnimation, 
     } else {
       axisGroup.transition().duration(750).ease(d3.easeLinear).call(axis);
     }
-    axisGroup.select('.domain').remove();
+    axisGroup.select('.application').remove();
     axisGroup.selectAll('line').remove();
     axisGroup.selectAll('text')
       .attr('opacity', 1)

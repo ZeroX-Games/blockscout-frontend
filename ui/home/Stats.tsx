@@ -114,7 +114,7 @@ const Stats = () => {
           icon="zerox-domains"
           title="Total Applications"
           value="15,561"
-          // value={ Number(homeSummary.totalDomains).toLocaleString() }
+          // value={ Number(homeSummary.totalApplications).toLocaleString() }
           _last={ isOdd ? lastItemTouchStyle : undefined }
           isLoading={ isPlaceholderData }
         />

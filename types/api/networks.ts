@@ -2,6 +2,6 @@ export type NetworkType = 'networks/base' | 'networks/arbitrum' | 'networks/ethe
 export type NetworkId = 84532 | 421614 | 1 | 11155111;
 export type NetworkName = 'Base Sepolia' | 'Arbitrum Sepolia' | 'Ethereum Mainnet' | 'ETH Sepolia';
 
-export type DomainChainType = {
+export type ChainType = {
   [Key in NetworkId as string]: {title: NetworkName; icon: NetworkType};
 }

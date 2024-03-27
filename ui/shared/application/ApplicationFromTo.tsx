@@ -2,19 +2,19 @@ import type { ThemeTypings } from '@chakra-ui/react';
 import { Flex, chakra, useBreakpointValue } from '@chakra-ui/react';
 import React from 'react';
 
+import type { ApplicationParam } from 'types/api/applicationParams';
 import type { CollectionParam } from 'types/api/collectionParams';
-import type { DomainParam } from 'types/api/domainParams';
 
-import type { EntityProps } from 'ui/shared/entities/domain/DomainEntity';
-import DomainEntity from 'ui/shared/entities/domain/DomainEntity';
+import type { EntityProps } from 'ui/shared/entities/application/ApplicationEntity';
+import ApplicationEntity from 'ui/shared/entities/application/ApplicationEntity';
 
 import CollectionEntry from '../entities/collection/CollectionEntity';
-import DomainFromToIcon from './DomainFromToIcon';
+import ApplicationFromToIcon from './ApplicationFromToIcon';
 
 type Mode = 'compact' | 'long';
 
 interface Props {
-  from: DomainParam;
+  from: ApplicationParam;
   to: CollectionParam;
   mode?: Mode | Partial<Record<ThemeTypings['breakpoints'], Mode>>;
   className?: string;
@@ -24,7 +24,7 @@ interface Props {
   noIcon?: boolean;
 }
 
-const DomainFromTo = ({ from, to, mode: modeProp, className, isLoading, tokenHash = '', truncation, noIcon }: Props) => {
+const ApplicationFromTo = ({ from, to, mode: modeProp, className, isLoading, tokenHash = '', truncation, noIcon }: Props) => {
   const mode = useBreakpointValue(
     {
       base: (typeof modeProp === 'object' ? modeProp.base : modeProp),
@@ -36,13 +36,13 @@ const DomainFromTo = ({ from, to, mode: modeProp, className, isLoading, tokenHas
     return (
       <Flex className={ className } flexDir="column" rowGap={ 3 }>
         <Flex alignItems="center" columnGap={ 2 }>
-          <DomainFromToIcon
+          <ApplicationFromToIcon
             isLoading={ isLoading }
             type="unspecified"
             transform="rotate(90deg)"
           />
-          <DomainEntity
-            domain={ from }
+          <ApplicationEntity
+            application={ from }
             isLoading={ isLoading }
             noIcon={ noIcon }
             tokenHash={ tokenHash }
@@ -73,8 +73,8 @@ const DomainFromTo = ({ from, to, mode: modeProp, className, isLoading, tokenHas
 
   return (
     <Flex className={ className } alignItems="center">
-      <DomainEntity
-        domain={ from }
+      <ApplicationEntity
+        application={ from }
         isLoading={ isLoading }
         noIcon={ noIcon }
         tokenHash={ tokenHash }
@@ -83,7 +83,7 @@ const DomainFromTo = ({ from, to, mode: modeProp, className, isLoading, tokenHas
         mr={ 4 }
         iconSize="md"
       />
-      <DomainFromToIcon
+      <ApplicationFromToIcon
         isLoading={ isLoading }
         type="unspecified"
       />
@@ -103,4 +103,4 @@ const DomainFromTo = ({ from, to, mode: modeProp, className, isLoading, tokenHas
   );
 };
 
-export default chakra(DomainFromTo);
+export default chakra(ApplicationFromTo);

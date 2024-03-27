@@ -12,7 +12,7 @@ import useTimeAgoIncrement from 'lib/hooks/useTimeAgoIncrement';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 
-import DomainFromTo from '../shared/domain/DomainFromTo';
+import ApplicationFromTo from '../shared/application/ApplicationFromTo';
 
 type Props = {
   event: EventSummaryResult;
@@ -76,8 +76,8 @@ const EventsListItem = ({ event, isLoading, enableTimeIncrement }: Props) => {
       { /*    />*/ }
       { /*  </Flex>*/ }
       { /*) }*/ }
-      <DomainFromTo
-        from={ event.domain_details }
+      <ApplicationFromTo
+        from={ event.application_details }
         to={ dataTo }
         isLoading={ isLoading }
         mt="2px"
