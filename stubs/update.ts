@@ -95,6 +95,9 @@ export const EVENT_SUMMARY: EventSummary = {
         name: '',
         description: null,
         chainID: 84532,
+        details: {
+          appLogoUrl: 'https://res.cloudinary.com/dcam8xcmx/image/upload/v1711134220/arcade/oc6tnqiabxuz6yctkmwr.png',
+        },
         created_at: '2024-03-08T19:39:04.830782Z',
         updated_at: '2024-03-08T19:39:04.830842Z',
       },
@@ -113,8 +116,11 @@ export const EVENT_SUMMARY: EventSummary = {
       application_details: {
         applicationID: '1',
         name: '',
-        description: null,
+        description: '',
         chainID: 84532,
+        details: {
+          appLogoUrl: 'https://res.cloudinary.com/dcam8xcmx/image/upload/v1711134220/arcade/oc6tnqiabxuz6yctkmwr.png',
+        },
         created_at: '2024-03-08T19:39:04.830782Z',
         updated_at: '2024-03-08T19:39:04.830842Z',
       },
@@ -135,6 +141,9 @@ export const EVENT_SUMMARY: EventSummary = {
         name: '',
         description: null,
         chainID: 84532,
+        details: {
+          appLogoUrl: 'https://res.cloudinary.com/dcam8xcmx/image/upload/v1711134220/arcade/oc6tnqiabxuz6yctkmwr.png',
+        },
         created_at: '2024-03-08T19:39:04.830782Z',
         updated_at: '2024-03-08T19:39:04.830842Z',
       },
@@ -155,6 +164,9 @@ export const EVENT_SUMMARY: EventSummary = {
         name: '',
         description: null,
         chainID: 84532,
+        details: {
+          appLogoUrl: 'https://res.cloudinary.com/dcam8xcmx/image/upload/v1711134220/arcade/oc6tnqiabxuz6yctkmwr.png',
+        },
         created_at: '2024-03-08T19:39:04.830782Z',
         updated_at: '2024-03-08T19:39:04.830842Z',
       },
@@ -175,6 +187,9 @@ export const EVENT_SUMMARY: EventSummary = {
         name: '',
         description: null,
         chainID: 84532,
+        details: {
+          appLogoUrl: 'https://res.cloudinary.com/dcam8xcmx/image/upload/v1711134220/arcade/oc6tnqiabxuz6yctkmwr.png',
+        },
         created_at: '2024-03-08T19:39:04.830782Z',
         updated_at: '2024-03-08T19:39:04.830842Z',
       },
@@ -196,6 +211,9 @@ export const BLOCK_DETAIL: EventDetail = {
     name: '',
     description: null,
     chainID: 84532,
+    details: {
+      appLogoUrl: 'https://res.cloudinary.com/dcam8xcmx/image/upload/v1711134220/arcade/oc6tnqiabxuz6yctkmwr.png',
+    },
     created_at: '2024-03-08T19:39:04.830782Z',
     updated_at: '2024-03-08T19:39:04.830842Z',
   },

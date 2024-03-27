@@ -9,7 +9,7 @@ import LinkExternal from 'ui/shared/LinkExternal';
 // import { extractVariables, getStringChunks, fillStringVariables, NATIVE_COIN_SYMBOL_VAR_NAME } from './utils';
 
 type Props = {
-  eventDetail?: EventDetail;
+  eventDetail: EventDetail;
   isLoading?: boolean;
   className?: string;
 }
@@ -20,7 +20,7 @@ const ImageRrapper = ({ src, alt }: { src: string; alt: string }) => {
       flexShrink={ 0 }
       borderRadius="sm"
     >
-      <Image src={ src } alt={ alt } boxSize={ 5 } verticalAlign="text-top" borderRadius="sm"/>
+      <Image src={ src } alt={ alt } boxSize={ 8 } verticalAlign="text-top" borderRadius="sm"/>
     </chakra.span>
   );
 };
@@ -30,9 +30,9 @@ const EventInterpretation = ({ eventDetail, isLoading, className }: Props) => {
   //   return null;
   // }
   const application = {
-    name: eventDetail?.application_details.name,
-    applicationID: eventDetail?.application_details.applicationID,
-    imgUrl: 'https://axieinfinity.com/images/branding/axie-infinity-logo.png',
+    name: eventDetail.application_details.name,
+    applicationID: eventDetail.application_details.applicationID,
+    imgUrl: eventDetail.application_details.details.appLogoUrl,
   };
 
   const amount = eventDetail?.numberOfUpdates;
@@ -52,9 +52,9 @@ const EventInterpretation = ({ eventDetail, isLoading, className }: Props) => {
         <chakra.span color="text_secondary">in</chakra.span>
         <ImageRrapper
           src={ application.imgUrl }
-          alt={ application.name ? application.name : 'NFT Fighter' }/>
+          alt={ application.name }/>
         <LinkExternal href="http://localhost:5173">
-          <chakra.span>{ application.name ? application.name : 'NFT Fighter' }</chakra.span>
+          <chakra.span>{ application.name }</chakra.span>
         </LinkExternal>
       </HStack>
     </Skeleton>

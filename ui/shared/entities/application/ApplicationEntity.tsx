@@ -100,11 +100,10 @@ type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps
 
 const Content = chakra((props: ContentProps) => {
   if (props.application.name || props.application.applicationID) {
-    const text = 'NFT Fighter';
-    const hash = props.application.applicationID || '0x HASH Place holder';
+    const hash = props.application.hash || props.application.applicationID;
     const label = (
       <VStack gap={ 0 } py={ 1 } color="inherit">
-        <Box fontWeight={ 600 } whiteSpace="pre-wrap" wordBreak="break-word">{ text }</Box>
+        <Box fontWeight={ 600 } whiteSpace="pre-wrap" wordBreak="break-word">{ props.application.name }</Box>
         <Box whiteSpace="pre-wrap" wordBreak="break-word">{ hash }</Box>
       </VStack>
     );
@@ -112,7 +111,7 @@ const Content = chakra((props: ContentProps) => {
     return (
       <Tooltip label={ label } maxW="100vw">
         <Skeleton isLoaded={ !props.isLoading } overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap" as="span">
-          { text }
+          { props.application.name }
         </Skeleton>
       </Tooltip>
     );
@@ -120,7 +119,7 @@ const Content = chakra((props: ContentProps) => {
   return (
     <EntityBase.Content
       { ...props }
-      text={ props.application.name || 'GTA V' + props.application.applicationID }
+      text={ props.application.name }
     />
   );
 });
