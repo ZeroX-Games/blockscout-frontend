@@ -21,6 +21,8 @@ const PAGE_PROPS = {
   number: '',
   q: '',
   name: '',
+  blockId: '',
+  event_id: '',
 };
 
 const TestApp = ({ children }: {children: React.ReactNode}) => {

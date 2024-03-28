@@ -85,4 +85,5 @@ export const HOME_SUMMARY: HomeSummary = {
   totalCollections: 4,
   totalDomains: 3,
   totalUpdates: 10,
+  lastDayTotalUpdates: -1,
 };

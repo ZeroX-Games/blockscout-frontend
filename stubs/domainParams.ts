@@ -13,6 +13,7 @@ export const DOMAIN_PARAMS1: DomainParam = {
   updated_at: '2024-02-16T21:12:57.180073Z',
   attributes: null,
   img_url: 'https://i.pinimg.com/564x/72/b6/08/72b608e2d9760300ca8773481a7a509a.jpg',
+  chainID: -1,
 };
 
 export const DOMAIN_PARAMS2: DomainParam = {
@@ -24,4 +25,5 @@ export const DOMAIN_PARAMS2: DomainParam = {
   updated_at: '2024-02-16T21:12:57.180073Z',
   attributes: null,
   img_url: 'https://i.pinimg.com/564x/72/b6/08/72b608e2d9760300ca8773481a7a509a.jpg',
+  chainID: -1,
 };

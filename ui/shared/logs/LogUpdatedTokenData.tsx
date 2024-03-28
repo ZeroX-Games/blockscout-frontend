@@ -1,10 +1,10 @@
 import React from 'react';
 
-import type { MatrixEntry } from 'types/api/event';
+import type { MatrixUpdate } from 'types/api/event';
 
 import LogUpdatedTokenDataTable from './LogUpdatedTokenDataTable';
 interface Props {
-  data: Array<MatrixEntry>;
+  data: Array<MatrixUpdate>;
   isLoading?: boolean;
 }
 

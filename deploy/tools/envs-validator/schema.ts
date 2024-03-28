@@ -359,6 +359,9 @@ const schema = yup
     NEXT_PUBLIC_API_BASE_PATH: yup.string(),
     NEXT_PUBLIC_API_WEBSOCKET_PROTOCOL: yup.string().oneOf([ 'ws', 'wss' ]),
 
+    NEXT_PUBLIC_NEW_API_HOST: yup.string().required(),
+    NEXT_PUBLIC_NEW_API_PORT: yup.number().integer().positive(),
+
     // 4. UI configuration
     //   a. homepage
     NEXT_PUBLIC_HOMEPAGE_CHARTS: yup

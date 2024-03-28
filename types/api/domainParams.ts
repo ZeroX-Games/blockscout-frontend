@@ -18,6 +18,7 @@ export type DomainParamBasic = {
   img_url?: string;
   hash?: string;
   chainID: number;
+  attributes: null; // TODO: type
 }
 
 export type DomainParam = DomainParamBasic;

@@ -148,13 +148,16 @@ const EventDetailsDegraded = ({ hash, eventQuery }: Props) => {
     return <DataFetchAlert/>;
   }
 
+  // TODO: fix type. Transaction returned from query is not compatible with EventDetails
+  const eventDetails = query.data as any;
+
   return (
     <>
       <Flex rowGap={ 2 } mb={ 6 } flexDir="column">
         <TestnetWarning isLoading={ query.isPlaceholderData }/>
         { originalError?.status !== 404 && <ServiceDegradationWarning isLoading={ query.isPlaceholderData }/> }
       </Flex>
-      <EventInfo data={ query.data } isLoading={ query.isPlaceholderData }/>
+      <EventInfo data={ eventDetails } isLoading={ query.isPlaceholderData }/>
     </>
   );
 };
