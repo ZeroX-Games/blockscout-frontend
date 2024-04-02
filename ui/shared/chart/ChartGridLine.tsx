@@ -29,7 +29,7 @@ const ChartGridLine = ({ type, scale, ticks, size, disableAnimation, ...props }:
     } else {
       gridGroup.transition().duration(750).ease(d3.easeLinear).call(axis);
     }
-    gridGroup.select('.domain').remove();
+    gridGroup.select('.application').remove();
     gridGroup.selectAll('text').remove();
     gridGroup.selectAll('line').attr('stroke', strokeColor);
   }, [ scale, ticks, size, disableAnimation, type, strokeColor ]);

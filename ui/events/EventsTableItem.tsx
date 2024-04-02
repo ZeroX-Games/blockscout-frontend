@@ -11,7 +11,7 @@ import type { CollectionParam } from '../../types/api/collectionParams';
 import type { EventSummaryResult } from '../../types/api/update';
 
 import useTimeAgoIncrement from 'lib/hooks/useTimeAgoIncrement';
-import DomainFromTo from 'ui/shared/domain/DomainFromTo';
+import ApplicationFromTo from 'ui/shared/application/ApplicationFromTo';
 import EventEntity from 'ui/shared/entities/event/EventEntity';
 import EventHashEntity from 'ui/shared/entities/event/EventHashEntity';
 import IconSvg from 'ui/shared/IconSvg';
@@ -98,8 +98,8 @@ const EventsTableItem = ({ event, enableTimeIncrement, isLoading }: Props) => {
       { /*  ) }*/ }
       { /*</Td>*/ }
       <Td>
-        <DomainFromTo
-          from={ event.domain_details }
+        <ApplicationFromTo
+          from={ event.application_details }
           to={ dataTo }
           isLoading={ isLoading }
           mt="2px"

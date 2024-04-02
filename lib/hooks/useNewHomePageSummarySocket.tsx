@@ -34,7 +34,7 @@ export default function useNewHomePageSummarySocket() {
         queryClient.setQueryData(getResourceKeyV1('homepage_summary_stat'), (prevData: HomeSummary | undefined) => {
           let newData = (prevData) ? prevData : {
             totalBlock: 0,
-            totalDomains: 0,
+            totalApplications: 0,
             totalCollections: 0,
             totalChains: 0,
             totalUpdates: 0,

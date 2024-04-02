@@ -5,8 +5,8 @@ import React from 'react';
 
 import { route } from 'nextjs-routes';
 
+import { CHAIN_TYPES } from 'lib/chainTypes';
 import { useAddressHighlightContext } from 'lib/contexts/addressHighlight';
-import { DOMAIN_CHAIN_TYPES } from 'lib/domain/domainChainTypes';
 import * as EntityBase from 'ui/shared/entities/base/components';
 
 import { getIconProps } from '../base/utils';
@@ -14,7 +14,7 @@ import { getIconProps } from '../base/utils';
 type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'chainId'>;
 
 const Link = chakra((props: LinkProps) => {
-  const name = DOMAIN_CHAIN_TYPES[`${ props.chainId }`].icon;
+  const name = CHAIN_TYPES[`${ props.chainId }`].icon;
   const defaultHref = route({ pathname: '/network/[name]', query: { ...props.query, name: name } });
 
   return (
@@ -44,7 +44,7 @@ const Icon = (props: IconProps) => {
   if (props.isLoading) {
     return <Skeleton { ...styles } borderRadius="full" flexShrink={ 0 }/>;
   }
-  const iconName = DOMAIN_CHAIN_TYPES[`${ props.chainId }`].icon;
+  const iconName = CHAIN_TYPES[`${ props.chainId }`].icon;
 
   return (
     <Tooltip label={ iconName }>
@@ -68,7 +68,7 @@ type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps
 
 const Content = chakra((props: ContentProps) => {
   if (props.chainId) {
-    const network = DOMAIN_CHAIN_TYPES[`${ props.chainId }`];
+    const network = CHAIN_TYPES[`${ props.chainId }`];
     const name = network.title;
     const hash = props.txHash;
     const label = (

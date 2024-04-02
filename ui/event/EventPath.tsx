@@ -2,10 +2,9 @@ import { Box, HStack, Skeleton } from '@chakra-ui/react';
 import React from 'react';
 
 // import * as EntityBase from 'ui/shared/entities/base/components';
+import { CHAIN_TYPES } from 'lib/chainTypes';
 import EventEntity from 'ui/shared/entities/event/EventEntity';
 import IconSvg from 'ui/shared/IconSvg';
-
-import { DOMAIN_CHAIN_TYPES } from '../../lib/domain/domainChainTypes';
 
 type Props = {
   blockId: number;
@@ -16,7 +15,7 @@ type Props = {
 const EventPath = ({ blockId, chainID, isLoading }: Props) => {
   // const darkModeFilter = { filter: 'brightness(0) invert(1)' };
   // const style = useColorModeValue({}, darkModeFilter);
-  const network = DOMAIN_CHAIN_TYPES[`${ chainID }`];
+  const network = CHAIN_TYPES[`${ chainID }`];
   const icon = network?.icon || 'networks/unknown';
   const name = network?.title || 'unknown';
   return (

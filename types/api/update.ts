@@ -1,7 +1,7 @@
 import type { AddressParam } from './addressParams';
+import type { ApplicationParam } from './applicationParams';
 import type { BlockUpdatesResponse } from './block';
 import type { DecodedInput } from './decodedInput';
-import type { DomainParam } from './domainParams';
 import type { Fee } from './fee';
 import type { L2WithdrawalStatus } from './l2Withdrawals';
 import type { TokenInfo } from './token';
@@ -31,7 +31,7 @@ export type EventSummaryResult = {
   numberOfTokens: number;
   numberOfUpdates: number;
   status: boolean;
-  domain_details: DomainParam;
+  application_details: ApplicationParam;
   timestamp: string;
 }
 
@@ -43,7 +43,7 @@ export type EventSummary = {
 }
 
 export type Update = {
-  to: DomainParam;
+  to: ApplicationParam;
   created_contract: AddressParam | null;
   txHash: string;
   eventHash: string;
@@ -53,7 +53,7 @@ export type Update = {
   block: number | null;
   timestamp: string | null;
   confirmation_duration: Array<number> | null;
-  from: DomainParam;
+  from: ApplicationParam;
   value: string;
   fee: Fee;
   gas_price: string | null;

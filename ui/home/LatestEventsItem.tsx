@@ -18,7 +18,7 @@ import useTimeAgoIncrement from 'lib/hooks/useTimeAgoIncrement';
 import { currencyUnits } from 'lib/units';
 import EventAdditionalInfo from 'ui/event/EventAdditionalInfo';
 import EventPath from 'ui/event/EventPath';
-import DomainFromTo from 'ui/shared/domain/DomainFromTo';
+import ApplicationFromTo from 'ui/shared/application/ApplicationFromTo';
 import EventHashEntity from 'ui/shared/entities/event/EventHashEntity';
 import EventStatus from 'ui/shared/statusTag/EventStatus';
 
@@ -63,7 +63,7 @@ const LatestEventsItem = ({ event, isLoading, collectionAddr }: Props) => {
             <HStack flexWrap="wrap" my="3px">
               { /*<TxType types={ tx.tx_types } isLoading={ isLoading }/>*/ }
               <EventStatus status="ok" isLoading={ isLoading }/>
-              <EventPath blockId={ event.block_number } chainID={ event.domain_details.chainID } isLoading={ isLoading }/>
+              <EventPath blockId={ event.block_number } chainID={ event.application_details.chainID } isLoading={ isLoading }/>
               { /*<TxWatchListTags tx={ update } isLoading={ isLoading }/>*/ }
             </HStack>
             <Flex
@@ -93,8 +93,8 @@ const LatestEventsItem = ({ event, isLoading, collectionAddr }: Props) => {
             </Flex>
           </Box>
         </Flex>
-        <DomainFromTo
-          from={ event.domain_details }
+        <ApplicationFromTo
+          from={ event.application_details }
           to={ to }
           isLoading={ isLoading }
           mode="compact"

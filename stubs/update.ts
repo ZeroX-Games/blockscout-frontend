@@ -90,11 +90,14 @@ export const EVENT_SUMMARY: EventSummary = {
       numberOfUpdates: 2,
       numberOfTokens: 4,
       status: true,
-      domain_details: {
-        domainId: '1',
+      application_details: {
+        applicationID: '1',
         name: '',
         description: null,
         chainID: 84532,
+        details: {
+          appLogoUrl: 'https://res.cloudinary.com/dcam8xcmx/image/upload/v1711134220/arcade/oc6tnqiabxuz6yctkmwr.png',
+        },
         created_at: '2024-03-08T19:39:04.830782Z',
         updated_at: '2024-03-08T19:39:04.830842Z',
         attributes: null,
@@ -111,11 +114,14 @@ export const EVENT_SUMMARY: EventSummary = {
       numberOfUpdates: 2,
       numberOfTokens: 4,
       status: true,
-      domain_details: {
-        domainId: '1',
+      application_details: {
+        applicationID: '1',
         name: '',
-        description: null,
+        description: '',
         chainID: 84532,
+        details: {
+          appLogoUrl: 'https://res.cloudinary.com/dcam8xcmx/image/upload/v1711134220/arcade/oc6tnqiabxuz6yctkmwr.png',
+        },
         created_at: '2024-03-08T19:39:04.830782Z',
         updated_at: '2024-03-08T19:39:04.830842Z',
         attributes: null,
@@ -132,11 +138,14 @@ export const EVENT_SUMMARY: EventSummary = {
       numberOfUpdates: 2,
       numberOfTokens: 4,
       status: true,
-      domain_details: {
-        domainId: '1',
+      application_details: {
+        applicationID: '1',
         name: '',
         description: null,
         chainID: 84532,
+        details: {
+          appLogoUrl: 'https://res.cloudinary.com/dcam8xcmx/image/upload/v1711134220/arcade/oc6tnqiabxuz6yctkmwr.png',
+        },
         created_at: '2024-03-08T19:39:04.830782Z',
         updated_at: '2024-03-08T19:39:04.830842Z',
         attributes: null,
@@ -153,11 +162,14 @@ export const EVENT_SUMMARY: EventSummary = {
       numberOfUpdates: 2,
       numberOfTokens: 4,
       status: true,
-      domain_details: {
-        domainId: '1',
+      application_details: {
+        applicationID: '1',
         name: '',
         description: null,
         chainID: 84532,
+        details: {
+          appLogoUrl: 'https://res.cloudinary.com/dcam8xcmx/image/upload/v1711134220/arcade/oc6tnqiabxuz6yctkmwr.png',
+        },
         created_at: '2024-03-08T19:39:04.830782Z',
         updated_at: '2024-03-08T19:39:04.830842Z',
         attributes: null,
@@ -174,11 +186,14 @@ export const EVENT_SUMMARY: EventSummary = {
       numberOfUpdates: 2,
       numberOfTokens: 4,
       status: true,
-      domain_details: {
-        domainId: '1',
+      application_details: {
+        applicationID: '1',
         name: '',
         description: null,
         chainID: 84532,
+        details: {
+          appLogoUrl: 'https://res.cloudinary.com/dcam8xcmx/image/upload/v1711134220/arcade/oc6tnqiabxuz6yctkmwr.png',
+        },
         created_at: '2024-03-08T19:39:04.830782Z',
         updated_at: '2024-03-08T19:39:04.830842Z',
         attributes: null,
@@ -196,11 +211,14 @@ export const BLOCK_DETAIL: EventDetail = {
   transactionHash: '0xccf546fa45608329ba11a952311c18a16001bf370684d8e72ddcbb18b7c42089',
   numberOfUpdates: 2,
   status: true,
-  domain_details: {
-    domainId: '1',
+  application_details: {
+    applicationID: '1',
     name: '',
     description: null,
     chainID: 84532,
+    details: {
+      appLogoUrl: 'https://res.cloudinary.com/dcam8xcmx/image/upload/v1711134220/arcade/oc6tnqiabxuz6yctkmwr.png',
+    },
     created_at: '2024-03-08T19:39:04.830782Z',
     updated_at: '2024-03-08T19:39:04.830842Z',
     attributes: null,

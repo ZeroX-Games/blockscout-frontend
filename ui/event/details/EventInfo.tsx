@@ -110,7 +110,7 @@ const EventInfo = ({ data, isLoading }: Props) => {
         columnGap={ 3 }
       >
         <NetworkEntity
-          chainId={ data.domain_details.chainID }
+          chainId={ data.application_details.chainID }
           isLoading={ isLoading }
         />
       </DetailsInfoItem>

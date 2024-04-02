@@ -88,7 +88,8 @@ const Stats = () => {
           <StatsItem
             icon="zerox-blocks"
             title="Total blocks"
-            value={ Number(homeSummary.totalBlock).toLocaleString() }
+            value="572,457,248"
+            // value={ Number(homeSummary.totalBlock).toLocaleString() }
             url={ route({ pathname: '/events' }) }
             isLoading={ isPlaceholderData }
           />
@@ -104,21 +105,24 @@ const Stats = () => {
         <StatsItem
           icon="zerox-events"
           title="Total events"
-          value={ Number(homeSummary.totalBlock).toLocaleString() }
+          value="853,236,853"
+          // value={ Number(homeSummary.totalBlock).toLocaleString() }
           url={ route({ pathname: '/events' }) }
           isLoading={ isSummaryPlaceHolder }
         />
         <StatsItem
           icon="zerox-domains"
           title="Total Applications"
-          value={ Number(homeSummary.totalDomains).toLocaleString() }
+          value="15,561"
+          // value={ Number(homeSummary.totalApplications).toLocaleString() }
           _last={ isOdd ? lastItemTouchStyle : undefined }
           isLoading={ isPlaceholderData }
         />
         <StatsItem
           icon="zerox-chains"
           title="Connected chains"
-          value={ Number(homeSummary.totalChains).toLocaleString() }
+          value="16"
+          // value={ Number(homeSummary.totalChains).toLocaleString() }
           _last={ isOdd ? lastItemTouchStyle : undefined }
           // tooltipLabel={ gasLabel }
           isLoading={ isPlaceholderData }
@@ -126,7 +130,7 @@ const Stats = () => {
         <StatsItem
           icon="zerox-nodes"
           title="ZeroX nodes"
-          value="1234"
+          value="267"
           _last={ isOdd ? lastItemTouchStyle : undefined }
           isLoading={ isPlaceholderData }
         />

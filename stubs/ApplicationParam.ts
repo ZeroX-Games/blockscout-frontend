@@ -1,13 +1,13 @@
-import type { DomainParam } from 'types/api/domainParams';
+import type { ApplicationParam } from 'types/api/applicationParams';
 
 export const DOMAIN_HASH = '0x2B51Ae4412F79c3c1cB12AA40Ea4ECEb4e80511a';
 
 export const DOMAIN_HASH1 = '0x2B51Ae4412F79c3c1cB12AA40Ea4ECEb4e80511b';
 
-export const DOMAIN_PARAMS1: DomainParam = {
+export const DOMAIN_PARAMS1: ApplicationParam = {
   hash: DOMAIN_HASH,
   name: 'GTA V',
-  domainId: '1',
+  applicationID: '1',
   description: 'Grand Theft Auto V',
   created_at: '2024-02-16T21:12:57.180073Z',
   updated_at: '2024-02-16T21:12:57.180073Z',
@@ -16,10 +16,10 @@ export const DOMAIN_PARAMS1: DomainParam = {
   chainID: -1,
 };
 
-export const DOMAIN_PARAMS2: DomainParam = {
+export const DOMAIN_PARAMS2: ApplicationParam = {
   hash: DOMAIN_HASH,
   name: 'GTA V',
-  domainId: '1',
+  applicationID: '1',
   description: 'Grand Theft Auto V',
   created_at: '2024-02-16T21:12:57.180073Z',
   updated_at: '2024-02-16T21:12:57.180073Z',

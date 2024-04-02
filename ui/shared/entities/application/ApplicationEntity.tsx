@@ -3,7 +3,7 @@ import { Flex, Skeleton, Tooltip, chakra, useColorModeValue, Box, VStack } from 
 import _omit from 'lodash/omit';
 import React from 'react';
 
-import type { DomainParam } from 'types/api/domainParams';
+import type { ApplicationParam } from 'types/api/applicationParams';
 
 import { route } from 'nextjs-routes';
 
@@ -12,10 +12,10 @@ import * as EntityBase from 'ui/shared/entities/base/components';
 
 import { getIconProps } from '../base/utils';
 
-type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'domain'>;
+type LinkProps = EntityBase.LinkBaseProps & Pick<EntityProps, 'application'>;
 
 const Link = chakra((props: LinkProps) => {
-  const defaultHref = route({ pathname: '/address/[hash]', query: { ...props.query, hash: props.domain.name } });
+  const defaultHref = route({ pathname: '/address/[hash]', query: { ...props.query, hash: props.application.name } });
 
   return (
     <EntityBase.Link
@@ -27,7 +27,7 @@ const Link = chakra((props: LinkProps) => {
   );
 });
 
-type IconProps = Pick<EntityProps, 'domain' | 'isLoading' | 'iconSize' | 'noIcon' | 'isSafeAddress'> & {
+type IconProps = Pick<EntityProps, 'application' | 'isLoading' | 'iconSize' | 'noIcon' | 'isSafeAddress'> & {
   asProp?: As;
 };
 
@@ -84,7 +84,7 @@ const Icon = (props: IconProps) => {
   // }
 
   return (
-    <Tooltip label="Domain">
+    <Tooltip label="Application">
       <Flex marginRight={ styles.marginRight }>
         <EntityBase.Icon
           { ...props }
@@ -96,15 +96,14 @@ const Icon = (props: IconProps) => {
   );
 };
 
-type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'domain'>;
+type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'application'>;
 
 const Content = chakra((props: ContentProps) => {
-  if (props.domain.name || props.domain.domainId) {
-    const text = 'NFT Fighter';
-    const hash = props.domain.domainId || '0x HASH Place holder';
+  if (props.application.name || props.application.applicationID) {
+    const hash = props.application.hash || props.application.applicationID;
     const label = (
       <VStack gap={ 0 } py={ 1 } color="inherit">
-        <Box fontWeight={ 600 } whiteSpace="pre-wrap" wordBreak="break-word">{ text }</Box>
+        <Box fontWeight={ 600 } whiteSpace="pre-wrap" wordBreak="break-word">{ props.application.name }</Box>
         <Box whiteSpace="pre-wrap" wordBreak="break-word">{ hash }</Box>
       </VStack>
     );
@@ -112,7 +111,7 @@ const Content = chakra((props: ContentProps) => {
     return (
       <Tooltip label={ label } maxW="100vw">
         <Skeleton isLoaded={ !props.isLoading } overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap" as="span">
-          { text }
+          { props.application.name }
         </Skeleton>
       </Tooltip>
     );
@@ -120,12 +119,12 @@ const Content = chakra((props: ContentProps) => {
   return (
     <EntityBase.Content
       { ...props }
-      text={ props.domain.name || 'GTA V' + props.domain.domainId }
+      text={ props.application.name }
     />
   );
 });
 
-type CopyProps = Omit<EntityBase.CopyBaseProps, 'text'> & Pick<EntityProps, 'domain'> &Pick<EntityProps, 'iconSize'>;
+type CopyProps = Omit<EntityBase.CopyBaseProps, 'text'> & Pick<EntityProps, 'application'> &Pick<EntityProps, 'iconSize'>;
 
 const Copy = (props: CopyProps) => {
   const styles = {
@@ -145,11 +144,11 @@ const Copy = (props: CopyProps) => {
 const Container = EntityBase.Container;
 
 export interface EntityProps extends EntityBase.EntityBaseProps {
-  domain: DomainParam;
+  application: ApplicationParam;
   isSafeAddress?: boolean;
 }
 
-const DomainEntry = (props: EntityProps) => {
+const ApplicationEntry = (props: EntityProps) => {
   const linkProps = _omit(props, [ 'className' ]);
   const partsProps = _omit(props, [ 'className', 'onClick' ]);
 
@@ -160,11 +159,11 @@ const DomainEntry = (props: EntityProps) => {
   return (
     <Container
       className={ props.className }
-      data-hash={ props.domain.domainId }
+      data-hash={ props.application.applicationID }
       onMouseEnter={ context?.onMouseEnter }
       onMouseLeave={ context?.onMouseLeave }
       position="relative"
-      _before={ !props.isLoading && context?.highlightedAddress === props.domain.domainId ? {
+      _before={ !props.isLoading && context?.highlightedAddress === props.application.applicationID ? {
         content: `" "`,
         position: 'absolute',
         py: 1,
@@ -191,7 +190,7 @@ const DomainEntry = (props: EntityProps) => {
   );
 };
 
-export default React.memo(chakra(DomainEntry));
+export default React.memo(chakra(ApplicationEntry));
 
 export {
   Container,

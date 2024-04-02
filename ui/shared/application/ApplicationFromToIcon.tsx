@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-const DomainFromToIcon = ({ isLoading, type, className }: Props) => {
+const ApplicationFromToIcon = ({ isLoading, type, className }: Props) => {
   const styles = {
     'in': {
       color: useColorModeValue('green.500', 'green.200'),
@@ -59,4 +59,4 @@ const DomainFromToIcon = ({ isLoading, type, className }: Props) => {
   );
 };
 
-export default React.memo(chakra(DomainFromToIcon));
+export default React.memo(chakra(ApplicationFromToIcon));
