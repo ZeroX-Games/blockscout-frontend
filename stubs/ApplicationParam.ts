@@ -14,6 +14,9 @@ export const APPLICATION_PARAMS1: ApplicationParam = {
   attributes: null,
   img_url: 'https://i.pinimg.com/564x/72/b6/08/72b608e2d9760300ca8773481a7a509a.jpg',
   chainID: -1,
+  details: {
+    appLogoUrl: 'https://i.pinimg.com/564x/72/b6/08/72b608e2d9760300ca8773481a7a509a.jpg',
+  },
 };
 
 export const APPLICATION_PARAMS2: ApplicationParam = {
@@ -26,4 +29,7 @@ export const APPLICATION_PARAMS2: ApplicationParam = {
   attributes: null,
   img_url: 'https://i.pinimg.com/564x/72/b6/08/72b608e2d9760300ca8773481a7a509a.jpg',
   chainID: -1,
+  details: {
+    appLogoUrl: 'https://i.pinimg.com/564x/72/b6/08/72b608e2d9760300ca8773481a7a509a.jpg',
+  },
 };
