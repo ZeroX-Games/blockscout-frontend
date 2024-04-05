@@ -46,6 +46,8 @@ const EventInfo = ({ data, isLoading }: Props) => {
   if (!data) {
     return null;
   }
+  // TODO: fix type. MatrixEntry is not compatible with MatrixUpdate
+  const matrixUpdate = data.matrix_entries as any;
   return (
     <Grid columnGap={ 8 } rowGap={{ base: 3, lg: 3 }} templateColumns={{ base: 'minmax(0, 1fr)', lg: 'max-content minmax(728px, auto)' }}>
       <DetailsInfoItem
@@ -154,7 +156,7 @@ const EventInfo = ({ data, isLoading }: Props) => {
             title="Updated tokens"
             hint="Updated tokens"
           >
-            <LogUpdatedTokenData data={ data.matrix_entries }/>
+            <LogUpdatedTokenData data={ matrixUpdate }/>
           </DetailsInfoItem>
         </>
       ) }

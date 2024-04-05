@@ -15,9 +15,11 @@ const hooksConfig = {
 };
 
 test('between addresses +@mobile +@dark-mode', async({ mount, page }) => {
+  // TODO: fix type. Transaction is not compatible with EventDetails
+  const eventDetails = txMock.base as any;
   const component = await mount(
     <TestApp>
-      <EventInfo data={ txMock.base } isLoading={ false }/>
+      <EventInfo data={ eventDetails } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -31,9 +33,11 @@ test('between addresses +@mobile +@dark-mode', async({ mount, page }) => {
 });
 
 test('creating contact', async({ mount, page }) => {
+  // TODO: fix type. Transaction is not compatible with EventDetails
+  const eventDetails = txMock.withContractCreation as any;
   const component = await mount(
     <TestApp>
-      <EventInfo data={ txMock.withContractCreation } isLoading={ false }/>
+      <EventInfo data={ eventDetails } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -45,9 +49,11 @@ test('creating contact', async({ mount, page }) => {
 });
 
 test('with token transfer +@mobile', async({ mount, page }) => {
+  // TODO: fix type. Transaction is not compatible with EventDetails
+  const eventDetails = txMock.withTokenTransfer as any;
   const component = await mount(
     <TestApp>
-      <EventInfo data={ txMock.withTokenTransfer } isLoading={ false }/>
+      <EventInfo data={ eventDetails } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -59,9 +65,11 @@ test('with token transfer +@mobile', async({ mount, page }) => {
 });
 
 test('with decoded revert reason', async({ mount, page }) => {
+  // TODO: fix type. Transaction is not compatible with EventDetails
+  const eventDetails = txMock.withDecodedRevertReason as any;
   const component = await mount(
     <TestApp>
-      <EventInfo data={ txMock.withDecodedRevertReason } isLoading={ false }/>
+      <EventInfo data={ eventDetails } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -73,9 +81,11 @@ test('with decoded revert reason', async({ mount, page }) => {
 });
 
 test('with decoded raw reason', async({ mount, page }) => {
+  // TODO: fix type. Transaction is not compatible with EventDetails
+  const eventDetails = txMock.withRawRevertReason as any;
   const component = await mount(
     <TestApp>
-      <EventInfo data={ txMock.withRawRevertReason } isLoading={ false }/>
+      <EventInfo data={ eventDetails } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -87,9 +97,11 @@ test('with decoded raw reason', async({ mount, page }) => {
 });
 
 test('pending', async({ mount, page }) => {
+  // TODO: fix type. Transaction is not compatible with EventDetails
+  const eventDetails = txMock.pending as any;
   const component = await mount(
     <TestApp>
-      <EventInfo data={ txMock.pending } isLoading={ false }/>
+      <EventInfo data={ eventDetails } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -103,9 +115,11 @@ test('pending', async({ mount, page }) => {
 });
 
 test('with actions uniswap +@mobile +@dark-mode', async({ mount, page }) => {
+  // TODO: fix type. Transaction is not compatible with EventDetails
+  const eventDetails = txMock.withActionsUniswap as any;
   const component = await mount(
     <TestApp>
-      <EventInfo data={ txMock.withActionsUniswap } isLoading={ false }/>
+      <EventInfo data={ eventDetails } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -122,9 +136,11 @@ const l2Test = test.extend({
 });
 
 l2Test('l2', async({ mount, page }) => {
+  // TODO: fix type. Transaction is not compatible with EventDetails
+  const eventDetails = txMock.l2tx as any;
   const component = await mount(
     <TestApp>
-      <EventInfo data={ txMock.l2tx } isLoading={ false }/>
+      <EventInfo data={ eventDetails } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -143,9 +159,11 @@ const mainnetTest = test.extend({
 });
 
 mainnetTest('without testnet warning', async({ mount, page }) => {
+  // TODO: fix type. Transaction is not compatible with EventDetails
+  const eventDetails = txMock.l2tx as any;
   const component = await mount(
     <TestApp>
-      <EventInfo data={ txMock.l2tx } isLoading={ false }/>
+      <EventInfo data={ eventDetails } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );
@@ -162,9 +180,11 @@ const stabilityTest = test.extend({
 });
 
 stabilityTest('stability customization', async({ mount, page }) => {
+  // TODO: fix type. Transaction is not compatible with EventDetails
+  const eventDetails = txMock.stabilityTx as any;
   const component = await mount(
     <TestApp>
-      <EventInfo data={ txMock.stabilityTx } isLoading={ false }/>
+      <EventInfo data={ eventDetails } isLoading={ false }/>
     </TestApp>,
     { hooksConfig },
   );

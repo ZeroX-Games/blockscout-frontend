@@ -22,6 +22,7 @@ export type ApplicationParamBasic = {
   updated_at: string;
   img_url?: string;
   hash?: string;
+  attributes: null; // TODO: type
   details: ApplicationDetail;
 }
 

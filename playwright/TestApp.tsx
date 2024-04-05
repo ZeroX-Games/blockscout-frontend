@@ -31,6 +31,8 @@ const defaultAppContext = {
     number: '',
     q: '',
     name: '',
+    blockId: '',
+    event_id: '',
   },
 };
 

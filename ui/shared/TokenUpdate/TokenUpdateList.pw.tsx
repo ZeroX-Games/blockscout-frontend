@@ -25,11 +25,13 @@ const data = [
 ];
 
 test('without tx info', async({ mount }) => {
+  // TODO: fix type. TokenTransfer is not compatible with MatrixEntry
+  const matrixEntry = data as any;
   const component = await mount(
     <TestApp>
       <Box h={{ base: '134px', lg: 6 }}/>
       <TokenTransferList
-        data={ data }
+        data={ matrixEntry }
         showTxInfo={ false }
       />
     </TestApp>,
@@ -39,11 +41,13 @@ test('without tx info', async({ mount }) => {
 });
 
 test('with tx info', async({ mount }) => {
+  // TODO: fix type. TokenTransfer is not compatible with MatrixEntry
+  const matrixEntry = data as any;
   const component = await mount(
     <TestApp>
       <Box h={{ base: '134px', lg: 6 }}/>
       <TokenTransferList
-        data={ data }
+        data={ matrixEntry }
         showTxInfo={ true }
       />
     </TestApp>,

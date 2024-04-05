@@ -8,6 +8,7 @@ import TokenUpdateListItem from 'ui/shared/TokenUpdate/TokenUpdateListItem';
 interface Props {
   data: Array<MatrixEntry>;
   isLoading?: boolean;
+  showTxInfo?: boolean;
 }
 
 const TokenUpdateList = ({ data, isLoading }: Props) => {
@@ -15,6 +16,8 @@ const TokenUpdateList = ({ data, isLoading }: Props) => {
     <Box>
       { data.map((item, index) => (
         <TokenUpdateListItem
+          token_id="" // TODO: added here to make typescript happy. But should fix item's type
+          delta={ [] } // TODO: added here to make typescript happy. But should fix item's type
           key={ index }
           { ...item }
           isLoading={ isLoading }

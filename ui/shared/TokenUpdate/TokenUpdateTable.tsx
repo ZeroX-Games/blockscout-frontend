@@ -12,6 +12,8 @@ interface Props {
   attributes: Array<string>;
   baseAddress?: string;
   isLoading?: boolean;
+  top?: number;
+  showTxInfo?: boolean;
 }
 
 const TokenUpdateTable = ({

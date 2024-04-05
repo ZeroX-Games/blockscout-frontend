@@ -51,6 +51,9 @@ const OG_TYPE_DICT: Record<Route['pathname'], OGPageType> = {
   '/api/healthz': 'Regular page',
   '/auth/auth0': 'Regular page',
   '/auth/unverified-email': 'Regular page',
+  '/event/[event_id]': 'Regular page',
+  '/events': 'Regular page',
+  '/network/[name]': 'Regular page',
 };
 
 export default function getPageOgType(pathname: Route['pathname']) {

@@ -1,12 +1,12 @@
 import { Box, Grid, Skeleton, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 
-import type { MatrixEntry } from 'types/api/event';
+import type { MatrixUpdate } from 'types/api/event';
 
 import TruncatedValue from 'ui/shared/TruncatedValue';
 
 interface Props {
-  data: Array<MatrixEntry>;
+  data: Array<MatrixUpdate>;
   isLoading?: boolean;
 }
 
@@ -100,7 +100,7 @@ const LogUpdatedTokenDataTable = ({ data, isLoading }: Props) => {
         { attributes.map((att: any) => {
           return <HeaderItem key={ att } isLoading={ isLoading }>{ att }</HeaderItem>;
         }) }
-        { data.map((row: MatrixEntry, index: any) => {
+        { data.map((row: MatrixUpdate, index: any) => {
           return <Row key={ index } row={ row.delta } header={ `#${ row.token_id }` } isLoading={ isLoading }/>;
         }) }
       </Grid>
