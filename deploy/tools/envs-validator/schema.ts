@@ -368,7 +368,7 @@ const schema = yup
       .array()
       .transform(replaceQuotes)
       .json()
-      .of(yup.string<ChainIndicatorId>().oneOf([ 'daily_txs', 'coin_price', 'market_cap', 'tvl' ])),
+      .of(yup.string<ChainIndicatorId>().oneOf([ 'daily_txs', 'coin_price', 'market_cap', 'tvl', 'daily_updates' ])),
     NEXT_PUBLIC_HOMEPAGE_PLATE_TEXT_COLOR: yup.string(),
     NEXT_PUBLIC_HOMEPAGE_PLATE_BACKGROUND: yup.string(),
     NEXT_PUBLIC_HOMEPAGE_SHOW_GAS_TRACKER: yup.boolean(),
