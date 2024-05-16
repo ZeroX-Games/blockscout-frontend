@@ -70,8 +70,13 @@
 	| "moon-with-star"
 	| "moon"
 	| "networks"
+	| "networks/arbitrum"
+	| "networks/base"
+	| "networks/ethereum"
 	| "networks/icon-placeholder"
+	| "networks/linea"
 	| "networks/logo-placeholder"
+	| "networks/optimism"
 	| "nft_shield"
 	| "output_roots"
 	| "plus"
@@ -137,5 +142,12 @@
 	| "wallets/coinbase"
 	| "wallets/metamask"
 	| "wallets/token-pocket"
-	| "watchlist";
+	| "watchlist"
+	| "zerox-blocks"
+	| "zerox-chains"
+	| "zerox-domains"
+	| "zerox-events"
+	| "zerox-icon"
+	| "zerox-nodes"
+	| "zerox-updates";
   

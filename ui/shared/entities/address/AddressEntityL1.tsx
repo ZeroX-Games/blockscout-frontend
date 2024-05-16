@@ -7,14 +7,14 @@ import config from 'configs/app';
 
 import * as AddressEntity from './AddressEntity';
 
-const rollupFeature = config.features.rollup;
+const feature = config.features.optimisticRollup;
 
 const AddressEntityL1 = (props: AddressEntity.EntityProps) => {
-  if (!rollupFeature.isEnabled) {
+  if (!feature.isEnabled) {
     return null;
   }
 
-  const defaultHref = rollupFeature.L1BaseUrl + route({
+  const defaultHref = feature.L1BaseUrl + route({
     pathname: '/address/[hash]',
     query: {
       ...props.query,

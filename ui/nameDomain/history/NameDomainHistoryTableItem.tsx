@@ -17,13 +17,7 @@ const NameDomainHistoryTableItem = ({ isLoading, transaction_hash: transactionHa
   return (
     <Tr>
       <Td verticalAlign="middle">
-        <TxEntity
-          hash={ transactionHash }
-          isLoading={ isLoading }
-          fontWeight={ 700 }
-          noIcon
-          truncation="constant_long"
-        />
+        <TxEntity hash={ transactionHash } isLoading={ isLoading } fontWeight={ 700 }/>
       </Td>
       <Td pl={ 9 } verticalAlign="middle">
         <Skeleton isLoaded={ !isLoading } color="text_secondary" display="inline-block">
@@ -31,7 +25,7 @@ const NameDomainHistoryTableItem = ({ isLoading, transaction_hash: transactionHa
         </Skeleton>
       </Td>
       <Td verticalAlign="middle">
-        { fromAddress && <AddressEntity address={ fromAddress } isLoading={ isLoading } truncation="constant"/> }
+        { fromAddress && <AddressEntity address={ fromAddress } isLoading={ isLoading }/> }
       </Td>
       <Td verticalAlign="middle">
         { action && <Tag colorScheme="gray" isLoading={ isLoading }>{ action }</Tag> }

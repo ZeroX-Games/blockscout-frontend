@@ -1,24 +1,24 @@
 import { Grid } from '@chakra-ui/react';
-import BigNumber from 'bignumber.js';
+// import BigNumber from 'bignumber.js';
 import React from 'react';
 
 import { route } from 'nextjs-routes';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
-import { WEI } from 'lib/consts';
-import { currencyUnits } from 'lib/units';
-import { HOMEPAGE_STATS } from 'stubs/stats';
-import GasInfoTooltipContent from 'ui/shared/GasInfoTooltipContent/GasInfoTooltipContent';
+import useApiQueryV1 from 'lib/api/v1/useApiQueryV1';
+// import { WEI } from 'lib/consts';
+// import { currencyUnits } from 'lib/units';
+import { HOME_SUMMARY, HOMEPAGE_STATS } from 'stubs/stats';
+// import GasInfoTooltipContent from 'ui/shared/GasInfoTooltipContent/GasInfoTooltipContent';
 
 import StatsItem from './StatsItem';
 
-const hasGasTracker = config.UI.homepage.showGasTracker;
-const hasAvgBlockTime = config.UI.homepage.showAvgBlockTime;
-const rollupFeature = config.features.rollup;
+// const hasGasTracker = config.UI.homepage.showGasTracker;
+// const hasAvgBlockTime = config.UI.homepage.showAvgBlockTime;
 
 const Stats = () => {
-  const { data, isPlaceholderData, isError, dataUpdatedAt } = useApiQuery('homepage_stats', {
+  const { data, isPlaceholderData, isError } = useApiQuery('homepage_stats', {
     fetchParams: {
       headers: {
         'updated-gas-oracle': 'true',
@@ -30,14 +30,20 @@ const Stats = () => {
     },
   });
 
-  const zkEvmLatestBatchQuery = useApiQuery('homepage_zkevm_latest_batch', {
+  const { data: homeSummary, isPlaceholderData: isSummaryPlaceHolder, isError: isSummaryError } = useApiQueryV1('homepage_summary_stat', {
     queryOptions: {
-      placeholderData: 12345,
-      enabled: rollupFeature.isEnabled && rollupFeature.type === 'zkEvm',
+      placeholderData: HOME_SUMMARY,
     },
   });
 
-  if (isError || zkEvmLatestBatchQuery.isError) {
+  const zkEvmLatestBatchQuery = useApiQuery('homepage_zkevm_latest_batch', {
+    queryOptions: {
+      placeholderData: 12345,
+      enabled: config.features.zkEvmRollup.isEnabled,
+    },
+  });
+
+  if (isError || zkEvmLatestBatchQuery.isError || isSummaryError) {
     return null;
   }
 
@@ -45,31 +51,35 @@ const Stats = () => {
 
   const lastItemTouchStyle = { gridColumn: { base: 'span 2', lg: 'unset' } };
 
-  let itemsCount = 5;
-  !hasGasTracker && itemsCount--;
-  !hasAvgBlockTime && itemsCount--;
+  let itemsCount = 6;
+  // !hasGasTracker && itemsCount--;
+  // !hasAvgBlockTime && itemsCount--;
 
-  if (data) {
+  if (data && homeSummary) {
     !data.gas_prices && itemsCount--;
     data.rootstock_locked_btc && itemsCount++;
     const isOdd = Boolean(itemsCount % 2);
-    const gasLabel = hasGasTracker && data.gas_prices ? <GasInfoTooltipContent data={ data } dataUpdatedAt={ dataUpdatedAt }/> : null;
+    // const gasLabel = hasGasTracker && data.gas_prices ? <GasInfoTooltipContent data={ data } dataUpdatedAt={ dataUpdatedAt }/> : null;
 
-    const gasPriceText = (() => {
-      if (data.gas_prices?.average?.fiat_price) {
-        return `$${ data.gas_prices.average.fiat_price }`;
-      }
+    // const gasPriceText = (() => {
+    //   if (data.gas_prices?.average?.fiat_price) {
+    //     return `$${ data.gas_prices.average.fiat_price }`;
+    //   }
+    //
+    //   if (data.gas_prices?.average?.price) {
+    //     return `${ data.gas_prices.average.price.toLocaleString() } ${ currencyUnits.gwei }`;
+    //   }
+    //
+    //   return 'N/A';
+    // })();
 
-      if (data.gas_prices?.average?.price) {
-        return `${ data.gas_prices.average.price.toLocaleString() } ${ currencyUnits.gwei }`;
-      }
-
-      return 'N/A';
+    const connectedChains = (() => {
+      return `98`;
     })();
 
     content = (
       <>
-        { rollupFeature.isEnabled && rollupFeature.type === 'zkEvm' ? (
+        { config.features.zkEvmRollup.isEnabled ? (
           <StatsItem
             icon="txn_batches"
             title="Latest batch"
@@ -79,54 +89,50 @@ const Stats = () => {
           />
         ) : (
           <StatsItem
-            icon="block"
+            icon="zerox-blocks"
             title="Total blocks"
-            value={ Number(data.total_blocks).toLocaleString() }
+            value={ Math.floor((Number(homeSummary.totalBlock) / 2)).toLocaleString() }
             url={ route({ pathname: '/blocks' }) }
             isLoading={ isPlaceholderData }
           />
         ) }
-        { hasAvgBlockTime && (
-          <StatsItem
-            icon="clock-light"
-            title="Average block time"
-            value={ `${ (data.average_block_time / 1000).toFixed(1) }s` }
-            isLoading={ isPlaceholderData }
-          />
-        ) }
+        { /* TODO: connect backend to get update, replace data */ }
         <StatsItem
-          icon="transactions"
-          title="Total transactions"
+          icon="zerox-updates"
+          title="Total updates"
           value={ Number(data.total_transactions).toLocaleString() }
           url={ route({ pathname: '/txs' }) }
-          isLoading={ isPlaceholderData }
+          isLoading={ isSummaryPlaceHolder }
         />
         <StatsItem
-          icon="wallet"
-          title="Wallet addresses"
-          value={ Number(data.total_addresses).toLocaleString() }
+          icon="zerox-events"
+          title="Total events"
+          value={ Number(homeSummary.totalBlock).toLocaleString() }
+          url={ route({ pathname: '/txs' }) }
+          isLoading={ isSummaryPlaceHolder }
+        />
+        <StatsItem
+          icon="zerox-domains"
+          title="Total apps"
+          value={ Number('1438').toLocaleString() }
           _last={ isOdd ? lastItemTouchStyle : undefined }
           isLoading={ isPlaceholderData }
         />
-        { hasGasTracker && data.gas_prices && (
-          <StatsItem
-            icon="gas"
-            title="Gas tracker"
-            value={ gasPriceText }
-            _last={ isOdd ? lastItemTouchStyle : undefined }
-            tooltipLabel={ gasLabel }
-            isLoading={ isPlaceholderData }
-          />
-        ) }
-        { data.rootstock_locked_btc && (
-          <StatsItem
-            icon="coins/bitcoin"
-            title="BTC Locked in 2WP"
-            value={ `${ BigNumber(data.rootstock_locked_btc).div(WEI).dp(0).toFormat() } RBTC` }
-            _last={ isOdd ? lastItemTouchStyle : undefined }
-            isLoading={ isPlaceholderData }
-          />
-        ) }
+        <StatsItem
+          icon="zerox-chains"
+          title="Connected chains"
+          value={ connectedChains }
+          _last={ isOdd ? lastItemTouchStyle : undefined }
+          // tooltipLabel={ gasLabel }
+          isLoading={ isPlaceholderData }
+        />
+        <StatsItem
+          icon="zerox-nodes"
+          title="ZeroX nodes"
+          value="3,438"
+          _last={ isOdd ? lastItemTouchStyle : undefined }
+          isLoading={ isPlaceholderData }
+        />
       </>
     );
   }

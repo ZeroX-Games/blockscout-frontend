@@ -112,6 +112,7 @@ const AdaptiveTabsList = (props: Props) => {
                 color: 'inherit',
               },
             }}
+            fontSize="lg"
           >
             { typeof tab.title === 'function' ? tab.title() : tab.title }
             <TabCounter count={ tab.count }/>

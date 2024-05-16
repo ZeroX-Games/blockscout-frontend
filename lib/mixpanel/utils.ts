@@ -70,7 +70,7 @@ Type extends EventTypes.VERIFY_TOKEN ? {
   'Action': 'Form opened' | 'Submit';
 } :
 Type extends EventTypes.WALLET_CONNECT ? {
-  'Source': 'Header' | 'Smart contracts' | 'Swap button';
+  'Source': 'Header' | 'Smart contracts';
   'Status': 'Started' | 'Connected';
 } :
 Type extends EventTypes.WALLET_ACTION ? {

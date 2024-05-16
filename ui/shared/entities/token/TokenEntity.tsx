@@ -79,6 +79,8 @@ const Content = chakra((props: ContentProps) => {
         overflow="hidden"
         textOverflow="ellipsis"
         height="fit-content"
+        fontSize="xl"
+        fontWeight={ 600 }
       >
         { nameString }
       </Skeleton>
@@ -147,7 +149,7 @@ const TokenEntity = (props: EntityProps) => {
 
   return (
     <Container className={ props.className } w="100%">
-      <Icon { ...partsProps }/>
+      { /* <Icon { ...partsProps }/> */ }
       <Link { ...linkProps }>
         <Content { ...partsProps }/>
       </Link>

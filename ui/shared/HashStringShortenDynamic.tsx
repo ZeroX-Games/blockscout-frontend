@@ -26,9 +26,10 @@ interface Props {
   isTooltipDisabled?: boolean;
   tailLength?: number;
   as?: As;
+  fontSize?: string;
 }
 
-const HashStringShortenDynamic = ({ hash, fontWeight = '400', isTooltipDisabled, tailLength = TAIL_LENGTH, as = 'span' }: Props) => {
+const HashStringShortenDynamic = ({ hash, fontWeight = '400', isTooltipDisabled, tailLength = TAIL_LENGTH, as = 'span', fontSize = 'md' }: Props) => {
   const elementRef = useRef<HTMLSpanElement>(null);
   const [ displayedString, setDisplayedString ] = React.useState(hash);
 
@@ -90,7 +91,7 @@ const HashStringShortenDynamic = ({ hash, fontWeight = '400', isTooltipDisabled,
     };
   }, [ calculateString ]);
 
-  const content = <chakra.span ref={ elementRef } as={ as }>{ displayedString }</chakra.span>;
+  const content = <chakra.span ref={ elementRef } as={ as } fontSize={ fontSize }>{ displayedString }</chakra.span>;
   const isTruncated = hash.length !== displayedString.length;
 
   if (isTruncated) {

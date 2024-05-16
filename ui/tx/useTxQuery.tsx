@@ -18,8 +18,6 @@ import useSocketChannel from 'lib/socket/useSocketChannel';
 import useSocketMessage from 'lib/socket/useSocketMessage';
 import { TX, TX_ZKEVM_L2 } from 'stubs/tx';
 
-const rollupFeature = config.features.rollup;
-
 export type TxQuery = UseQueryResult<Transaction, ResourceError<{ status: number }>> & {
   socketStatus: 'close' | 'error' | undefined;
   setRefetchOnError: {
@@ -48,7 +46,7 @@ export default function useTxQuery(params?: Params): TxQuery {
     queryOptions: {
       enabled: Boolean(hash) && params?.isEnabled !== false,
       refetchOnMount: false,
-      placeholderData: rollupFeature.isEnabled && rollupFeature.type === 'zkEvm' ? TX_ZKEVM_L2 : TX,
+      placeholderData: config.features.zkEvmRollup.isEnabled ? TX_ZKEVM_L2 : TX,
       retry: (failureCount, error) => {
         if (isRefetchEnabled) {
           return false;

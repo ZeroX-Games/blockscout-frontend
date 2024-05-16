@@ -67,7 +67,7 @@ const TokenTransferListItem = ({
           <TxEntity
             isLoading={ isLoading }
             hash={ txHash }
-            truncation="constant_long"
+            truncation="constant"
             fontWeight="700"
           />
           { timestamp && (

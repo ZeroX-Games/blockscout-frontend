@@ -1,9 +1,8 @@
-import { useDisclosure } from '@chakra-ui/react';
+import { MenuItem, chakra, useDisclosure } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import type { ItemType } from '../types';
 import type { Address } from 'types/api/address';
 import type { Transaction } from 'types/api/transaction';
 
@@ -13,23 +12,19 @@ import AddressModal from 'ui/privateTags/AddressModal/AddressModal';
 import TransactionModal from 'ui/privateTags/TransactionModal/TransactionModal';
 import IconSvg from 'ui/shared/IconSvg';
 
-import ButtonItem from '../parts/ButtonItem';
-import MenuItem from '../parts/MenuItem';
-
 interface Props {
   className?: string;
   hash: string;
   onBeforeClick: () => boolean;
-  entityType?: 'address' | 'tx';
-  type: ItemType;
+  type?: 'address' | 'tx';
 }
 
-const PrivateTagMenuItem = ({ className, hash, onBeforeClick, entityType = 'address', type }: Props) => {
+const PrivateTagMenuItem = ({ className, hash, onBeforeClick, type = 'address' }: Props) => {
   const modal = useDisclosure();
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const queryKey = getResourceKey(entityType === 'tx' ? 'tx' : 'address', { pathParams: { hash } });
+  const queryKey = getResourceKey(type === 'tx' ? 'tx' : 'address', { pathParams: { hash } });
   const queryData = queryClient.getQueryData<Address | Transaction>(queryKey);
 
   const handleClick = React.useCallback(() => {
@@ -63,26 +58,13 @@ const PrivateTagMenuItem = ({ className, hash, onBeforeClick, entityType = 'addr
     pageType,
   };
 
-  const element = (() => {
-    switch (type) {
-      case 'button': {
-        return <ButtonItem label="Add private tag" icon="privattags" onClick={ handleClick } className={ className }/>;
-      }
-      case 'menu_item': {
-        return (
-          <MenuItem className={ className } onClick={ handleClick }>
-            <IconSvg name="privattags" boxSize={ 6 } mr={ 2 }/>
-            <span>Add private tag</span>
-          </MenuItem>
-        );
-      }
-    }
-  })();
-
   return (
     <>
-      { element }
-      { entityType === 'tx' ?
+      <MenuItem className={ className } onClick={ handleClick }>
+        <IconSvg name="privattags" boxSize={ 6 } mr={ 2 }/>
+        <span>Add private tag</span>
+      </MenuItem>
+      { type === 'tx' ?
         <TransactionModal { ...modalProps } data={{ transaction_hash: hash }}/> :
         <AddressModal { ...modalProps } data={{ address_hash: hash }}/>
       }
@@ -90,4 +72,4 @@ const PrivateTagMenuItem = ({ className, hash, onBeforeClick, entityType = 'addr
   );
 };
 
-export default React.memo(PrivateTagMenuItem);
+export default React.memo(chakra(PrivateTagMenuItem));

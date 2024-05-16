@@ -1,5 +1,5 @@
 import type { ThemeTypings } from '@chakra-ui/react';
-import { Flex, Grid, chakra, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, chakra, useBreakpointValue } from '@chakra-ui/react';
 import React from 'react';
 
 import type { AddressParam } from 'types/api/addressParams';
@@ -25,7 +25,7 @@ interface Props {
   noIcon?: boolean;
 }
 
-const AddressFromTo = ({ from, to, current, mode: modeProp, className, isLoading, tokenHash = '', noIcon }: Props) => {
+const AddressFromTo = ({ from, to, current, mode: modeProp, className, isLoading, tokenHash = '', truncation, noIcon }: Props) => {
   const mode = useBreakpointValue(
     {
       base: (typeof modeProp === 'object' ? modeProp.base : modeProp),
@@ -52,10 +52,9 @@ const AddressFromTo = ({ from, to, current, mode: modeProp, className, isLoading
             noCopy={ current === from.hash }
             noIcon={ noIcon }
             tokenHash={ tokenHash }
-            truncation="constant"
-            maxW="calc(100% - 28px)"
+            truncation={ truncation }
+            maxW={ truncation === 'constant' ? undefined : 'calc(100% - 28px)' }
             w="min-content"
-
           />
         </Flex>
         { to && (
@@ -66,8 +65,8 @@ const AddressFromTo = ({ from, to, current, mode: modeProp, className, isLoading
             noCopy={ current === to.hash }
             noIcon={ noIcon }
             tokenHash={ tokenHash }
-            truncation="constant"
-            maxW="calc(100% - 28px)"
+            truncation={ truncation }
+            maxW={ truncation === 'constant' ? undefined : 'calc(100% - 28px)' }
             w="min-content"
             ml="28px"
           />
@@ -77,10 +76,10 @@ const AddressFromTo = ({ from, to, current, mode: modeProp, className, isLoading
   }
 
   const isOutgoing = current === from.hash;
-  const iconSize = 20;
+  const iconSizeWithMargins = (5 + (isOutgoing ? 4 : 2) + 3) * 4;
 
   return (
-    <Grid className={ className } alignItems="center" gridTemplateColumns={ `fit-content(100%) ${ iconSize }px fit-content(100%)` }>
+    <Flex className={ className } alignItems="center">
       <Entity
         address={ from }
         isLoading={ isLoading }
@@ -88,7 +87,8 @@ const AddressFromTo = ({ from, to, current, mode: modeProp, className, isLoading
         noCopy={ isOutgoing }
         noIcon={ noIcon }
         tokenHash={ tokenHash }
-        truncation="constant"
+        truncation={ truncation }
+        maxW={ truncation === 'constant' ? undefined : `calc(50% - ${ iconSizeWithMargins / 2 }px)` }
         mr={ isOutgoing ? 4 : 2 }
       />
       <AddressFromToIcon
@@ -103,11 +103,12 @@ const AddressFromTo = ({ from, to, current, mode: modeProp, className, isLoading
           noCopy={ current === to.hash }
           noIcon={ noIcon }
           tokenHash={ tokenHash }
-          truncation="constant"
+          truncation={ truncation }
+          maxW={ truncation === 'constant' ? undefined : `calc(50% - ${ iconSizeWithMargins / 2 }px)` }
           ml={ 3 }
         />
       ) }
-    </Grid>
+    </Flex>
   );
 };
 

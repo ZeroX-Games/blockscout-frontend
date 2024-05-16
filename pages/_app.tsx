@@ -15,15 +15,14 @@ import { ChakraProvider } from 'lib/contexts/chakra';
 import { ScrollDirectionProvider } from 'lib/contexts/scrollDirection';
 import { growthBook } from 'lib/growthbook/init';
 import useLoadFeatures from 'lib/growthbook/useLoadFeatures';
-import { SocketProvider } from 'lib/socket/context';
+import { WebSocketProvider } from 'lib/socket/useSocketContext';
 import theme from 'theme';
 import AppErrorBoundary from 'ui/shared/AppError/AppErrorBoundary';
 import GoogleAnalytics from 'ui/shared/GoogleAnalytics';
 import Layout from 'ui/shared/layout/Layout';
 import Web3ModalProvider from 'ui/shared/Web3ModalProvider';
-
 import 'lib/setLocale';
-// import 'focus-visible/dist/focus-visible';
+import 'focus-visible/dist/focus-visible';
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
@@ -64,9 +63,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             <QueryClientProvider client={ queryClient }>
               <GrowthBookProvider growthbook={ growthBook }>
                 <ScrollDirectionProvider>
-                  <SocketProvider url={ `${ config.api.socket }${ config.api.basePath }/socket/v2` }>
+                  <WebSocketProvider url={ `${ config.api.newSocket }${ config.api.basePath }/ws/blocks/` } >
                     { getLayout(<Component { ...pageProps }/>) }
-                  </SocketProvider>
+                  </WebSocketProvider>
                 </ScrollDirectionProvider>
               </GrowthBookProvider>
               <ReactQueryDevtools buttonPosition="bottom-left" position="left"/>

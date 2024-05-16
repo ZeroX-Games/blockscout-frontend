@@ -1,14 +1,12 @@
-import type {
-  OptimisticL2DepositsItem,
-  OptimisticL2OutputRootsItem,
-  OptimisticL2TxnBatchesItem,
-  OptimisticL2WithdrawalsItem,
-} from 'types/api/optimisticL2';
+import type { L2DepositsItem } from 'types/api/l2Deposits';
+import type { L2OutputRootsItem } from 'types/api/l2OutputRoots';
+import type { L2TxnBatchesItem } from 'types/api/l2TxnBatches';
+import type { L2WithdrawalsItem } from 'types/api/l2Withdrawals';
 
 import { ADDRESS_HASH, ADDRESS_PARAMS } from './addressParams';
 import { TX_HASH } from './tx';
 
-export const L2_DEPOSIT_ITEM: OptimisticL2DepositsItem = {
+export const L2_DEPOSIT_ITEM: L2DepositsItem = {
   l1_block_number: 9045233,
   l1_block_timestamp: '2023-05-22T18:00:36.000000Z',
   l1_tx_hash: TX_HASH,
@@ -17,7 +15,7 @@ export const L2_DEPOSIT_ITEM: OptimisticL2DepositsItem = {
   l2_tx_hash: TX_HASH,
 };
 
-export const L2_WITHDRAWAL_ITEM: OptimisticL2WithdrawalsItem = {
+export const L2_WITHDRAWAL_ITEM: L2WithdrawalsItem = {
   challenge_period_end: null,
   from: ADDRESS_PARAMS,
   l1_tx_hash: TX_HASH,
@@ -28,7 +26,8 @@ export const L2_WITHDRAWAL_ITEM: OptimisticL2WithdrawalsItem = {
   status: 'Ready to prove',
 };
 
-export const L2_TXN_BATCHES_ITEM: OptimisticL2TxnBatchesItem = {
+export const L2_TXN_BATCHES_ITEM: L2TxnBatchesItem = {
+  epoch_number: 9103513,
   l1_timestamp: '2023-06-01T14:46:48.000000Z',
   l1_tx_hashes: [
     TX_HASH,
@@ -37,7 +36,7 @@ export const L2_TXN_BATCHES_ITEM: OptimisticL2TxnBatchesItem = {
   tx_count: 9,
 };
 
-export const L2_OUTPUT_ROOTS_ITEM: OptimisticL2OutputRootsItem = {
+export const L2_OUTPUT_ROOTS_ITEM: L2OutputRootsItem = {
   l1_block_number: 9103684,
   l1_timestamp: '2023-06-01T15:26:12.000000Z',
   l1_tx_hash: TX_HASH,

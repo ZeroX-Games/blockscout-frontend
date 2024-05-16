@@ -1,6 +1,8 @@
 import { Flex, Skeleton, Text, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 
+import type { TChainIndicator } from './types';
+
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 import { HOMEPAGE_STATS } from 'stubs/stats';
@@ -29,7 +31,7 @@ const ChainIndicators = () => {
   const [ selectedIndicator, selectIndicator ] = React.useState(indicators[0]?.id);
   const indicator = indicators.find(({ id }) => id === selectedIndicator);
 
-  const queryResult = useFetchChartData(indicator);
+  const queryResult = useFetchChartData(indicator as TChainIndicator<'homepage_chart_txs' | 'homepage_chart_market'> | undefined);
   const statsQueryResult = useApiQuery('homepage_stats', {
     fetchParams: {
       headers: {

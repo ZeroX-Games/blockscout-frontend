@@ -15,7 +15,6 @@ import type { ContractCodeIde } from '../../../types/client/contract';
 import type { MarketplaceAppOverview } from '../../../types/client/marketplace';
 import { NAVIGATION_LINK_IDS } from '../../../types/client/navigation-items';
 import type { NavItemExternal, NavigationLinkId } from '../../../types/client/navigation-items';
-import { ROLLUP_TYPES } from '../../../types/client/rollup';
 import type { BridgedTokenChain, TokenBridge } from '../../../types/client/token';
 import { PROVIDERS as TX_INTERPRETATION_PROVIDERS } from '../../../types/client/txInterpretation';
 import type { WalletType } from '../../../types/client/wallets';
@@ -79,42 +78,20 @@ const marketplaceAppSchema: yup.ObjectSchema<MarketplaceAppOverview> = yup
 const marketplaceSchema = yup
   .object()
   .shape({
-    NEXT_PUBLIC_MARKETPLACE_ENABLED: yup.boolean(),
     NEXT_PUBLIC_MARKETPLACE_CONFIG_URL: yup
       .array()
       .json()
-      .of(marketplaceAppSchema)
-      .when('NEXT_PUBLIC_MARKETPLACE_ENABLED', {
-        is: true,
-        then: (schema) => schema,
-        // eslint-disable-next-line max-len
-        otherwise: (schema) => schema.max(-1, 'NEXT_PUBLIC_MARKETPLACE_CONFIG_URL cannot not be used without NEXT_PUBLIC_MARKETPLACE_ENABLED'),
-      }),
+      .of(marketplaceAppSchema),
     NEXT_PUBLIC_MARKETPLACE_CATEGORIES_URL: yup
       .array()
       .json()
-      .of(yup.string())
-      .when('NEXT_PUBLIC_MARKETPLACE_ENABLED', {
-        is: true,
-        then: (schema) => schema,
-        // eslint-disable-next-line max-len
-        otherwise: (schema) => schema.max(-1, 'NEXT_PUBLIC_MARKETPLACE_CATEGORIES_URL cannot not be used without NEXT_PUBLIC_MARKETPLACE_ENABLED'),
-      }),
+      .of(yup.string()),
     NEXT_PUBLIC_MARKETPLACE_SUBMIT_FORM: yup
       .string()
-      .when('NEXT_PUBLIC_MARKETPLACE_ENABLED', {
-        is: true,
+      .when('NEXT_PUBLIC_MARKETPLACE_CONFIG_URL', {
+        is: (value: Array<unknown>) => value.length > 0,
         then: (schema) => schema.test(urlTest).required(),
-        // eslint-disable-next-line max-len
-        otherwise: (schema) => schema.max(-1, 'NEXT_PUBLIC_MARKETPLACE_SUBMIT_FORM cannot not be used without NEXT_PUBLIC_MARKETPLACE_ENABLED'),
-      }),
-    NEXT_PUBLIC_MARKETPLACE_SUGGEST_IDEAS_FORM: yup
-      .string()
-      .when('NEXT_PUBLIC_MARKETPLACE_ENABLED', {
-        is: true,
-        then: (schema) => schema.test(urlTest),
-        // eslint-disable-next-line max-len
-        otherwise: (schema) => schema.max(-1, 'NEXT_PUBLIC_MARKETPLACE_SUGGEST_IDEAS_FORM cannot not be used without NEXT_PUBLIC_MARKETPLACE_ENABLED'),
+        otherwise: (schema) => schema.max(-1, 'NEXT_PUBLIC_MARKETPLACE_SUBMIT_FORM cannot not be used without NEXT_PUBLIC_MARKETPLACE_CONFIG_URL'),
       }),
   });
 
@@ -137,20 +114,23 @@ const beaconChainSchema = yup
 const rollupSchema = yup
   .object()
   .shape({
-    NEXT_PUBLIC_ROLLUP_TYPE: yup.string().oneOf(ROLLUP_TYPES),
-    NEXT_PUBLIC_ROLLUP_L1_BASE_URL: yup
+    NEXT_PUBLIC_IS_OPTIMISTIC_L2_NETWORK: yup.boolean(),
+    NEXT_PUBLIC_OPTIMISTIC_L2_WITHDRAWAL_URL: yup
       .string()
-      .when('NEXT_PUBLIC_ROLLUP_TYPE', {
+      .when('NEXT_PUBLIC_IS_OPTIMISTIC_L2_NETWORK', {
         is: (value: string) => value,
         then: (schema) => schema.test(urlTest).required(),
-        otherwise: (schema) => schema.max(-1, 'NEXT_PUBLIC_ROLLUP_L1_BASE_URL cannot not be used if NEXT_PUBLIC_ROLLUP_TYPE is not defined'),
+        // eslint-disable-next-line max-len
+        otherwise: (schema) => schema.max(-1, 'NEXT_PUBLIC_OPTIMISTIC_L2_WITHDRAWAL_URL cannot not be used if NEXT_PUBLIC_IS_OPTIMISTIC_L2_NETWORK is not set to "true"'),
       }),
-    NEXT_PUBLIC_ROLLUP_L2_WITHDRAWAL_URL: yup
+    NEXT_PUBLIC_IS_ZKEVM_L2_NETWORK: yup.boolean(),
+    NEXT_PUBLIC_L1_BASE_URL: yup
       .string()
-      .when('NEXT_PUBLIC_ROLLUP_TYPE', {
-        is: (value: string) => value === 'optimistic',
+      .when([ 'NEXT_PUBLIC_IS_OPTIMISTIC_L2_NETWORK', 'NEXT_PUBLIC_IS_ZKEVM_L2_NETWORK' ], {
+        is: (isOptimistic?: boolean, isZk?: boolean) => isOptimistic || isZk,
         then: (schema) => schema.test(urlTest).required(),
-        otherwise: (schema) => schema.max(-1, 'NEXT_PUBLIC_ROLLUP_L2_WITHDRAWAL_URL cannot not be used if NEXT_PUBLIC_ROLLUP_TYPE is not defined'),
+        // eslint-disable-next-line max-len
+        otherwise: (schema) => schema.max(-1, 'NEXT_PUBLIC_L1_BASE_URL cannot not be used if NEXT_PUBLIC_IS_OPTIMISTIC_L2_NETWORK or NEXT_PUBLIC_IS_ZKEVM_L2_NETWORK is not set to "true"'),
       }),
   });
 
@@ -488,7 +468,6 @@ const schema = yup
     NEXT_PUBLIC_OG_IMAGE_URL: yup.string().test(urlTest),
     NEXT_PUBLIC_IS_SUAVE_CHAIN: yup.boolean(),
     NEXT_PUBLIC_HAS_USER_OPS: yup.boolean(),
-    NEXT_PUBLIC_SWAP_BUTTON_URL: yup.string(),
 
     // 6. External services envs
     NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: yup.string(),

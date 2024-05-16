@@ -6,7 +6,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
-import type { OptimisticL2DepositsItem } from 'types/api/optimisticL2';
+import type { L2DepositsItem } from 'types/api/l2Deposits';
 
 import config from 'configs/app';
 import dayjs from 'lib/date/dayjs';
@@ -15,18 +15,18 @@ import BlockEntityL1 from 'ui/shared/entities/block/BlockEntityL1';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import TxEntityL1 from 'ui/shared/entities/tx/TxEntityL1';
 
-const feature = config.features.rollup;
+const feature = config.features.optimisticRollup;
 
 type Props = {
-  item: OptimisticL2DepositsItem;
+  item: L2DepositsItem;
   isLoading?: boolean;
 }
 
-const LatestDepositsItem = ({ item, isLoading }: Props) => {
+const LatestTxsItem = ({ item, isLoading }: Props) => {
   const timeAgo = dayjs(item.l1_block_timestamp).fromNow();
   const isMobile = useIsMobile();
 
-  if (!feature.isEnabled || feature.type !== 'optimistic') {
+  if (!feature.isEnabled) {
     return null;
   }
 
@@ -46,7 +46,6 @@ const LatestDepositsItem = ({ item, isLoading }: Props) => {
       hash={ item.l1_tx_hash }
       fontSize="sm"
       lineHeight={ 5 }
-      truncation={ isMobile ? 'constant_long' : 'dynamic' }
     />
   );
 
@@ -56,7 +55,6 @@ const LatestDepositsItem = ({ item, isLoading }: Props) => {
       hash={ item.l2_tx_hash }
       fontSize="sm"
       lineHeight={ 5 }
-      truncation={ isMobile ? 'constant_long' : 'dynamic' }
     />
   );
 
@@ -118,4 +116,4 @@ const LatestDepositsItem = ({ item, isLoading }: Props) => {
   );
 };
 
-export default React.memo(LatestDepositsItem);
+export default React.memo(LatestTxsItem);

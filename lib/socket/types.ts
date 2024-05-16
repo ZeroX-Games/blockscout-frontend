@@ -6,7 +6,7 @@ import type { SmartContractVerificationResponse } from 'types/api/contract';
 import type { RawTracesResponse } from 'types/api/rawTrace';
 import type { TokenTransfer } from 'types/api/tokenTransfer';
 import type { Transaction } from 'types/api/transaction';
-import type { NewZkEvmBatchSocketResponse } from 'types/api/zkEvmL2';
+import type { NewZkEvmBatchSocketResponse } from 'types/api/zkEvmL2TxnBatches';
 
 export type SocketMessageParams = SocketMessage.NewBlock |
 SocketMessage.BlocksIndexStatus |
@@ -16,6 +16,7 @@ SocketMessage.TxRawTrace |
 SocketMessage.NewTx |
 SocketMessage.NewPendingTx |
 SocketMessage.NewDeposits |
+SocketMessage.NewEvent |
 SocketMessage.AddressBalance |
 SocketMessage.AddressCurrentCoinBalance |
 SocketMessage.AddressTokenBalance |
@@ -50,6 +51,7 @@ export namespace SocketMessage {
   export type NewTx = SocketMessageParamsGeneric<'transaction', { transaction: number }>;
   export type NewPendingTx = SocketMessageParamsGeneric<'pending_transaction', { pending_transaction: number }>;
   export type NewDeposits = SocketMessageParamsGeneric<'deposits', { deposits: number }>;
+  export type NewEvent = SocketMessageParamsGeneric<'event', { event: string }>;
   export type AddressBalance = SocketMessageParamsGeneric<'balance', { balance: string; block_number: number; exchange_rate: string }>;
   export type AddressCurrentCoinBalance =
   SocketMessageParamsGeneric<'current_coin_balance', { coin_balance: string; block_number: number; exchange_rate: string }>;

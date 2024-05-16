@@ -1,8 +1,6 @@
-import { chakra, useDisclosure } from '@chakra-ui/react';
+import { MenuItem, chakra, useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
-
-import type { ItemType } from '../types';
 
 import type { Route } from 'nextjs-routes';
 
@@ -13,17 +11,13 @@ import { PAGE_TYPE_DICT } from 'lib/mixpanel/getPageType';
 import AddressVerificationModal from 'ui/addressVerification/AddressVerificationModal';
 import IconSvg from 'ui/shared/IconSvg';
 
-import ButtonItem from '../parts/ButtonItem';
-import MenuItem from '../parts/MenuItem';
-
 interface Props {
   className?: string;
   hash: string;
   onBeforeClick: (route: Route) => boolean;
-  type: ItemType;
 }
 
-const TokenInfoMenuItem = ({ className, hash, onBeforeClick, type }: Props) => {
+const TokenInfoMenuItem = ({ className, hash, onBeforeClick }: Props) => {
   const router = useRouter();
   const modal = useDisclosure();
   const isAuth = useHasAccount();
@@ -67,40 +61,37 @@ const TokenInfoMenuItem = ({ className, hash, onBeforeClick, type }: Props) => {
     router.push({ pathname: '/account/verified-addresses' });
   }, [ router ]);
 
-  const element = (() => {
-    const icon = <IconSvg name="edit" boxSize={ 6 } p={ 1 }/>;
-    const isVerifiedAddress = verifiedAddressesQuery.data?.verifiedAddresses
-      .find(({ contractAddress }) => contractAddress.toLowerCase() === hash.toLowerCase());
+  const icon = <IconSvg name="edit" boxSize={ 6 } mr={ 2 } p={ 1 }/>;
+
+  const content = (() => {
+    if (!verifiedAddressesQuery.data?.verifiedAddresses.find(({ contractAddress }) => contractAddress.toLowerCase() === hash.toLowerCase())) {
+      return (
+        <MenuItem className={ className } onClick={ handleAddAddressClick }>
+          { icon }
+          <span>{ tokenInfoQuery.data?.tokenAddress ? 'Update token info' : 'Add token info' }</span>
+        </MenuItem>
+      );
+    }
+
     const hasApplication = applicationsQuery.data?.submissions.some(({ tokenAddress }) => tokenAddress.toLowerCase() === hash.toLowerCase());
 
-    const label = (() => {
-      if (!isVerifiedAddress) {
-        return tokenInfoQuery.data?.tokenAddress ? 'Update token info' : 'Add token info';
-      }
-
-      return hasApplication || tokenInfoQuery.data?.tokenAddress ? 'Update token info' : 'Add token info';
-    })();
-
-    const onClick = isVerifiedAddress ? handleAddApplicationClick : handleAddAddressClick;
-
-    switch (type) {
-      case 'button': {
-        return <ButtonItem label={ label } icon={ icon } onClick={ onClick } className={ className }/>;
-      }
-      case 'menu_item': {
-        return (
-          <MenuItem className={ className } onClick={ onClick }>
-            { icon }
-            <chakra.span ml={ 2 }>{ label }</chakra.span>
-          </MenuItem>
-        );
-      }
-    }
+    return (
+      <MenuItem className={ className } onClick={ handleAddApplicationClick }>
+        { icon }
+        <span>
+          {
+            hasApplication || tokenInfoQuery.data?.tokenAddress ?
+              'Update token info' :
+              'Add token info'
+          }
+        </span>
+      </MenuItem>
+    );
   })();
 
   return (
     <>
-      { element }
+      { content }
       <AddressVerificationModal
         defaultAddress={ hash }
         pageType={ PAGE_TYPE_DICT['/token/[hash]'] }
@@ -114,4 +105,4 @@ const TokenInfoMenuItem = ({ className, hash, onBeforeClick, type }: Props) => {
   );
 };
 
-export default React.memo(TokenInfoMenuItem);
+export default React.memo(chakra(TokenInfoMenuItem));

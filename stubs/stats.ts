@@ -1,3 +1,4 @@
+import type { HomeSummary } from '../types/api/HomeSummary';
 import type { Counter, HomeStats, StatsChartsSection } from 'types/api/stats';
 
 export const HOMEPAGE_STATS: HomeStats = {
@@ -76,4 +77,8 @@ export const STATS_COUNTER: Counter = {
   title: 'Placeholder Counter',
   description: 'Placeholder description',
   units: '',
+};
+
+export const HOME_SUMMARY: HomeSummary = {
+  totalBlock: 100,
 };

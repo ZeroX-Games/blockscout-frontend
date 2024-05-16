@@ -1,4 +1,4 @@
-import { Skeleton, Tooltip, chakra } from '@chakra-ui/react';
+import { Skeleton, chakra } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
 
@@ -17,7 +17,7 @@ import EnsEntity from 'ui/shared/entities/ens/EnsEntity';
 import TokenEntity from 'ui/shared/entities/token/TokenEntity';
 import IconSvg from 'ui/shared/IconSvg';
 
-import { extractVariables, getStringChunks, fillStringVariables, checkSummary, NATIVE_COIN_SYMBOL_VAR_NAME } from './utils';
+import { extractVariables, getStringChunks, fillStringVariables, NATIVE_COIN_SYMBOL_VAR_NAME } from './utils';
 
 type Props = {
   summary?: TxInterpretationSummary;
@@ -108,17 +108,13 @@ const TxInterpretationElementByType = ({ variable }: { variable?: NonStringTxInt
   }
 };
 
-const TxInterpretation = ({ summary, isLoading, className }: Props) => {
+const TxUpdateInterpretation = ({ summary, isLoading, className }: Props) => {
   if (!summary) {
     return null;
   }
 
   const template = summary.summary_template;
   const variables = summary.summary_template_variables;
-
-  if (!checkSummary(template, variables)) {
-    return null;
-  }
 
   const intermediateResult = fillStringVariables(template, variables);
 
@@ -127,9 +123,7 @@ const TxInterpretation = ({ summary, isLoading, className }: Props) => {
 
   return (
     <Skeleton isLoaded={ !isLoading } className={ className } fontWeight={ 500 } whiteSpace="pre-wrap" >
-      <Tooltip label="Transaction summary">
-        <IconSvg name="lightning" boxSize={ 5 } color="text_secondary" mr={ 2 } verticalAlign="text-top"/>
-      </Tooltip>
+      <IconSvg name="lightning" boxSize={ 5 } color="text_secondary" mr={ 2 } verticalAlign="text-top"/>
       { chunks.map((chunk, index) => {
         return (
           <chakra.span key={ chunk + index }>
@@ -146,4 +140,4 @@ const TxInterpretation = ({ summary, isLoading, className }: Props) => {
   );
 };
 
-export default chakra(TxInterpretation);
+export default chakra(TxUpdateInterpretation);

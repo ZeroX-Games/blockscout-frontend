@@ -32,7 +32,6 @@ const ActionBar = ({ children, className, showShadow }: Props) => {
       px={{ base: 4, lg: 0 }}
       justifyContent="space-between"
       width={{ base: '100vw', lg: 'unset' }}
-      position="sticky"
       top={{ base: scrollDirection === 'down' ? `${ TOP_DOWN }px` : `${ TOP_UP }px`, lg: 0 }}
       transitionProperty="top,box-shadow,background-color,color"
       transitionDuration="normal"

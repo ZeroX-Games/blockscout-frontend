@@ -13,7 +13,7 @@ import LinkInternal from 'ui/shared/LinkInternal';
 
 import { getIconProps, type IconSize } from './utils';
 
-export type Truncation = 'constant' | 'constant_long' | 'dynamic' | 'tail' | 'none';
+export type Truncation = 'constant' | 'dynamic' | 'tail' | 'none';
 
 export interface EntityBaseProps {
   className?: string;
@@ -29,6 +29,7 @@ export interface EntityBaseProps {
   tailLength?: number;
   target?: React.HTMLAttributeAnchorTarget;
   truncation?: Truncation;
+  size?: string;
 }
 
 export interface ContainerBaseProps extends Pick<EntityBaseProps, 'className'> {
@@ -108,23 +109,14 @@ const Icon = ({ isLoading, iconSize, noIcon, name, color, borderRadius }: IconBa
   );
 };
 
-export interface ContentBaseProps extends Pick<EntityBaseProps, 'className' | 'isLoading' | 'truncation' | 'tailLength'> {
+export interface ContentBaseProps extends Pick<EntityBaseProps, 'className' | 'isLoading' | 'truncation' | 'tailLength' | 'size'> {
   asProp?: As;
   text: string;
 }
 
-const Content = chakra(({ className, isLoading, asProp, text, truncation = 'dynamic', tailLength }: ContentBaseProps) => {
-
+const Content = chakra(({ className, isLoading, asProp, text, truncation = 'dynamic', tailLength, size = 'md' }: ContentBaseProps) => {
   const children = (() => {
     switch (truncation) {
-      case 'constant_long':
-        return (
-          <HashStringShorten
-            hash={ text }
-            as={ asProp }
-            type="long"
-          />
-        );
       case 'constant':
         return (
           <HashStringShorten
@@ -138,6 +130,7 @@ const Content = chakra(({ className, isLoading, asProp, text, truncation = 'dyna
             hash={ text }
             as={ asProp }
             tailLength={ tailLength }
+            fontSize={ size }
           />
         );
       case 'none':

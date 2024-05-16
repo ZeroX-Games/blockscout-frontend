@@ -3,8 +3,8 @@ import React from 'react';
 
 import DataListDisplay from 'ui/shared/DataListDisplay';
 import type { QueryWithPagesResult } from 'ui/shared/pagination/useQueryWithPages';
-import BeaconChainWithdrawalsList from 'ui/withdrawals/beaconChain/BeaconChainWithdrawalsList';
-import BeaconChainWithdrawalsTable from 'ui/withdrawals/beaconChain/BeaconChainWithdrawalsTable';
+import WithdrawalsList from 'ui/withdrawals/WithdrawalsList';
+import WithdrawalsTable from 'ui/withdrawals/WithdrawalsTable';
 
 type Props = {
   blockWithdrawalsQuery: QueryWithPagesResult<'block_withdrawals'>;
@@ -14,14 +14,14 @@ const BlockWithdrawals = ({ blockWithdrawalsQuery }: Props) => {
   const content = blockWithdrawalsQuery.data?.items ? (
     <>
       <Show below="lg" ssr={ false }>
-        <BeaconChainWithdrawalsList
+        <WithdrawalsList
           items={ blockWithdrawalsQuery.data.items }
           isLoading={ blockWithdrawalsQuery.isPlaceholderData }
           view="block"
         />
       </Show>
       <Hide below="lg" ssr={ false }>
-        <BeaconChainWithdrawalsTable
+        <WithdrawalsTable
           items={ blockWithdrawalsQuery.data.items }
           isLoading={ blockWithdrawalsQuery.isPlaceholderData }
           top={ blockWithdrawalsQuery.pagination.isVisible ? 80 : 0 }

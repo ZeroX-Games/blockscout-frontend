@@ -1,7 +1,6 @@
 import type { GetServerSideProps } from 'next';
 
 import config from 'configs/app';
-const rollupFeature = config.features.rollup;
 
 export type Props = {
   cookies: string;
@@ -12,6 +11,8 @@ export type Props = {
   number: string;
   q: string;
   name: string;
+  blockId: string;
+  event_id: string;
 }
 
 export const base: GetServerSideProps<Props> = async({ req, query }) => {
@@ -25,6 +26,8 @@ export const base: GetServerSideProps<Props> = async({ req, query }) => {
       number: query.number?.toString() || '',
       q: query.q?.toString() || '',
       name: query.name?.toString() || '',
+      blockId: query.blockId?.toString() || '',
+      event_id: query.event_id?.toString() || '',
     },
   };
 };
@@ -50,10 +53,7 @@ export const verifiedAddresses: GetServerSideProps<Props> = async(context) => {
 };
 
 export const withdrawals: GetServerSideProps<Props> = async(context) => {
-  if (
-    !config.features.beaconChain.isEnabled &&
-    !(rollupFeature.isEnabled && rollupFeature.type === 'optimistic')
-  ) {
+  if (!config.features.beaconChain.isEnabled && !config.features.optimisticRollup.isEnabled) {
     return {
       notFound: true,
     };
@@ -63,7 +63,7 @@ export const withdrawals: GetServerSideProps<Props> = async(context) => {
 };
 
 export const rollup: GetServerSideProps<Props> = async(context) => {
-  if (!config.features.rollup.isEnabled) {
+  if (!config.features.optimisticRollup.isEnabled && !config.features.zkEvmRollup.isEnabled) {
     return {
       notFound: true,
     };
@@ -73,7 +73,7 @@ export const rollup: GetServerSideProps<Props> = async(context) => {
 };
 
 export const optimisticRollup: GetServerSideProps<Props> = async(context) => {
-  if (!(rollupFeature.isEnabled && rollupFeature.type === 'optimistic')) {
+  if (!config.features.optimisticRollup.isEnabled) {
     return {
       notFound: true,
     };
@@ -83,7 +83,7 @@ export const optimisticRollup: GetServerSideProps<Props> = async(context) => {
 };
 
 export const zkEvmRollup: GetServerSideProps<Props> = async(context) => {
-  if (!(rollupFeature.isEnabled && rollupFeature.type === 'zkEvm')) {
+  if (!config.features.zkEvmRollup.isEnabled) {
     return {
       notFound: true,
     };

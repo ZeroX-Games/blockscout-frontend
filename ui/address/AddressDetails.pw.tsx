@@ -1,7 +1,11 @@
 import { test, expect } from '@playwright/experimental-ct-react';
+import type { UseQueryResult } from '@tanstack/react-query';
 import React from 'react';
 import type { WindowProvider } from 'wagmi';
 
+import type { Address } from 'types/api/address';
+
+import type { ResourceError } from 'lib/api/resources';
 import * as addressMock from 'mocks/address/address';
 import * as countersMock from 'mocks/address/counters';
 import * as tokensMock from 'mocks/address/tokens';
@@ -11,7 +15,6 @@ import * as configs from 'playwright/utils/configs';
 
 import AddressDetails from './AddressDetails';
 import MockAddressPage from './testUtils/MockAddressPage';
-import type { AddressQuery } from './utils/useAddressQuery';
 
 const ADDRESS_HASH = addressMock.hash;
 const API_URL_ADDRESS = buildApiUrl('address', { hash: ADDRESS_HASH });
@@ -37,7 +40,7 @@ test('contract +@mobile', async({ mount, page }) => {
 
   const component = await mount(
     <TestApp>
-      <AddressDetails addressQuery={{ data: addressMock.contract } as AddressQuery}/>
+      <AddressDetails addressQuery={{ data: addressMock.contract } as UseQueryResult<Address, ResourceError>}/>
     </TestApp>,
     { hooksConfig },
   );
@@ -79,7 +82,7 @@ test('token', async({ mount, page }) => {
   const component = await mount(
     <TestApp>
       <MockAddressPage>
-        <AddressDetails addressQuery={{ data: addressMock.token } as AddressQuery}/>
+        <AddressDetails addressQuery={{ data: addressMock.token } as UseQueryResult<Address, ResourceError>}/>
       </MockAddressPage>
     </TestApp>,
     { hooksConfig },
@@ -103,7 +106,7 @@ test('validator +@mobile', async({ mount, page }) => {
 
   const component = await mount(
     <TestApp>
-      <AddressDetails addressQuery={{ data: addressMock.validator } as AddressQuery}/>
+      <AddressDetails addressQuery={{ data: addressMock.validator } as UseQueryResult<Address, ResourceError>}/>
     </TestApp>,
     { hooksConfig },
   );

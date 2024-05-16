@@ -34,14 +34,6 @@ function getPaginationParamsFromQuery(queryString: string | Array<string> | unde
   return {};
 }
 
-function getNextPageParams<R extends PaginatedResources>(data: ResourcePayload<R> | undefined) {
-  if (!data || typeof data !== 'object' || !('next_page_params' in data)) {
-    return;
-  }
-
-  return data.next_page_params;
-}
-
 export type QueryWithPagesResult<Resource extends PaginatedResources> =
 UseQueryResult<ResourcePayload<Resource>, ResourceError<unknown>> &
 {
@@ -84,30 +76,29 @@ export default function useQueryWithPages<Resource extends PaginatedResources>({
     },
   });
   const { data } = queryResult;
-  const nextPageParams = getNextPageParams(data);
 
   const onNextPageClick = useCallback(() => {
-    if (!nextPageParams) {
+    if (!data?.next_page_params) {
       // we hide next page button if no next_page_params
       return;
     }
 
     setPageParams((prev) => ({
       ...prev,
-      [page + 1]: nextPageParams as NextPageParams,
+      [page + 1]: data.next_page_params as NextPageParams,
     }));
     setPage(prev => prev + 1);
 
     const nextPageQuery = {
       ...router.query,
       page: String(page + 1),
-      next_page_params: encodeURIComponent(JSON.stringify(nextPageParams)),
+      next_page_params: encodeURIComponent(JSON.stringify(data.next_page_params)),
     };
 
     setHasPages(true);
     scrollToTop();
     router.push({ pathname: router.pathname, query: nextPageQuery }, undefined, { shallow: true });
-  }, [ nextPageParams, page, router, scrollToTop ]);
+  }, [ data?.next_page_params, page, router, scrollToTop ]);
 
   const onPrevPageClick = useCallback(() => {
     // returning to the first page
@@ -190,6 +181,7 @@ export default function useQueryWithPages<Resource extends PaginatedResources>({
     });
   }, [ router, scrollToTop ]);
 
+  const nextPageParams = data?.next_page_params;
   const hasNextPage = nextPageParams ? Object.keys(nextPageParams).length > 0 : false;
 
   const pagination = {

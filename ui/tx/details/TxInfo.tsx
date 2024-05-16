@@ -30,11 +30,10 @@ import CopyToClipboard from 'ui/shared/CopyToClipboard';
 import CurrencyValue from 'ui/shared/CurrencyValue';
 import DetailsInfoItem from 'ui/shared/DetailsInfoItem';
 import DetailsInfoItemDivider from 'ui/shared/DetailsInfoItemDivider';
-import DetailsSponsoredItem from 'ui/shared/DetailsSponsoredItem';
 import DetailsTimestamp from 'ui/shared/DetailsTimestamp';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
-import BatchEntityL2 from 'ui/shared/entities/block/BatchEntityL2';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
+import ZkEvmBatchEntityL2 from 'ui/shared/entities/block/ZkEvmBatchEntityL2';
 import HashStringShortenDynamic from 'ui/shared/HashStringShortenDynamic';
 import IconSvg from 'ui/shared/IconSvg';
 import LogDecodedInputData from 'ui/shared/logs/LogDecodedInputData';
@@ -53,9 +52,6 @@ import TxDetailsWithdrawalStatus from 'ui/tx/details/TxDetailsWithdrawalStatus';
 import TxRevertReason from 'ui/tx/details/TxRevertReason';
 import TxAllowedPeekers from 'ui/tx/TxAllowedPeekers';
 import TxSocketAlert from 'ui/tx/TxSocketAlert';
-
-const rollupFeature = config.features.rollup;
-
 interface Props {
   data: Transaction | undefined;
   isLoading: boolean;
@@ -126,7 +122,7 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
         <CopyToClipboard text={ data.hash } isLoading={ isLoading }/>
       </DetailsInfoItem>
       <DetailsInfoItem
-        title={ rollupFeature.isEnabled && rollupFeature.type === 'zkEvm' ? 'L2 status and method' : 'Status and method' }
+        title={ config.features.zkEvmRollup.isEnabled ? 'L2 status and method' : 'Status and method' }
         hint="Current transaction state: Success, Failed (Error), or Pending (In Process)"
         isLoading={ isLoading }
       >
@@ -137,7 +133,7 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
           </Tag>
         ) }
       </DetailsInfoItem>
-      { rollupFeature.isEnabled && rollupFeature.type === 'optimistic' && data.op_withdrawals && data.op_withdrawals.length > 0 && (
+      { config.features.optimisticRollup.isEnabled && data.op_withdrawals && data.op_withdrawals.length > 0 && (
         <DetailsInfoItem
           title="Withdrawal status"
           hint="Detailed status progress of the transaction"
@@ -203,7 +199,7 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
           hint="Batch index for this transaction"
           isLoading={ isLoading }
         >
-          <BatchEntityL2
+          <ZkEvmBatchEntityL2
             isLoading={ isLoading }
             number={ data.zkevm_batch_number }
           />
@@ -241,7 +237,6 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
       { data.allowed_peekers && data.allowed_peekers.length > 0 && (
         <TxAllowedPeekers items={ data.allowed_peekers }/>
       ) }
-      <DetailsSponsoredItem isLoading={ isLoading }/>
 
       <DetailsInfoItemDivider/>
 
@@ -422,7 +417,7 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
           ) }
         </DetailsInfoItem>
       ) }
-      { data.tx_burnt_fee && !config.UI.views.tx.hiddenFields?.burnt_fees && !(rollupFeature.isEnabled && rollupFeature.type === 'optimistic') && (
+      { data.tx_burnt_fee && !config.UI.views.tx.hiddenFields?.burnt_fees && !config.features.optimisticRollup.isEnabled && (
         <DetailsInfoItem
           title="Burnt fees"
           hint={ `Amount of ${ currencyUnits.ether } burned for this transaction. Equals Block Base Fee per Gas * Gas Used` }
@@ -437,7 +432,7 @@ const TxInfo = ({ data, isLoading, socketStatus }: Props) => {
           />
         </DetailsInfoItem>
       ) }
-      { rollupFeature.isEnabled && rollupFeature.type === 'optimistic' && (
+      { config.features.optimisticRollup.isEnabled && (
         <>
           { data.l1_gas_used && (
             <DetailsInfoItem

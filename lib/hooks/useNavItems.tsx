@@ -67,9 +67,7 @@ export default function useNavItems(): ReturnType {
       isActive: pathname === '/name-domains' || pathname === '/name-domains/[name]',
     } : null;
 
-    const rollupFeature = config.features.rollup;
-
-    if (rollupFeature.isEnabled && rollupFeature.type === 'zkEvm') {
+    if (config.features.zkEvmRollup.isEnabled) {
       blockchainNavItems = [
         [
           txs,
@@ -88,7 +86,7 @@ export default function useNavItems(): ReturnType {
           ensLookup,
         ].filter(Boolean),
       ];
-    } else if (rollupFeature.isEnabled && rollupFeature.type === 'optimistic') {
+    } else if (config.features.optimisticRollup.isEnabled) {
       blockchainNavItems = [
         [
           txs,

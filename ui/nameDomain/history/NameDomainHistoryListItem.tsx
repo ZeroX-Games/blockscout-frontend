@@ -18,7 +18,7 @@ const NameDomainHistoryListItem = ({ isLoading, transaction_hash: transactionHas
     <ListItemMobileGrid.Container>
       <ListItemMobileGrid.Label isLoading={ isLoading }>Txn hash</ListItemMobileGrid.Label>
       <ListItemMobileGrid.Value>
-        <TxEntity hash={ transactionHash } isLoading={ isLoading } fontWeight={ 500 } truncation="constant_long"/>
+        <TxEntity hash={ transactionHash } isLoading={ isLoading } fontWeight={ 500 }/>
       </ListItemMobileGrid.Value>
 
       <ListItemMobileGrid.Label isLoading={ isLoading }>Age</ListItemMobileGrid.Label>
@@ -32,7 +32,7 @@ const NameDomainHistoryListItem = ({ isLoading, transaction_hash: transactionHas
         <>
           <ListItemMobileGrid.Label isLoading={ isLoading }>From</ListItemMobileGrid.Label>
           <ListItemMobileGrid.Value>
-            <AddressEntity address={ fromAddress } isLoading={ isLoading } truncation="constant"/>
+            <AddressEntity address={ fromAddress } isLoading={ isLoading }/>
           </ListItemMobileGrid.Value>
         </>
       ) }

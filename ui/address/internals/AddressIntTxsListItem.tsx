@@ -45,7 +45,7 @@ const TxInternalsListItem = ({
           hash={ txnHash }
           isLoading={ isLoading }
           fontWeight={ 700 }
-          truncation="constant_long"
+          truncation="constant"
         />
         <Skeleton isLoaded={ !isLoading } color="text_secondary" fontWeight="400" fontSize="sm">
           <span>{ dayjs(timestamp).fromNow() }</span>

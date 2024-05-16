@@ -24,7 +24,6 @@ const TxStateListItem = ({ data, isLoading }: Props) => {
         <AddressEntity
           address={ data.address }
           isLoading={ isLoading }
-          truncation="constant"
         />
         { tag }
       </ListItemMobileGrid.Value>

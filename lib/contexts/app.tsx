@@ -16,6 +16,8 @@ const AppContext = createContext<PageProps>({
   number: '',
   q: '',
   name: '',
+  blockId: '',
+  event_id: '',
 });
 
 export function AppContextProvider({ children, pageProps }: Props) {

@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 import { SECOND } from 'lib/consts';
-import removeQueryParam from 'lib/router/removeQueryParam';
 
 type Props = {
   children: React.ReactNode;
@@ -30,28 +29,14 @@ const WalletTooltip = ({ children, isDisabled, isMobile }: Props) => {
   React.useEffect(() => {
     const wasShown = window.localStorage.getItem(localStorageKey);
     const isMarketplacePage = [ '/apps', '/apps/[id]' ].includes(router.pathname);
-    const isTooltipShowAction = router.query.action === 'tooltip';
-    const isConnectWalletAction = router.query.action === 'connect';
-    const needToShow = (!wasShown && !isConnectWalletAction) || isTooltipShowAction;
-    let timer1: ReturnType<typeof setTimeout>;
-    let timer2: ReturnType<typeof setTimeout>;
-
-    if (!isDisabled && isMarketplacePage && needToShow) {
-      timer1 = setTimeout(() => {
+    if (!isDisabled && !wasShown && isMarketplacePage) {
+      setTimeout(() => {
         setIsTooltipShown.on();
         window.localStorage.setItem(localStorageKey, 'true');
-        timer2 = setTimeout(() => setIsTooltipShown.off(), 5 * SECOND);
-        if (isTooltipShowAction) {
-          removeQueryParam(router, 'action');
-        }
-      }, isTooltipShowAction ? 0 : SECOND);
+        setTimeout(() => setIsTooltipShown.off(), 5 * SECOND);
+      }, SECOND);
     }
-
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-    };
-  }, [ setIsTooltipShown, localStorageKey, isDisabled, router ]);
+  }, [ setIsTooltipShown, localStorageKey, isDisabled, router.pathname ]);
 
   return (
     <Tooltip

@@ -25,6 +25,25 @@ const dailyTxsIndicator: TChainIndicator<'homepage_chart_txs'> = {
   },
 };
 
+// TODO: update txs
+const dailyEventsIndicator: TChainIndicator<'homepage_chart_txs'> = {
+  id: 'daily_events',
+  title: 'Daily events',
+  value: (stats) => Number(stats.transactions_today).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
+  icon: <IconSvg name="transactions" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
+  hint: `Number of events yesterday (0:00 - 23:59 UTC). The chart displays daily events for the past 30 days.`,
+  api: {
+    resourceName: 'homepage_chart_txs',
+    dataFn: (response) => ([ {
+      items: response.chart_data
+        .map((item) => ({ date: new Date(item.date), value: item.tx_count }))
+        .sort(sortByDateDesc),
+      name: 'Event/day',
+      valueFormatter: (x: number) => x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
+    } ]),
+  },
+};
+
 const nativeTokenData = {
   name: config.chain.currency.name || '',
   icon_url: '',
@@ -99,6 +118,7 @@ const tvlIndicator: TChainIndicator<'homepage_chart_market'> = {
 
 const INDICATORS = [
   dailyTxsIndicator,
+  dailyEventsIndicator,
   coinPriceIndicator,
   marketPriceIndicator,
   tvlIndicator,

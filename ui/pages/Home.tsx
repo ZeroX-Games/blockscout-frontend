@@ -2,17 +2,15 @@ import { Box, Heading, Flex } from '@chakra-ui/react';
 import React from 'react';
 
 import config from 'configs/app';
+import EventsHome from 'ui/home/Events';
 import ChainIndicators from 'ui/home/indicators/ChainIndicators';
-import LatestBlocks from 'ui/home/LatestBlocks';
+import LatestEventSummary from 'ui/home/LatestEventSummary';
 import LatestZkEvmL2Batches from 'ui/home/LatestZkEvmL2Batches';
 import Stats from 'ui/home/Stats';
-import Transactions from 'ui/home/Transactions';
 import AdBanner from 'ui/shared/ad/AdBanner';
 import ProfileMenuDesktop from 'ui/snippets/profileMenu/ProfileMenuDesktop';
 import SearchBar from 'ui/snippets/searchBar/SearchBar';
 import WalletMenuDesktop from 'ui/snippets/walletMenu/WalletMenuDesktop';
-
-const rollupFeature = config.features.rollup;
 
 const Home = () => {
   return (
@@ -33,7 +31,7 @@ const Home = () => {
             fontWeight={ 600 }
             color={ config.UI.homepage.plate.textColor }
           >
-            { config.chain.name } explorer
+            { config.chain.name } Explorer
           </Heading>
           <Box display={{ base: 'none', lg: 'flex' }}>
             { config.features.account.isEnabled && <ProfileMenuDesktop isHomePage/> }
@@ -46,9 +44,9 @@ const Home = () => {
       <ChainIndicators/>
       <AdBanner mt={{ base: 6, lg: 8 }} mx="auto" display="flex" justifyContent="center"/>
       <Flex mt={ 8 } direction={{ base: 'column', lg: 'row' }} columnGap={ 12 } rowGap={ 8 }>
-        { rollupFeature.isEnabled && rollupFeature.type === 'zkEvm' ? <LatestZkEvmL2Batches/> : <LatestBlocks/> }
+        { config.features.zkEvmRollup.isEnabled ? <LatestZkEvmL2Batches/> : <LatestEventSummary/> }
         <Box flexGrow={ 1 }>
-          <Transactions/>
+          <EventsHome/>
         </Box>
       </Flex>
     </Box>

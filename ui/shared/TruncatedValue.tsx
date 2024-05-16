@@ -6,10 +6,12 @@ import TruncatedTextTooltip from 'ui/shared/TruncatedTextTooltip';
 interface Props {
   className?: string;
   isLoading?: boolean;
+  fontWeight?: number;
   value: string;
+  color?: string;
 }
 
-const TruncatedValue = ({ className, isLoading, value }: Props) => {
+const TruncatedValue = ({ className, isLoading, value, fontWeight, color }: Props) => {
   return (
     <TruncatedTextTooltip label={ value }>
       <Skeleton
@@ -20,6 +22,8 @@ const TruncatedValue = ({ className, isLoading, value }: Props) => {
         overflow="hidden"
         textOverflow="ellipsis"
         height="fit-content"
+        fontWeight={ fontWeight }
+        color={ color }
       >
         { value }
       </Skeleton>
