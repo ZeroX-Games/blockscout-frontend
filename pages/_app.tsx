@@ -15,7 +15,7 @@ import { ChakraProvider } from 'lib/contexts/chakra';
 import { ScrollDirectionProvider } from 'lib/contexts/scrollDirection';
 import { growthBook } from 'lib/growthbook/init';
 import useLoadFeatures from 'lib/growthbook/useLoadFeatures';
-import { WebSocketProvider } from 'lib/socket/useSocketContext';
+import { SocketProvider } from 'lib/socket/context';
 import theme from 'theme';
 import AppErrorBoundary from 'ui/shared/AppError/AppErrorBoundary';
 import GoogleAnalytics from 'ui/shared/GoogleAnalytics';
@@ -63,9 +63,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             <QueryClientProvider client={ queryClient }>
               <GrowthBookProvider growthbook={ growthBook }>
                 <ScrollDirectionProvider>
-                  <WebSocketProvider url={ `${ config.api.newSocket }${ config.api.basePath }/ws/blocks/` } >
+                  <SocketProvider url={ `${ config.api.socket }${ config.api.basePath }/socket/v2` } >
                     { getLayout(<Component { ...pageProps }/>) }
-                  </WebSocketProvider>
+                  </SocketProvider>
                 </ScrollDirectionProvider>
               </GrowthBookProvider>
               <ReactQueryDevtools buttonPosition="bottom-left" position="left"/>

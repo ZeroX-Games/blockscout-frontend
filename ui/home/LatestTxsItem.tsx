@@ -22,6 +22,8 @@ import TxWatchListTags from 'ui/shared/tx/TxWatchListTags';
 import TxAdditionalInfo from 'ui/txs/TxAdditionalInfo';
 import TxType from 'ui/txs/TxType';
 
+import ZxTxType from '../txs/ZxTxType';
+
 type Props = {
   tx: Transaction;
   isLoading?: boolean;
@@ -53,6 +55,7 @@ const LatestTxsItem = ({ tx, isLoading }: Props) => {
           <HStack flexWrap="wrap" my="3px">
             <TxType types={ tx.tx_types } isLoading={ isLoading }/>
             <TxStatus status={ tx.status } errorText={ tx.status === 'error' ? tx.result : undefined } isLoading={ isLoading }/>
+            <ZxTxType type={ tx.zxTxType } isLoading={ isLoading }/>
             <TxWatchListTags tx={ tx } isLoading={ isLoading }/>
           </HStack>
           <Flex

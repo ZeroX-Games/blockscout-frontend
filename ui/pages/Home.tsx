@@ -2,9 +2,9 @@ import { Box, Heading, Flex } from '@chakra-ui/react';
 import React from 'react';
 
 import config from 'configs/app';
-import EventsHome from 'ui/home/Events';
 import ChainIndicators from 'ui/home/indicators/ChainIndicators';
 import LatestEventSummary from 'ui/home/LatestEventSummary';
+import LatestTxs from 'ui/home/LatestTxs';
 import LatestZkEvmL2Batches from 'ui/home/LatestZkEvmL2Batches';
 import Stats from 'ui/home/Stats';
 import AdBanner from 'ui/shared/ad/AdBanner';
@@ -46,7 +46,7 @@ const Home = () => {
       <Flex mt={ 8 } direction={{ base: 'column', lg: 'row' }} columnGap={ 12 } rowGap={ 8 }>
         { config.features.zkEvmRollup.isEnabled ? <LatestZkEvmL2Batches/> : <LatestEventSummary/> }
         <Box flexGrow={ 1 }>
-          <EventsHome/>
+          <LatestTxs/>
         </Box>
       </Flex>
     </Box>

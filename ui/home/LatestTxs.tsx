@@ -6,7 +6,6 @@ import { route } from 'nextjs-routes';
 import useApiQuery from 'lib/api/useApiQuery';
 import { AddressHighlightProvider } from 'lib/contexts/addressHighlight';
 import useIsMobile from 'lib/hooks/useIsMobile';
-import useNewTxsSocket from 'lib/hooks/useNewTxsSocket';
 import { TX } from 'stubs/tx';
 import LinkInternal from 'ui/shared/LinkInternal';
 import SocketNewItemsNotice from 'ui/shared/SocketNewItemsNotice';
@@ -23,8 +22,6 @@ const LatestTransactions = () => {
     },
   });
 
-  const { num, socketAlert } = useNewTxsSocket();
-
   if (isError) {
     return <Text mt={ 4 }>No data. Please reload page.</Text>;
   }
@@ -33,7 +30,7 @@ const LatestTransactions = () => {
     const txsUrl = route({ pathname: '/txs' });
     return (
       <>
-        <SocketNewItemsNotice borderBottomRadius={ 0 } url={ txsUrl } num={ num } alert={ socketAlert } isLoading={ isPlaceholderData }/>
+        <SocketNewItemsNotice borderBottomRadius={ 0 } url={ txsUrl } isLoading={ isPlaceholderData }/>
         <Box mb={ 3 } display={{ base: 'block', lg: 'none' }}>
           { data.slice(0, txsCount).map(((tx, index) => (
             <LatestTxsItemMobile
