@@ -1,3 +1,4 @@
+import type { TxZeroXTransaction } from '../../types/api/txZeroxTransaction';
 import { getFeaturePayload } from 'configs/app/features/types';
 import type {
   UserInfo,
@@ -260,6 +261,11 @@ export const RESOURCES = {
   tx: {
     path: '/api/v2/transactions/:hash',
     pathParams: [ 'hash' as const ],
+  },
+  tx_zerox_type: {
+    path: '/api/v2/transactions/:hash/:zeroxType/zerox-transaction',
+    pathParams: [ 'hash' as const, 'zeroxType' as const ],
+    filterFields: [ 'type' as const ],
   },
   tx_internal_txs: {
     path: '/api/v2/transactions/:hash/internal-transactions',
@@ -709,6 +715,7 @@ Q extends 'tx_token_transfers' ? TokenTransferResponse :
 Q extends 'tx_raw_trace' ? RawTracesResponse :
 Q extends 'tx_state_changes' ? TxStateChanges :
 Q extends 'tx_interpretation' ? TxInterpretationResponse :
+Q extends 'tx_zerox_type' ? TxZeroXTransaction :
 Q extends 'addresses' ? AddressesResponse :
 Q extends 'address' ? Address :
 Q extends 'address_counters' ? AddressCounters :
