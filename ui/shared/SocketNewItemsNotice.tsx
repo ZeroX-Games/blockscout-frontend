@@ -2,6 +2,8 @@ import { Alert, Link, Text, chakra, useTheme, useColorModeValue, Skeleton, Tr, T
 import { transparentize } from '@chakra-ui/theme-tools';
 import React from 'react';
 
+import useNewTxsSocket from '../../lib/hooks/useNewTxsSocket';
+
 interface InjectedProps {
   content: React.ReactNode;
 }
@@ -16,8 +18,9 @@ interface Props {
   isLoading?: boolean;
 }
 
-const SocketNewItemsNotice = chakra(({ children, className, url, num, alert, type = 'transaction', isLoading }: Props) => {
+const SocketNewItemsNotice = chakra(({ children, className, url, type = 'transaction', isLoading }: Props) => {
   const theme = useTheme();
+  const { num, socketAlert: alert } = useNewTxsSocket();
 
   const alertContent = (() => {
     if (alert) {

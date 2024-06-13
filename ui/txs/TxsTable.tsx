@@ -51,7 +51,7 @@ const TxsTable = ({
             <Th width="54px"></Th>
             <Th width="22%">Txn hash</Th>
             <Th width="160px">Type</Th>
-            <Th width="20%">Method</Th>
+            <Th width="25%">Method</Th>
             { showBlockInfo && <Th width="18%">Block</Th> }
             <Th width={{ base: '224px', xl: '360px' }}>From/To</Th>
             { !config.UI.views.tx.hiddenFields?.value && (

@@ -22,6 +22,7 @@ import TxWatchListTags from 'ui/shared/tx/TxWatchListTags';
 import TxAdditionalInfo from 'ui/txs/TxAdditionalInfo';
 
 import TxType from './TxType';
+import ZxTxType from './ZxTxType';
 
 type Props = {
   tx: Transaction;
@@ -67,11 +68,16 @@ const TxsTableItem = ({ tx, showBlockInfo, currentAddress, enableTimeIncrement, 
         </VStack>
       </Td>
       <Td whiteSpace="nowrap">
-        { tx.method && (
-          <Tag colorScheme={ tx.method === 'Multicall' ? 'teal' : 'gray' } isLoading={ isLoading } isTruncated>
-            { tx.method }
-          </Tag>
-        ) }
+        <VStack alignItems="start">
+          { tx.method && (
+            <Tag colorScheme={ tx.method === 'Multicall' ? 'teal' : 'gray' } isLoading={ isLoading } isTruncated>
+              { tx.method }
+            </Tag>
+          ) }
+          { tx.zxTxType !== 0 && (
+            <ZxTxType type={ tx.zxTxType } isLoading={ isLoading }/>
+          ) }
+        </VStack>
       </Td>
       { showBlockInfo && (
         <Td>

@@ -24,6 +24,7 @@ import TxState from 'ui/tx/TxState';
 import TxSubHeading from 'ui/tx/TxSubHeading';
 import TxTokenTransfer from 'ui/tx/TxTokenTransfer';
 import TxUserOps from 'ui/tx/TxUserOps';
+import TxZeroX from 'ui/tx/TxZeroX';
 import useTxQuery from 'ui/tx/useTxQuery';
 
 const TransactionPageContent = () => {
@@ -46,6 +47,9 @@ const TransactionPageContent = () => {
         id: 'index',
         title: config.features.suave.isEnabled && data?.wrapped ? 'Confidential compute tx details' : 'Details',
         component: detailsComponent,
+      },
+      {
+        id: 'zx_tx', title: 'ZeroX Transaction', component: <TxZeroX txQuery={ txQuery }/>,
       },
       config.features.suave.isEnabled && data?.wrapped ?
         { id: 'wrapped', title: 'Regular tx details', component: <TxDetailsWrapped data={ data.wrapped }/> } :

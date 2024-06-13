@@ -48,6 +48,7 @@ export const TX: Transaction = {
     14545,
   ],
   tx_tag: null,
+  zxTxType: 0,
 };
 
 export const TX_ZKEVM_L2: Transaction = {
