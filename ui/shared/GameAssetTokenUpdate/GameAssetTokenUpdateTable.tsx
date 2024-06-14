@@ -1,4 +1,4 @@
-import { Table, Tbody, Tr, Th, TableContainer } from '@chakra-ui/react';
+import { Table, Tbody, Tr, Th, TableContainer, Flex } from '@chakra-ui/react';
 import React from 'react';
 
 import type { GameAssetTokenUpdate } from '../../../types/api/gameAssetTokenUpdate';
@@ -8,6 +8,7 @@ import { default as Thead } from 'ui/shared/TheadSticky';
 import GameAssetTokenUpdateTableItem from 'ui/shared/TokenUpdate/TokenUpdateTableItem';
 
 import type { GameAssetTokenUpdateQuery } from '../../tx/zeroxTransaction/useUtilityUpdateQuery';
+import GameAssetTokenUpdateHeatMap from './GameAssetTokenUpdateHeatMap';
 
 interface Props {
   query: GameAssetTokenUpdateQuery;
@@ -44,47 +45,52 @@ const GameAssetTokenUpdateTable = ({
   ];
 
   return (
-    <AddressHighlightProvider>
-      <TableContainer maxW="1200px" overflowX="unset" overflowY="unset">
-        <Table style={{ tableLayout: 'unset' }}>
-          <Thead top={ 0 } position="sticky" backgroundColor="#383F4A" borderTopLeftRadius="20px">
-            <Tr>
-              <Th
-                position="sticky"
-                left={ 0 }
-                overflow="hidden"
-                zIndex={ 2 }
-                fontSize="lg"
-                minW="265px"
-              >
+    <>
+      <Flex w="1500px" h="800px">
+        <GameAssetTokenUpdateHeatMap/>
+      </Flex>
+      <AddressHighlightProvider>
+        <TableContainer maxW="1200px" overflowX="unset" overflowY="unset">
+          <Table style={{ tableLayout: 'unset' }}>
+            <Thead top={ 0 } position="sticky" backgroundColor="#383F4A" borderTopLeftRadius="20px">
+              <Tr>
+                <Th
+                  position="sticky"
+                  left={ 0 }
+                  overflow="hidden"
+                  zIndex={ 2 }
+                  fontSize="lg"
+                  minW="265px"
+                >
                 Utility
-              </Th>
-              { query.data.attributes.map((attribute, index) => (
-                <Th key={ index } minW="165px" maxW="200px" ml="20px" fontSize="lg">{ attribute === 'Proficiency' ? 'Level' : attribute }</Th>
-              )) }
-            </Tr>
-          </Thead>
-          <Tbody>
-            { query.data.updatedTokens.map((item, index) => {
+                </Th>
+                { query.data.attributes.map((attribute, index) => (
+                  <Th key={ index } minW="165px" maxW="200px" ml="20px" fontSize="lg">{ attribute === 'Proficiency' ? 'Level' : attribute }</Th>
+                )) }
+              </Tr>
+            </Thead>
+            <Tbody>
+              { query.data.updatedTokens.map((item, index) => {
               // const mock = item.collectionAddr === '0xED5AF388653567Af2F388E6224dC7C4b3241C544' ? mockData : mockData1;
-              const mock = mockData;
-              // const imageArray = item.collectionAddr === '0xED5AF388653567Af2F388E6224dC7C4b3241C544' ? imageSet : imageSet1;
-              const imageArray = imageSet;
-              const extendedUpdates = [ item, ...mock ];
-              return (extendedUpdates.map((update, updateIndex) => (
-                <GameAssetTokenUpdateTableItem
-                  key={ `${ index }-${ updateIndex }` }
-                  tokenImage={ imageArray[updateIndex] }
-                  collectionAddr={ query.data.collectionAddress }
-                  { ...update }
-                  isLoading={ query.isLoading }
-                />
-              )));
-            }) }
-          </Tbody>
-        </Table>
-      </TableContainer>
-    </AddressHighlightProvider>
+                const mock = mockData;
+                // const imageArray = item.collectionAddr === '0xED5AF388653567Af2F388E6224dC7C4b3241C544' ? imageSet : imageSet1;
+                const imageArray = imageSet;
+                const extendedUpdates = [ item, ...mock ];
+                return (extendedUpdates.map((update, updateIndex) => (
+                  <GameAssetTokenUpdateTableItem
+                    key={ `${ index }-${ updateIndex }` }
+                    tokenImage={ imageArray[updateIndex] }
+                    collectionAddr={ query.data.collectionAddress }
+                    { ...update }
+                    isLoading={ query.isLoading }
+                  />
+                )));
+              }) }
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </AddressHighlightProvider>
+    </>
   );
 };
 

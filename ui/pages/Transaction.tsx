@@ -60,7 +60,7 @@ const TransactionPageContent = () => {
       {
         id: 'zx_tx', title: 'ZeroX Transaction', component: <TxZeroX txQuery={ txQuery }/>,
       },
-      { id: 'token_updates', title: 'NFU updates', component: <TxGameAssetTokenUpdate gameAssetTokenUpdateQuery={ eventQuery }/> },
+      { id: 'token_updates', title: 'Utility updates', component: <TxGameAssetTokenUpdate gameAssetTokenUpdateQuery={ eventQuery }/> },
       config.features.suave.isEnabled && data?.wrapped ?
         { id: 'wrapped', title: 'Regular tx details', component: <TxDetailsWrapped data={ data.wrapped }/> } :
         undefined,
