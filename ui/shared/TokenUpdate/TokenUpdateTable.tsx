@@ -15,6 +15,7 @@ interface Props {
   isLoading?: boolean;
 }
 
+// deprecated
 const TokenUpdateTable = ({
   data,
   attributes,

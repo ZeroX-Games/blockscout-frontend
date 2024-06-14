@@ -5,10 +5,10 @@ import DataFetchAlert from 'ui/shared/DataFetchAlert';
 import TxPendingAlert from 'ui/tx/TxPendingAlert';
 import TxSocketAlert from 'ui/tx/TxSocketAlert';
 
-import useApiQuery from '../../lib/api/useApiQuery';
-import { TX_ZEROX_TRANSACTION } from '../../stubs/zeroxTx';
+import useApiQuery from '../../../lib/api/useApiQuery';
+import { TX_ZEROX_TRANSACTION } from '../../../stubs/zeroxTx';
+import type { TxQuery } from '../useTxQuery';
 import TxZeroxDetails from './TxZeroxDetails';
-import type { TxQuery } from './useTxQuery';
 
 interface Props {
   txQuery: TxQuery;

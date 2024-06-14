@@ -1,12 +1,12 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 
-import type { GameAssetTokenUpdate } from 'types/api/gameAssetTokenUpdate';
+import type { MatrixEntry } from 'types/api/event';
 
 import TokenUpdateListItem from 'ui/shared/TokenUpdate/TokenUpdateListItem';
 
 interface Props {
-  data: Array<GameAssetTokenUpdate>;
+  data: Array<MatrixEntry>;
   isLoading?: boolean;
 }
 

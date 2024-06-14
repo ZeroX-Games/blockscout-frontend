@@ -1,13 +1,13 @@
 import { Tr, Td, Skeleton, Flex, Text, Box, Popover, PopoverTrigger, Image } from '@chakra-ui/react';
 import React from 'react';
 
+import type { MatrixUpdate } from '../../../types/api/event';
+
 // import type { TokenTransfer } from 'types/api/tokenTransfer';
 //
 // import getCurrencyValue from 'lib/getCurrencyValue';
 // import useTimeAgoIncrement from 'lib/hooks/useTimeAgoIncrement';
 // import AddressFromTo from 'ui/shared/address/AddressFromTo';
-import type { GameAssetTokenUpdate } from '../../../types/api/gameAssetTokenUpdate';
-
 import Tag from 'ui/shared/chakra/Tag';
 
 import TokenEntity from '../entities/token/TokenEntity';
@@ -19,7 +19,7 @@ import UtilityPopoverContent from './UtilityPopoverContent';
 // import { getTokenTransferTypeText } from 'ui/shared/TokenTransfer/helpers';
 // import TxAdditionalInfo from 'ui/txs/TxAdditionalInfo';
 
-type Props = GameAssetTokenUpdate & {
+type Props = MatrixUpdate & {
   isLoading?: boolean;
   collectionAddr: string;
   tokenImage: string;
@@ -27,9 +27,9 @@ type Props = GameAssetTokenUpdate & {
 
 const GameAssetTokenUpdateTableItem = ({
   collectionAddr,
-  id,
-  updates,
+  token_id: tokenId,
   tokenImage,
+  delta,
   isLoading,
 }: Props) => {
   let token;
@@ -81,11 +81,11 @@ const GameAssetTokenUpdateTableItem = ({
               </PopoverTrigger>
               <UtilityPopoverContent utilityName={ token.name }/>
             </Popover>
-            <Tag isLoading={ isLoading } fontSize="md">#{ id }</Tag>
+            <Tag isLoading={ isLoading } fontSize="md">#{ tokenId }</Tag>
           </Flex>
         </Flex>
       </Td>
-      { updates.map((item, index) => (
+      { delta.map((item, index) => (
         <Td key={ index } verticalAlign="center">
           <Flex my="2px">
             <Skeleton isLoaded={ !isLoading } w="100%">

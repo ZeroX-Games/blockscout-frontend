@@ -22,6 +22,7 @@ interface Props {
   tokenTransferFilter?: (data: TokenTransfer) => boolean;
 }
 
+// deprecated
 const EventTokenTransfer = ({ eventQuery }: Props) => {
   const [ typeFilter, setTypeFilter ] = React.useState<string>('');
   const [ updates, setUpdates ] = React.useState<Array<MatrixEntry>>([]);

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import type { TxZeroXTransaction } from '../../types/api/txZeroxTransaction';
+import type { TxZeroXTransaction } from '../../../types/api/txZeroxTransaction';
 
 import TestnetWarning from 'ui/shared/alerts/TestnetWarning';
 
-import TxZeroxInfo from './details/TxZeroxInfo';
+import TxZeroxInfo from '../details/TxZeroxInfo';
 
 interface Props {
   zeroxTxData: TxZeroXTransaction;

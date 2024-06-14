@@ -24,8 +24,11 @@ import TxState from 'ui/tx/TxState';
 import TxSubHeading from 'ui/tx/TxSubHeading';
 import TxTokenTransfer from 'ui/tx/TxTokenTransfer';
 import TxUserOps from 'ui/tx/TxUserOps';
-import TxZeroX from 'ui/tx/TxZeroX';
 import useTxQuery from 'ui/tx/useTxQuery';
+import TxZeroX from 'ui/tx/zeroxTransaction/TxZeroX';
+
+import { GAME_ASSET_TOKEN_UPDATES } from '../../stubs/gameAssetTokenUpdate';
+import TxGameAssetTokenUpdate from '../tx/zeroxTransaction/TxGameAssetTokenUpdate';
 
 const TransactionPageContent = () => {
   const router = useRouter();
@@ -36,7 +39,13 @@ const TransactionPageContent = () => {
   const { data, isPlaceholderData, isError, error, errorUpdateCount } = txQuery;
 
   const showDegradedView = publicClient && (isError || isPlaceholderData) && errorUpdateCount > 0;
-
+  const eventQuery = {
+    data: GAME_ASSET_TOKEN_UPDATES,
+    isError: false,
+    isPlaceholderData: false,
+    isPending: false,
+    errorUpdateCount: 0,
+  };
   const tabs: Array<RoutedTab> = (() => {
     const detailsComponent = showDegradedView ?
       <TxDetailsDegraded hash={ hash } txQuery={ txQuery }/> :
@@ -51,6 +60,7 @@ const TransactionPageContent = () => {
       {
         id: 'zx_tx', title: 'ZeroX Transaction', component: <TxZeroX txQuery={ txQuery }/>,
       },
+      { id: 'token_updates', title: 'NFU updates', component: <TxGameAssetTokenUpdate gameAssetTokenUpdateQuery={ eventQuery }/> },
       config.features.suave.isEnabled && data?.wrapped ?
         { id: 'wrapped', title: 'Regular tx details', component: <TxDetailsWrapped data={ data.wrapped }/> } :
         undefined,
