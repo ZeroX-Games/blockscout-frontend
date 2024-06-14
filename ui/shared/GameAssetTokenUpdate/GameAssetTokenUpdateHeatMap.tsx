@@ -1,5 +1,9 @@
+import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, useDisclosure } from '@chakra-ui/react';
+import type { ComputedCell, HeatMapDatum } from '@nivo/heatmap';
 import { ResponsiveHeatMap } from '@nivo/heatmap';
-import React from 'react';
+import React, { useCallback } from 'react';
+import type { MouseEvent } from 'react';
+
 const data = [
   {
     id: 'Utility #1',
@@ -331,97 +335,138 @@ const data = [
   },
 ];
 
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
-const GameAssetTokenUpdateHeatMap = () => (
-  <ResponsiveHeatMap
-    data={ data }
-    theme={
-      {
-        tooltip: {
-          basic: {
-            color: '#000',
-          },
-        },
-        axis: {
-          domain: {
-          },
-          ticks: {
-            line: {
-              stroke: '#777777',
-              strokeWidth: 1,
+type RightDrawerProps = {
+  onClose: () => void;
+  isOpen: boolean;
+}
+
+const handleClick = (cell: ComputedCell<HeatMapDatum>, data: MouseEvent, onOpen: () => void) => {
+  onOpen();
+};
+
+const RightDrawer = ({ onClose, isOpen }: RightDrawerProps) => {
+  return (
+    <Drawer placement="bottom" onClose={ onClose } isOpen={ isOpen } size="lg">
+      <DrawerOverlay/>
+      <DrawerContent>
+        <DrawerHeader borderBottomWidth="1px">Basic Drawer</DrawerHeader>
+        <DrawerBody>
+          { /*<HStack justifyContent="center" alignContent="center" gap={ 20 }>*/ }
+          { /*  <Image src="https://i.seadn.io/gcs/files/763e240d1b4834e8aed7b9a5e9526286.png?auto=format&dpr=1&w=128 128w"*/ }
+          { /*    alt="#Utility" style={{ borderRadius: 55 }} boxSize="400px"/>*/ }
+          { /*  <VStack>*/ }
+          { /*    <VStack w="full" alignItems="start">*/ }
+          { /*      <Text fontSize="3xl" fontWeight="bold">Utility Updates</Text>*/ }
+          { /*      <Text fontSize="xl">Check the utility Updates</Text>*/ }
+          { /*    </VStack>*/ }
+
+          { /*    <Image src="https://i.seadn.io/gcs/files/763e240d1b4834e8aed7b9a5e9526286.png?auto=format&dpr=1&w=128 128w"*/ }
+          { /*      alt="#Utility" style={{ borderRadius: 55 }} boxSize="400px"/>*/ }
+          { /*  </VStack>*/ }
+          { /*  <Image src="https://i.seadn.io/gcs/files/763e240d1b4834e8aed7b9a5e9526286.png?auto=format&dpr=1&w=128 128w"*/ }
+          { /*    alt="#Utility" style={{ borderRadius: 55 }} boxSize="400px"/>*/ }
+          { /*</HStack>*/ }
+        </DrawerBody>
+      </DrawerContent>
+    </Drawer>
+  );
+};
+const GameAssetTokenUpdateHeatMap = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleOnClick = useCallback((cell: ComputedCell<HeatMapDatum>, data: MouseEvent) => {
+    handleClick(cell, data, onOpen);
+  }, [ onOpen ]); // dependencies
+  return (
+    <>
+      <RightDrawer onClose={ onClose } isOpen={ isOpen }/>
+      <ResponsiveHeatMap
+        data={ data }
+        theme={
+          {
+            tooltip: {
+              basic: {
+                color: '#000',
+              },
+            },
+            axis: {
+              domain: {
+              },
+              ticks: {
+                line: {
+                  stroke: '#777777',
+                  strokeWidth: 1,
+                },
+                text: {
+                  fill: '#777777',
+                },
+              },
+              legend: {
+                text: {
+                  display: 'none',
+                },
+              },
             },
             text: {
-              fill: '#777777',
+              fontSize: 15,
+              fontWeight: 600,
             },
-          },
-          legend: {
-            text: {
-              display: 'none',
-            },
-          },
-        },
-        text: {
-          fontSize: 15,
-          fontWeight: 600,
-        },
-      }
-    }
-    enableLabels={ false }
-    margin={{ top: 60, right: 90, bottom: 60, left: 90 }}
-    valueFormat=">-.2s"
-    xInnerPadding={ 0.04 }
-    yInnerPadding={ 0.04 }
-    borderRadius={ 4 }
-    axisTop={{
-      tickSize: 5,
-      tickPadding: 5,
-      tickRotation: 0,
-      legend: '',
-      legendOffset: 46,
-      truncateTickAt: 0,
-    }}
-    axisRight={{
-      tickSize: 5,
-      tickPadding: 5,
-      tickRotation: 0,
-      legend: 'country',
-      legendPosition: 'middle',
-      legendOffset: 70,
-      truncateTickAt: 0,
-    }}
-    axisLeft={{
-      tickSize: 5,
-      tickPadding: 5,
-      tickRotation: 0,
-      legend: 'country',
-      legendPosition: 'middle',
-      legendOffset: -72,
-      truncateTickAt: 0,
-    }}
-    colors={{
-      type: 'diverging',
-      scheme: 'red_blue',
-      minValue: -100,
-      maxValue: 100,
-      divergeAt: 0.5,
-    }}
-    emptyColor="#555555"
-    labelTextColor={{
-      from: 'color',
-      modifiers: [
-        [
-          'darker',
-          2,
-        ],
-      ],
-    }}
-    legends={ [] }
-    // hoverTarget="cell"
-  />
-);
+          }
+        }
+        enableLabels={ false }
+        margin={{ top: 60, right: 90, bottom: 60, left: 90 }}
+        valueFormat=">-.2s"
+        xInnerPadding={ 0.04 }
+        yInnerPadding={ 0.04 }
+        borderRadius={ 4 }
+        onClick={ handleOnClick }
+        axisTop={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: '',
+          legendOffset: 46,
+          truncateTickAt: 0,
+        }}
+        axisRight={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: 'country',
+          legendPosition: 'middle',
+          legendOffset: 70,
+          truncateTickAt: 0,
+        }}
+        axisLeft={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: 'country',
+          legendPosition: 'middle',
+          legendOffset: -72,
+          truncateTickAt: 0,
+        }}
+        colors={{
+          type: 'diverging',
+          scheme: 'red_blue',
+          minValue: -100,
+          maxValue: 100,
+          divergeAt: 0.5,
+        }}
+        emptyColor="#555555"
+        labelTextColor={{
+          from: 'color',
+          modifiers: [
+            [
+              'darker',
+              2,
+            ],
+          ],
+        }}
+        legends={ [] }
+        // hoverTarget="cell"
+      />
+    </>
+  );
+};
 
 export default GameAssetTokenUpdateHeatMap;
