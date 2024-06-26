@@ -30,7 +30,61 @@ const ChainIndicators = () => {
   const [ selectedIndicator, selectIndicator ] = React.useState(indicators[0]?.id);
   const indicator = indicators.find(({ id }) => id === selectedIndicator);
 
-  const queryResult = useFetchChartData(indicator);
+  let queryResult = useFetchChartData(indicator);
+  // zerox temp
+  if (indicator?.id === 'daily_txs') {
+    queryResult = {
+      status: 'success',
+      data: [ {
+        items: [
+          {
+            date: new Date('2024-06-18'),
+            value: 29599,
+          },
+          {
+            date: new Date('2024-06-17'),
+            value: 41098,
+          },
+          {
+            date: new Date('2024-06-16'),
+            value: 29083,
+          },
+          {
+            date: new Date('2024-06-15'),
+            value: 38066,
+          },
+          {
+            date: new Date('2024-06-14'),
+            value: 44791,
+          },
+          {
+            date: new Date('2024-06-13'),
+            value: 38667,
+          },
+          {
+            date: new Date('2024-06-12'),
+            value: 36413,
+          },
+          {
+            date: new Date('2024-06-11'),
+            value: 38471,
+          },
+          {
+            date: new Date('2024-06-10'),
+            value: 28177,
+          },
+          {
+            date: new Date('2024-06-09'),
+            value: 23349,
+          },
+          {
+            date: new Date('2024-06-08'),
+            value: 36360,
+          } ],
+        name: 'Tx/day',
+      } ],
+    };
+  }
   const statsQueryResult = useApiQuery('stats', {
     queryOptions: {
       refetchOnMount: false,

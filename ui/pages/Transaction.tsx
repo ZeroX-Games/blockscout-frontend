@@ -8,6 +8,7 @@ import { useAppContext } from 'lib/contexts/app';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { publicClient } from 'lib/web3/client';
+import { GAME_ASSET_TOKEN_UPDATES } from 'stubs/gameAssetTokenUpdate';
 import TextAd from 'ui/shared/ad/TextAd';
 import isCustomAppError from 'ui/shared/AppError/isCustomAppError';
 import EntityTags from 'ui/shared/EntityTags/EntityTags';
@@ -28,6 +29,7 @@ import TxSubHeading from 'ui/tx/TxSubHeading';
 import TxTokenTransfer from 'ui/tx/TxTokenTransfer';
 import TxUserOps from 'ui/tx/TxUserOps';
 import useTxQuery from 'ui/tx/useTxQuery';
+import TxGameAssetUpdate from 'ui/tx/zeroxTransaction/TxGameAssetUpdate';
 
 const txInterpretation = config.features.txInterpretation;
 
@@ -40,7 +42,13 @@ const TransactionPageContent = () => {
   const { data, isPlaceholderData, isError, error, errorUpdateCount } = txQuery;
 
   const showDegradedView = publicClient && ((isError && error.status !== 422) || isPlaceholderData) && errorUpdateCount > 0;
-
+  const eventQuery = {
+    data: GAME_ASSET_TOKEN_UPDATES,
+    isError: false,
+    isPlaceholderData: false,
+    isPending: false,
+    errorUpdateCount: 0,
+  };
   const tabs: Array<RoutedTab> = (() => {
     const detailsComponent = showDegradedView ?
       <TxDetailsDegraded hash={ hash } txQuery={ txQuery }/> :
@@ -59,6 +67,7 @@ const TransactionPageContent = () => {
         { id: 'wrapped', title: 'Regular tx details', component: <TxDetailsWrapped data={ data.wrapped }/> } :
         undefined,
       { id: 'token_transfers', title: 'Token transfers', component: <TxTokenTransfer txQuery={ txQuery }/> },
+      { id: 'utility_updates', title: 'Utility Updates', component: <TxGameAssetUpdate gameAssetUpdateQuery={ eventQuery }/> },
       config.features.userOps.isEnabled ?
         { id: 'user_ops', title: 'User operations', component: <TxUserOps txQuery={ txQuery }/> } :
         undefined,

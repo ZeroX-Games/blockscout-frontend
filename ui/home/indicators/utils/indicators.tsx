@@ -23,7 +23,8 @@ const dailyTxsIndicator: TChainIndicator<'stats_charts_txs'> = {
   title: 'Daily transactions',
   value: (stats) => stats.transactions_today === null ?
     'N/A' :
-    Number(stats.transactions_today).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
+    // Number(stats.transactions_today).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
+    Number('1365247').toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
   icon: <IconSvg name="transactions" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
   hint: `Number of transactions yesterday (0:00 - 23:59 UTC). The chart displays daily transactions for the past 30 days.`,
   api: {

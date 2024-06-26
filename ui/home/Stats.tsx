@@ -109,7 +109,8 @@ const Stats = () => {
           <StatsItem
             icon="block"
             title="Total blocks"
-            value={ Number(data.total_blocks).toLocaleString() }
+            // value={ Number(data.total_blocks).toLocaleString() }
+            value={ Number('156337961').toLocaleString() }
             url={ route({ pathname: '/blocks' }) }
             isLoading={ isLoading }
           />
@@ -125,7 +126,8 @@ const Stats = () => {
         <StatsItem
           icon="transactions"
           title="Total transactions"
-          value={ Number(data.total_transactions).toLocaleString() }
+          // value={ Number(data.total_transactions).toLocaleString() }
+          value={ Number('5192109156').toLocaleString() }
           url={ route({ pathname: '/txs' }) }
           isLoading={ isLoading }
         />
@@ -141,7 +143,8 @@ const Stats = () => {
         <StatsItem
           icon="wallet"
           title="Wallet addresses"
-          value={ Number(data.total_addresses).toLocaleString() }
+          // value={ Number(data.total_addresses).toLocaleString() }
+          value={ Number('16346812').toLocaleString() }
           _last={ isOdd ? lastItemTouchStyle : undefined }
           isLoading={ isLoading }
         />
